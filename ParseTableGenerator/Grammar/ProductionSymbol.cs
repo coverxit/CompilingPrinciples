@@ -44,19 +44,12 @@ namespace ParseTableGenerator
 
         public override int GetHashCode()
         {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hash = 17;
-                hash = hash * 23 + grammar.GetHashCode();
-                hash = hash * 23 + type.GetHashCode();
-                hash = hash * 23 + id.GetHashCode();
-                return hash;
-            }
+            return new { grammar, type, id }.GetHashCode();
         }
 
         public override bool Equals(object obj)
         {
-            if (obj == null || !(obj is ProductionSymbol))
+            if (obj == null || GetType() != obj.GetType())
                 return false;
 
             ProductionSymbol rhs = obj as ProductionSymbol;

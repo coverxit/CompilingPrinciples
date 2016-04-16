@@ -35,12 +35,27 @@ namespace ParseTableGenerator
 
         public List<ProductionSymbol> Terminals
         {
-            get { return terminalTable.Select((sym, id) => new ProductionSymbol(this, ProductionSymbol.SymbolType.Terminal, id)).ToList(); }
-        } 
+            // Exclude $ and ε
+            get
+            {
+                return terminalTable.Select((sym, id) => new ProductionSymbol(this, ProductionSymbol.SymbolType.Terminal, id))
+                                    .Where(e => !e.Equals(epsilon) && !e.Equals(endMarker)).ToList();
+            }
+        }
 
         public List<ProductionSymbol> NonTerminals
         {
             get { return nonTerminalTable.Select((sym, id) => new ProductionSymbol(this, ProductionSymbol.SymbolType.NonTerminal, id)).ToList(); }
+        }
+
+        public List<ProductionSymbol> Symbols
+        {
+            get
+            {
+                var symbols = NonTerminals;
+                symbols.AddRange(Terminals);
+                return symbols;
+            }
         }
 
         public List<Production> Productions

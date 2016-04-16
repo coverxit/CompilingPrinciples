@@ -67,9 +67,34 @@ namespace ParseTableGenerator
         private static void TestLR0Collection(Grammar grammar)
         {
             var coll = new LR0Collection(grammar);
+
+            /*
+            // Cope with file Grammar-4.40.txt
+            Console.WriteLine("============== Closure({E' -> ·E}) ===============");
             var closure = coll.Closure(new HashSet<LR0Item>(new LR0Item[] { new LR0Item(grammar, grammar.Productions[0], 0) }));
-            foreach (var c in closure)
-                Console.WriteLine(c);
+            foreach (var e in closure)
+                Console.WriteLine(e);
+
+            Console.WriteLine("============== GOTO({E' -> E·, E -> E· + T}, +) ===============");
+            var gotoSet = coll.Goto(new HashSet<LR0Item>(new LR0Item[] { new LR0Item(grammar, grammar.Productions[0], 1), new LR0Item(grammar, grammar.Productions[1], 1) }), 
+                new ProductionSymbol(grammar, ProductionSymbol.SymbolType.Terminal, grammar.TerminalTable.IndexOf("+")));
+            foreach (var e in gotoSet)
+                Console.WriteLine(e);
+            */
+
+            Console.WriteLine("============== LR(0) Collection ============================");
+            var curIndex = -1;
+            foreach (var e in coll.Items().Select((value, index) => new { index, value }))
+            {
+                if (curIndex != e.index)
+                {
+                    Console.WriteLine("==================== I[" + e.index + "] ====================");
+                    curIndex = e.index;
+                }
+
+                foreach (var i in e.value)
+                    Console.WriteLine(i);
+            }
 
             Console.ReadLine();
         }
@@ -80,7 +105,7 @@ namespace ParseTableGenerator
             using (var stream = new FileStream("Grammar.txt", FileMode.Open))
                 grammar.Parse(stream);
 
-            TestFirstFollow(grammar);
+            //TestFirstFollow(grammar);
             TestLR0Collection(grammar);
         }
     }

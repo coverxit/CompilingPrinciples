@@ -24,7 +24,13 @@ namespace ParseTableGenerator
 
         public ProductionSymbol SymbolAfterDot
         {
-            get { return production.Right[dotPos]; }
+            get
+            {
+                if (dotPos < production.Right.Count)
+                    return production.Right[dotPos];
+                else
+                    return grammar.EndMarker;
+            }
         }
 
         public LR0Item(Grammar grammar, Production prod, int dotPos)
@@ -41,21 +47,34 @@ namespace ParseTableGenerator
 
         public override int GetHashCode()
         {
-            return new { grammar, production, dotPos }.GetHashCode();
+            return this.ToString().GetHashCode();
         }
         
         public override bool Equals(object obj)
         {
-            if (obj == null || obj is LR0Item)
+            if (obj == null || GetType() != obj.GetType())
                 return false;
 
             var rhs = obj as LR0Item;
-            return rhs.grammar == grammar && rhs.production == production && rhs.dotPos == dotPos;
+            return rhs.grammar == grammar && rhs.ToString() == this.ToString();
         }
 
         public override string ToString()
         {
-            return production.ToString().Insert(production.ToString().IndexOf("->") + 3 + dotPos, "·");
+            StringBuilder sb = new StringBuilder();
+            sb.Append("[" + production.Left + " ->");
+
+            foreach (var e in production.Right.Select((value, index) => new { index, value }))
+            {
+                sb.Append(" ");
+                if (dotPos == e.index) sb.Append("·");
+                sb.Append(e.value);
+            }
+
+            // Dot is at the right end
+            if (dotPos == production.Right.Count) sb.Append("·");
+            sb.Append("]");
+            return sb.ToString();
         }
     }
 }
