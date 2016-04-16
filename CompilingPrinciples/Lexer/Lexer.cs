@@ -37,8 +37,6 @@ namespace Lex
             get { return new SymbolTable(symbolTable); }
         }
 
-        public Lexer() : this(null) { }
-
         public Lexer(Stream stream)
         {
             this.stream = stream;
@@ -51,11 +49,6 @@ namespace Lex
 
             reserveKeyword("int", Tag.VarType);
             reserveKeyword("float", Tag.VarType);
-        }
-
-        public void SetStream(Stream stream)
-        {
-            this.stream = stream;
         }
 
         public Token ScanNextToken()
