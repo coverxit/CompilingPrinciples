@@ -49,6 +49,8 @@
     <Compile Include="Grammar\Grammar.cs" />
     <Compile Include="Grammar\Production.cs" />
     <Compile Include="Grammar\ProductionSymbol.cs" />
+    <Compile Include="Parser\Parser.cs" />
+    <Compile Include="Parser\ParseTable.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SLR\LR0Collection.cs" />
