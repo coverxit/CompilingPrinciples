@@ -42,8 +42,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CLR\LR1Collection.cs" />
-    <Compile Include="CLR\LR1Item.cs" />
+    <Compile Include="LR1\LR1Collection.cs" />
+    <Compile Include="LR1\LR1Item.cs" />
+    <Compile Include="LR1\LR1ParseTable.cs" />
     <Compile Include="FirstFollow\FirstFollowGenerator.cs" />
     <Compile Include="FirstFollow\FirstFollowSet.cs" />
     <Compile Include="Grammar\Grammar.cs" />

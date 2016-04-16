@@ -165,7 +165,7 @@ namespace ParseGenerator
 
         public override string ToString()
         {
-            return preferEntry.ToString();
+            return PreferEntry.ToString();
         }
     }
 }

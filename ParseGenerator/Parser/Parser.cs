@@ -8,12 +8,12 @@ using Lex;
 
 namespace ParseGenerator
 {
-    public class Parser
+    public class Parser<T> where T: LR0Item
     {
-        private ParseTable parseTable;
+        private ParseTable<T> parseTable;
         private Grammar grammar;
 
-        public Parser(Grammar grammar, ParseTable pt)
+        public Parser(Grammar grammar, ParseTable<T> pt)
         {
             this.grammar = grammar;
             this.parseTable = pt;
