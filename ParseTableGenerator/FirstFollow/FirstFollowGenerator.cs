@@ -16,7 +16,7 @@ namespace ParseTableGenerator
             get
             {
                 if (firstSet == null)
-                    Generate();
+                    computeFirstSet();
 
                 return firstSet;
             }
@@ -27,7 +27,7 @@ namespace ParseTableGenerator
             get
             {
                 if (followSet == null)
-                    Generate();
+                    computeFollowSet();
 
                 return followSet;
             }
@@ -40,22 +40,26 @@ namespace ParseTableGenerator
 
         public void Generate()
         {
-            firstSet = new FirstFollowSet(grammar);
-            followSet = new FirstFollowSet(grammar);
-
             // Compute First set first
-            foreach (var sym in grammar.Terminals)
-                if (!firstSet.Contains(sym))
-                    computeFirstSet(sym);
+            computeFirstSet();
 
             // Then Follow set,
             computeFollowSet();
         }
 
+        private void computeFirstSet()
+        {
+            firstSet = new FirstFollowSet(grammar);
+
+            foreach (var sym in grammar.NonTerminals)
+                if (!firstSet.Contains(sym))
+                    computeFirstSet(sym);
+        }
+
         private void computeFirstSet(ProductionSymbol curSymbol)
         {
             // X is a terminal, First(X) = { X }
-            if (curSymbol.Type == ProductionSymbol.SymbolType.NonTerminal)
+            if (curSymbol.Type == ProductionSymbol.SymbolType.Terminal)
                 firstSet.Put(curSymbol, curSymbol);
             else
             {
@@ -104,9 +108,10 @@ namespace ParseTableGenerator
 
         private void computeFollowSet()
         {
+            followSet = new FirstFollowSet(grammar);
+
             // First set has to be computed first.
-            if (firstSet == null)
-                throw new ApplicationException("First Set has to be computed first.");
+            if (firstSet == null) computeFirstSet();
 
             // Place $ in Follow(S), S is the start symbol
             followSet.Put(grammar.Productions[0].Left, grammar.EndMarker);
@@ -121,16 +126,16 @@ namespace ParseTableGenerator
             {
                 // This stores First(X1X2..Xn), First(X2..Xn), ..., First(Xn)
                 // for computing First(β)
-                var prefixFirstSet = new List<HashSet<Production.Symbol>>();
+                var prefixFirstSet = new List<HashSet<ProductionSymbol>>();
 
                 // Compute First(Xn) first, then First(Xn-1Xn), ...
                 // For First(Xn-iXn-i+1..Xn), we compute First(Xn-i) first,
                 // then union with First(Xn-i+1..Xn) if possible.
                 for (int i = prod.Right.Count - 1; i >= 0; i--)
                 {
-                    HashSet<Production.Symbol> curPosFirst = new HashSet<Production.Symbol>();
+                    HashSet<ProductionSymbol> curPosFirst = new HashSet<ProductionSymbol>();
 
-                    if (prod.Right[i].Type == Production.SymbolType.NonTerminal)
+                    if (prod.Right[i].Type == ProductionSymbol.SymbolType.Terminal)
                         curPosFirst.Add(prod.Right[i]);
                     else
                         curPosFirst = firstSet.Get(prod.Right[i]);
@@ -138,7 +143,7 @@ namespace ParseTableGenerator
                     // Obviously, First(X1) is in First(X1X2..Xn)
                     // And First(X2) in First(X1X2..Xn) if ε in First(X1)
                     // Add ε to First(X1X2...Xn), if for all i, ε in First(Xi)
-                    var combinedFirst = new HashSet<Production.Symbol>();
+                    var combinedFirst = new HashSet<ProductionSymbol>();
                     combinedFirst.UnionWith(curPosFirst);
 
                     // The second condition avoid crash when ε in First(Xn). 
@@ -153,13 +158,13 @@ namespace ParseTableGenerator
                 prefixFirstSet.Reverse();
 
                 foreach (var e in prod.Right.Select((value, index) => new { index, value }))
-                    if (e.value.Type == Production.SymbolType.Terminal)
+                    if (e.value.Type == ProductionSymbol.SymbolType.NonTerminal)
                     {
                         if (e.index < prod.Right.Count - 1)
                         {
                             // If A -> αBβ, First(β) - {ε} is in Follow(B), α can be ε
-                            var firstBeta = new HashSet<Production.Symbol>(prefixFirstSet[e.index + 1]);
-                            firstBeta.ExceptWith(new Production.Symbol[] { grammar.Epsilon });
+                            var firstBeta = new HashSet<ProductionSymbol>(prefixFirstSet[e.index + 1]);
+                            firstBeta.ExceptWith(new ProductionSymbol[] { grammar.Epsilon });
                             followSet.Put(e.value, firstBeta);
 
                             // If A -> αBβ, and First(β) contains ε, then Follow(A) is in Follow(B)
@@ -175,11 +180,12 @@ namespace ParseTableGenerator
 
                     unionLeft:
                         if (!pendingCompute.ContainsKey(e.value))
-                             pendingCompute.Add(e.value, new HashSet<Production.Symbol>());
+                             pendingCompute.Add(e.value, new HashSet<ProductionSymbol>());
                         pendingCompute[e.value].Add(prod.Left);
                     }
             }
             */
+            
             
             foreach (var prod in grammar.Productions)
             {
@@ -192,7 +198,7 @@ namespace ParseTableGenerator
 
                 foreach (var e in rightReverse.Select((value, index) => new { index, value }))
                 {
-                    if (e.value.Type == ProductionSymbol.SymbolType.Terminal)
+                    if (e.value.Type == ProductionSymbol.SymbolType.NonTerminal)
                     {
                         if (e.index == 0)
                         {
@@ -231,7 +237,7 @@ namespace ParseTableGenerator
                     // Compute First(Xi) first, actually we have compute all terminals,
                     // but nonterminals are not.
                     var curPosFirst = new HashSet<ProductionSymbol>();
-                    if (e.value.Type == ProductionSymbol.SymbolType.NonTerminal)
+                    if (e.value.Type == ProductionSymbol.SymbolType.Terminal)
                         curPosFirst.Add(e.value);
                     else
                         curPosFirst = firstSet.Get(e.value);

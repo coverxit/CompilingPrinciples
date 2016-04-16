@@ -54,8 +54,8 @@ namespace ParseTableGenerator
             nonTerminalTable = new List<string>();
             productions = new List<Production>();
 
-            epsilon = reserveSymbol("@", ProductionSymbol.SymbolType.NonTerminal); // ε
-            endMarker = reserveSymbol("$", ProductionSymbol.SymbolType.NonTerminal); // $
+            epsilon = reserveSymbol("@", ProductionSymbol.SymbolType.Terminal); // ε
+            endMarker = reserveSymbol("$", ProductionSymbol.SymbolType.Terminal); // $
         }
 
         private ProductionSymbol reserveSymbol(string sym, ProductionSymbol.SymbolType type)
@@ -101,24 +101,24 @@ namespace ParseTableGenerator
                     throw new ApplicationException("Production Mismatch.");
 
                 string left = split[0].Trim(), right = split[1].Trim();
-                // Save all terminals in the left into terminal table
-                int leftTerminalId = terminalTable.IndexOf(left);
-                if (leftTerminalId == -1)
+                // Save all nonterminals in the left into nonterminal table
+                int leftNonTerminalId = nonTerminalTable.IndexOf(left);
+                if (leftNonTerminalId == -1)
                 {
-                    lock (terminalTable)
+                    lock (nonTerminalTable)
                     {
-                        terminalTable.Add(left);
-                        leftTerminalId = terminalTable.Count - 1;
+                        nonTerminalTable.Add(left);
+                        leftNonTerminalId = nonTerminalTable.Count - 1;
                     }
                 }
 
-                lines.Add(new Tuple<int, string>(leftTerminalId, right));
+                lines.Add(new Tuple<int, string>(leftNonTerminalId, right));
             }
 
             foreach (var pair in lines)
             {
                 Production prod = new Production(this);
-                prod.SetLeftTerminal(pair.Item1);
+                prod.SetLeftNonTerminal(pair.Item1);
 
                 var rightExpr = pair.Item2.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 if (rightExpr.Length == 0) continue;
@@ -134,24 +134,24 @@ namespace ParseTableGenerator
         {
             foreach (var sym in rightSymbols)
             {
-                // First, find terminal table
-                int id = terminalTable.IndexOf(sym);
+                // First, find nonterminal table
+                int id = nonTerminalTable.IndexOf(sym);
                 if (id != -1)
-                    prod.AppendRightSymbol(ProductionSymbol.SymbolType.Terminal, id);
+                    prod.AppendRightSymbol(ProductionSymbol.SymbolType.NonTerminal, id);
                 else
                 {
-                    // Then, find nonterminal table
-                    id = nonTerminalTable.IndexOf(sym);
+                    // Then, find terminal table
+                    id = terminalTable.IndexOf(sym);
                     if (id == -1)
                     {
-                        lock (nonTerminalTable)
+                        lock (terminalTable)
                         {
-                            nonTerminalTable.Add(sym);
-                            id = nonTerminalTable.Count - 1;
+                            terminalTable.Add(sym);
+                            id = terminalTable.Count - 1;
                         }
                     }
 
-                    prod.AppendRightSymbol(ProductionSymbol.SymbolType.NonTerminal, id);
+                    prod.AppendRightSymbol(ProductionSymbol.SymbolType.Terminal, id);
                 }
             }
         }

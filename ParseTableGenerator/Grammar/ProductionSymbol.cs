@@ -44,7 +44,14 @@ namespace ParseTableGenerator
 
         public override int GetHashCode()
         {
-            return grammar.GetHashCode() * 100 + type.GetHashCode() * 10 + id.GetHashCode();
+            unchecked // Overflow is fine, just wrap
+            {
+                int hash = 17;
+                hash = hash * 23 + grammar.GetHashCode();
+                hash = hash * 23 + type.GetHashCode();
+                hash = hash * 23 + id.GetHashCode();
+                return hash;
+            }
         }
 
         public override bool Equals(object obj)
