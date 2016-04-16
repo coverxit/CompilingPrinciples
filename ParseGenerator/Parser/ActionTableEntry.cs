@@ -71,6 +71,7 @@ namespace ParseGenerator
         {
             this.type = rhs.type;
             this.shiftState = rhs.shiftState;
+            this.reduceProd = rhs.reduceProd;
         }
         
         public override bool Equals(object obj)

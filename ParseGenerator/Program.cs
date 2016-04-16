@@ -166,7 +166,7 @@ namespace ParseGenerator
             Console.ReadLine();
         }
 
-        private static void TestExperiment()
+        private static void TestExperiment_SLR()
         {
             Grammar grammar = new Grammar();
             using (var stream = new FileStream("Grammar-Ex.txt", FileMode.Open))
@@ -372,11 +372,11 @@ namespace ParseGenerator
         static void Main(string[] args)
         {
             //TestFirstFollow();
-            //TestSLRParser();
+            TestSLRParser();
             //TestLR1Collection();
             //TestDanglingElse();
 
-            TestExperiment();
+            //TestExperiment_SLR();
         }
     }
 }
