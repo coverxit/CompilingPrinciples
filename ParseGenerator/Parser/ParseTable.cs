@@ -10,8 +10,18 @@ namespace ParseGenerator
     {
         public const int ErrorGotoState = -1;
 
-        protected Dictionary<int, Dictionary<ProductionSymbol, ActionTableEntry>> actionTable;
+        protected Dictionary<int, Dictionary<ProductionSymbol, MultipleEntry>> actionTable;
         protected Dictionary<int, Dictionary<ProductionSymbol, int>> gotoTable;
+
+        public Dictionary<int, Dictionary<ProductionSymbol, MultipleEntry>> Action
+        {
+            get { return new Dictionary<int, Dictionary<ProductionSymbol, MultipleEntry>>(actionTable); }
+        }
+
+        public Dictionary<int, Dictionary<ProductionSymbol, int>> Goto
+        {
+            get { return new Dictionary<int, Dictionary<ProductionSymbol, int>>(gotoTable); }
+        }
 
         protected int initialState;
         public int InitialState
@@ -27,18 +37,8 @@ namespace ParseGenerator
         // Use Factory Pattern to create
         protected ParseTable()
         {
-            actionTable = new Dictionary<int, Dictionary<ProductionSymbol, ActionTableEntry>>();
+            actionTable = new Dictionary<int, Dictionary<ProductionSymbol, MultipleEntry>>();
             gotoTable = new Dictionary<int, Dictionary<ProductionSymbol, int>>();
-        }
-
-        public ActionTableEntry Action(int state, ProductionSymbol sym)
-        {
-            return actionTable[state][sym];
-        }
-
-        public int Goto(int state, ProductionSymbol sym)
-        {
-            return gotoTable[state][sym];
         }
     }
 }

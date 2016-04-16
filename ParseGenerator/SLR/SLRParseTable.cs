@@ -8,6 +8,17 @@ namespace ParseGenerator
 {
     public class SLRParseTable : ParseTable
     {
+        private static void AddToActionTable(ref Dictionary<int, Dictionary<ProductionSymbol, MultipleEntry>> actionTable, int state, ProductionSymbol sym, ActionTableEntry action)
+        {
+            if (!actionTable.ContainsKey(state))
+                actionTable.Add(state, new Dictionary<ProductionSymbol, MultipleEntry>());
+
+            if (!actionTable[state].ContainsKey(sym))
+                actionTable[state].Add(sym, new MultipleEntry());
+
+            actionTable[state][sym].Add(action);
+        }
+
         private static void GenerateActionTable(LR0Collection collection, List<HashSet<LR0Item>> itemsList, ref SLRParseTable parseTable)
         {
             foreach (var e in itemsList.Select((value, index) => new { index, value }))
@@ -24,10 +35,7 @@ namespace ParseGenerator
                                      .Single().index;
 
                     // Set ACTION[i, a] to "shift j"
-                    if (!parseTable.actionTable.ContainsKey(e.index))
-                        parseTable.actionTable.Add(e.index, new Dictionary<ProductionSymbol, ActionTableEntry>());
-
-                    parseTable.actionTable[e.index].Add(a, ActionTableEntry.Shift(j));
+                    AddToActionTable(ref parseTable.actionTable, e.index, a, ActionTableEntry.Shift(j));
                 }
 
                 // Foreach [A -> α·] in Ii, set ACTION[i, a] to "reduce A -> α"
@@ -35,23 +43,14 @@ namespace ParseGenerator
                 foreach (var item in e.value.Where(i => !i.Production.Left.Equals(collection.Grammar.FirstProduction.Left))
                                             .Where(i => i.SymbolAfterDot.Equals(collection.Grammar.EndMarker)))
                 {
-                    if (!parseTable.actionTable.ContainsKey(e.index))
-                        parseTable.actionTable.Add(e.index, new Dictionary<ProductionSymbol, ActionTableEntry>());
-
                     // For all a in Follow(A), set ACTION[i, a] to "reduct A -> α"
                     foreach (var a in collection.Follow.Get(item.Production.Left))
-                        parseTable.actionTable[e.index].Add(a, ActionTableEntry.Reduce(item.Production));
+                        AddToActionTable(ref parseTable.actionTable, e.index, a, ActionTableEntry.Reduce(item.Production));
                 }
 
                 // If [S' -> S·] in Ii, then set ACTION[i, $] to "accept"
                 if (e.value.Contains(new LR0Item(collection.Grammar, collection.Grammar.FirstProduction, 1)))
-                {
-                    // Set ACTION[i, $] to "accept"
-                    if (!parseTable.actionTable.ContainsKey(e.index))
-                        parseTable.actionTable.Add(e.index, new Dictionary<ProductionSymbol, ActionTableEntry>());
-
-                    parseTable.actionTable[e.index].Add(collection.Grammar.EndMarker, ActionTableEntry.Accept());
-                }
+                    AddToActionTable(ref parseTable.actionTable, e.index, collection.Grammar.EndMarker, ActionTableEntry.Accept());
             }
         }
 
@@ -82,7 +81,7 @@ namespace ParseGenerator
             foreach (var state in parseTable.actionTable.Keys)
                 foreach (var term in collection.Grammar.TerminalsWithEndMarker)
                     if (!parseTable.actionTable[state].ContainsKey(term))
-                        parseTable.actionTable[state].Add(term, ActionTableEntry.Error());
+                        AddToActionTable(ref parseTable.actionTable, state, term, ActionTableEntry.Error());
 
             // The errors in Goto Table has been filled in GenerateGotoTable
 

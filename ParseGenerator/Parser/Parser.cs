@@ -38,7 +38,7 @@ namespace ParseGenerator
             {
                 // let s be the state on top of the stack
                 var top = parseStack.Peek();
-                var action = parseTable.Action(top, new ProductionSymbol(grammar, token));
+                var action = parseTable.Action[top][new ProductionSymbol(grammar, token)].PreferEntry;
 
                 switch (action.Type)
                 {
@@ -63,7 +63,7 @@ namespace ParseGenerator
                         top = parseStack.Peek();
 
                         // push GOTO[t, A] onto stack
-                        parseStack.Push(parseTable.Goto(top, action.ReduceProduction.Left));
+                        parseStack.Push(parseTable.Goto[top][action.ReduceProduction.Left]);
 
                         // output the production
                         ops.Add(action.ToString());

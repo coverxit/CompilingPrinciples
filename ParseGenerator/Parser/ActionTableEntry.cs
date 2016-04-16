@@ -72,6 +72,21 @@ namespace ParseGenerator
             this.type = rhs.type;
             this.shiftState = rhs.shiftState;
         }
+        
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+                return false;
+
+            var rhs = obj as ActionTableEntry;
+            return rhs.ToString() == this.ToString();
+        }
+
+        // override object.GetHashCode
+        public override int GetHashCode()
+        {
+            return this.ToString().GetHashCode();
+        }
 
         public override string ToString()
         {
@@ -92,6 +107,64 @@ namespace ParseGenerator
                 default:
                     throw new ApplicationException("Action Type Mismatch.");
             }
+        }
+    }
+
+    public class MultipleEntry
+    {
+        private HashSet<ActionTableEntry> entries;
+ 
+        private ActionTableEntry preferEntry = null;
+        
+        public HashSet<ActionTableEntry> Entries
+        {
+            get { return new HashSet<ActionTableEntry>(entries); }
+        }
+
+        public int Count
+        {
+            get { return entries.Count; }
+        }
+
+        public bool PreferedEntrySpecified
+        {
+            get { return preferEntry != null; }
+        }
+
+        public MultipleEntry()
+        {
+            this.entries = new HashSet<ActionTableEntry>();
+        }
+
+        public ActionTableEntry PreferEntry
+        {
+            get
+            {
+                if (preferEntry == null)
+                    throw new ApplicationException("Prefer entry not specified.");
+    
+                return new ActionTableEntry(preferEntry);
+            }
+        }
+
+        public void Add(ActionTableEntry entry)
+        {
+            preferEntry = entry;
+            entries.Add(entry);
+
+            // Multiple Entries
+            if (entries.Count > 1)
+                preferEntry = null;
+        }
+
+        public void SetPreferEntry(ActionTableEntry entry)
+        {
+            preferEntry = entry;
+        }
+
+        public override string ToString()
+        {
+            return preferEntry.ToString();
         }
     }
 }

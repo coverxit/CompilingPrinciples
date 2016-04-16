@@ -107,7 +107,7 @@ namespace ParseGenerator
             for (int i = 0; i <= curIndex; i++)
             { 
                 foreach (var term in grammar.TerminalsWithEndMarker)
-                    Console.WriteLine("ACTION[{0}, {1}]={2}", i, term, parseTable.Action(i, term));
+                    Console.WriteLine("ACTION[{0}, {1}]={2}", i, term, parseTable.Action[i][term]);
                 Console.WriteLine("===============================================================");
             }
 
@@ -115,7 +115,7 @@ namespace ParseGenerator
             for (int i = 0; i <= curIndex; i++)
             {
                 foreach (var nonTerm in grammar.NonTerminalsWithoutAugmentedS)
-                    Console.WriteLine("GOTO[{0}, {1}]={2}", i, nonTerm, parseTable.Goto(i, nonTerm));
+                    Console.WriteLine("GOTO[{0}, {1}]={2}", i, nonTerm, parseTable.Goto[i][nonTerm]);
                 Console.WriteLine("===============================================================");
             }
 
@@ -256,19 +256,50 @@ namespace ParseGenerator
             */
 
             var slrPT = SLRParseTable.Create(LR0coll);
+            Console.WriteLine("======================== Select Prefer Entry =======================");
+            foreach (var pend in slrPT.Action.Select((value, index) => new { index, value }))
+                foreach (var term in grammar.TerminalsWithEndMarker)
+                    if (!pend.value.Value[term].PreferedEntrySpecified)
+                    {
+                        Console.WriteLine("=========I[" + pend.index + "]==============");
+                        foreach (var e in LR0coll.Items().Select((value, index) => new { index, value }).Where(e => e.index == pend.index))
+                            foreach (var it in e.value)
+                                Console.WriteLine(it);
+
+                        Console.WriteLine("============================================");
+                        Console.WriteLine("Select for ACTION[" + pend.index + ", " + term + "]");
+                        Console.WriteLine("=========== Actions pending =======");
+                        foreach (var e in pend.value.Value[term].Entries.Select((value, index) => new { index, value }))
+                        {
+                            Console.WriteLine(e.index.ToString() + "." + e.value);
+                            if (e.value.Type == ActionTableEntry.ActionType.Shift)
+                            {
+                                foreach (var col in LR0coll.Items().Select((value, index) => new { index, value }).Where(c => c.index == e.value.ShiftState))
+                                    foreach (var it in col.value)
+                                        Console.WriteLine(it);
+                            }
+                        }
+                            
+
+                        int sel = int.Parse(Console.ReadLine());
+                        pend.value.Value[term].SetPreferEntry(pend.value.Value[term].Entries.ToList()[sel]);
+                    }
+
+
+            
             Console.WriteLine("================== Action Table ===================================");
-            for (int i = 0; i <= slrPT.StateCount; i++)
+            for (int i = 0; i < slrPT.StateCount; i++)
             {
                 foreach (var term in grammar.TerminalsWithEndMarker)
-                    Console.WriteLine("ACTION[{0}, {1}]={2}", i, term, slrPT.Action(i, term));
+                    Console.WriteLine("ACTION[{0}, {1}]={2}", i, term, slrPT.Action[i][term]);
                 Console.WriteLine("===============================================================");
             }
 
             Console.WriteLine("================== Goto Table ===================================");
-            for (int i = 0; i <= slrPT.StateCount; i++)
+            for (int i = 0; i < slrPT.StateCount; i++)
             {
                 foreach (var nonTerm in grammar.NonTerminalsWithoutAugmentedS)
-                    Console.WriteLine("GOTO[{0}, {1}]={2}", i, nonTerm, slrPT.Goto(i, nonTerm));
+                    Console.WriteLine("GOTO[{0}, {1}]={2}", i, nonTerm, slrPT.Goto[i][nonTerm]);
                 Console.WriteLine("===============================================================");
             }
 
@@ -278,6 +309,7 @@ namespace ParseGenerator
         private static void TestDanglingElse()
         {
             Grammar grammar = new Grammar();
+            //using (var stream = new FileStream("Grammar-4.3.txt", FileMode.Open))
             using (var stream = new FileStream("Grammar-4.67.txt", FileMode.Open))
                 grammar.Parse(stream);
 
@@ -298,19 +330,39 @@ namespace ParseGenerator
 
             var slrPT = SLRParseTable.Create(LR0Coll);
 
+            Console.WriteLine("======================== Select Prefer Entry =======================");
+            foreach (var pend in slrPT.Action.Select((value, index) => new { index, value }))
+                foreach (var term in grammar.TerminalsWithEndMarker)
+                    if (!pend.value.Value[term].PreferedEntrySpecified)
+                    {
+                        Console.WriteLine("=========I[" + pend.index + "]==============");
+                        foreach (var e in LR0Coll.Items().Select((value, index) => new { index, value }).Where(e => e.index == pend.index))
+                            foreach (var it in e.value)
+                                Console.WriteLine(it);
+
+                        Console.WriteLine("============================================");
+                        Console.WriteLine("Select for ACTION[" + pend.index + ", " + term + "]");
+                        Console.WriteLine("=========== Actions pending =======");
+                        foreach (var e in pend.value.Value[term].Entries.Select((value, index) => new { index, value }))
+                            Console.WriteLine(e.index.ToString() + "." + e.value);
+
+                        int sel = int.Parse(Console.ReadLine());
+                        pend.value.Value[term].SetPreferEntry(pend.value.Value[term].Entries.ToList()[sel]);
+                    }
+
             Console.WriteLine("================== Action Table ===================================");
-            for (int i = 0; i <= slrPT.StateCount; i++)
+            for (int i = 0; i < slrPT.StateCount; i++)
             {
                 foreach (var term in grammar.TerminalsWithEndMarker)
-                    Console.WriteLine("ACTION[{0}, {1}]={2}", i, term, slrPT.Action(i, term));
+                    Console.WriteLine("ACTION[{0}, {1}]={2}", i, term, slrPT.Action[i][term]);
                 Console.WriteLine("===============================================================");
             }
 
             Console.WriteLine("================== Goto Table ===================================");
-            for (int i = 0; i <= slrPT.StateCount; i++)
+            for (int i = 0; i < slrPT.StateCount; i++)
             {
                 foreach (var nonTerm in grammar.NonTerminalsWithoutAugmentedS)
-                    Console.WriteLine("GOTO[{0}, {1}]={2}", i, nonTerm, slrPT.Goto(i, nonTerm));
+                    Console.WriteLine("GOTO[{0}, {1}]={2}", i, nonTerm, slrPT.Goto[i][nonTerm]);
                 Console.WriteLine("===============================================================");
             }
 
@@ -322,9 +374,9 @@ namespace ParseGenerator
             //TestFirstFollow();
             //TestSLRParser();
             //TestLR1Collection();
-            TestDanglingElse();
+            //TestDanglingElse();
 
-            //TestExperiment();
+            TestExperiment();
         }
     }
 }
