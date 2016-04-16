@@ -19,6 +19,11 @@ namespace ParseGenerator
             get { return initialState; }
         }
 
+        public int StateCount
+        {
+            get { return actionTable.Count; }
+        }
+
         // Use Factory Pattern to create
         protected ParseTable()
         {

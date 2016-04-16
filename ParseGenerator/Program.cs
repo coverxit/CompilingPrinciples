@@ -223,6 +223,9 @@ namespace ParseGenerator
             }
 
             var LR0coll = new LR0Collection(grammar);
+            var LR1coll = new LR1Collection(grammar);
+
+            /*
             Console.WriteLine("============== LR(0) Collection ============================");
             var LR0curIndex = -1;
             foreach (var e in LR0coll.Items().Select((value, index) => new { index, value }))
@@ -237,7 +240,6 @@ namespace ParseGenerator
                     Console.WriteLine(i);
             }
 
-            var LR1coll = new LR1Collection(grammar);
             Console.WriteLine("============== LR(1) Collection ============================");
             var LR1curIndex = -1;
             foreach (var e in LR1coll.Items().Select((value, index) => new { index, value }))
@@ -251,6 +253,66 @@ namespace ParseGenerator
                 foreach (var i in e.value)
                     Console.WriteLine(i);
             }
+            */
+
+            var slrPT = SLRParseTable.Create(LR0coll);
+            Console.WriteLine("================== Action Table ===================================");
+            for (int i = 0; i <= slrPT.StateCount; i++)
+            {
+                foreach (var term in grammar.TerminalsWithEndMarker)
+                    Console.WriteLine("ACTION[{0}, {1}]={2}", i, term, slrPT.Action(i, term));
+                Console.WriteLine("===============================================================");
+            }
+
+            Console.WriteLine("================== Goto Table ===================================");
+            for (int i = 0; i <= slrPT.StateCount; i++)
+            {
+                foreach (var nonTerm in grammar.NonTerminalsWithoutAugmentedS)
+                    Console.WriteLine("GOTO[{0}, {1}]={2}", i, nonTerm, slrPT.Goto(i, nonTerm));
+                Console.WriteLine("===============================================================");
+            }
+
+            Console.ReadLine();
+        }
+
+        private static void TestDanglingElse()
+        {
+            Grammar grammar = new Grammar();
+            using (var stream = new FileStream("Grammar-4.67.txt", FileMode.Open))
+                grammar.Parse(stream);
+
+            var LR0Coll = new LR0Collection(grammar);
+            Console.WriteLine("============== LR(0) Collection ============================");
+            var LR0curIndex = -1;
+            foreach (var e in LR0Coll.Items().Select((value, index) => new { index, value }))
+            {
+                if (LR0curIndex != e.index)
+                {
+                    Console.WriteLine("==================== I[" + e.index + "] ====================");
+                    LR0curIndex = e.index;
+                }
+
+                foreach (var i in e.value)
+                    Console.WriteLine(i);
+            }
+
+            var slrPT = SLRParseTable.Create(LR0Coll);
+
+            Console.WriteLine("================== Action Table ===================================");
+            for (int i = 0; i <= slrPT.StateCount; i++)
+            {
+                foreach (var term in grammar.TerminalsWithEndMarker)
+                    Console.WriteLine("ACTION[{0}, {1}]={2}", i, term, slrPT.Action(i, term));
+                Console.WriteLine("===============================================================");
+            }
+
+            Console.WriteLine("================== Goto Table ===================================");
+            for (int i = 0; i <= slrPT.StateCount; i++)
+            {
+                foreach (var nonTerm in grammar.NonTerminalsWithoutAugmentedS)
+                    Console.WriteLine("GOTO[{0}, {1}]={2}", i, nonTerm, slrPT.Goto(i, nonTerm));
+                Console.WriteLine("===============================================================");
+            }
 
             Console.ReadLine();
         }
@@ -258,8 +320,9 @@ namespace ParseGenerator
         static void Main(string[] args)
         {
             //TestFirstFollow();
-            TestSLRParser();
+            //TestSLRParser();
             //TestLR1Collection();
+            TestDanglingElse();
 
             //TestExperiment();
         }

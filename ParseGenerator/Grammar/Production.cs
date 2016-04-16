@@ -45,6 +45,11 @@ namespace ParseGenerator
             rightExpression.Add(new ProductionSymbol(grammar, type, id));
         }
 
+        public void AppendRightSymbol(ProductionSymbol sym)
+        {
+            rightExpression.Add(new ProductionSymbol(sym));
+        }
+
         public override int GetHashCode()
         {
             return this.ToString().GetHashCode();
