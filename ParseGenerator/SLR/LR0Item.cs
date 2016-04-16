@@ -4,19 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ParseTableGenerator
+namespace ParseGenerator
 {
     class LR0Item
     {
-        private Grammar grammar;
-        private Production production;
+        protected Grammar grammar;
+        protected Production production;
 
         public Production Production
         {
             get { return new Production(production); }
         }
 
-        private int dotPos = 0;
+        protected int dotPos = 0;
         public int DotPosition
         {
             get { return dotPos; }

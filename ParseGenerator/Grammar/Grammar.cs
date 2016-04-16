@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace ParseTableGenerator
+namespace ParseGenerator
 {
     public class Grammar
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ParseTableGenerator
+namespace ParseGenerator
 {
     class LR0Collection
     {
@@ -14,7 +14,6 @@ namespace ParseTableGenerator
 
         public HashSet<LR0Item> Closure(HashSet<LR0Item> I)
         {
-            var remainingSymbols = grammar.NonTerminals;
             var closure = new HashSet<LR0Item>(I);
             var computeStack = new Stack<LR0Item>();
 
@@ -26,23 +25,18 @@ namespace ParseTableGenerator
             {
                 var topItem = computeStack.Pop();
 
-                // Prodcution starts with B not added
-                if (remainingSymbols.Contains(topItem.SymbolAfterDot))
+                // Each B -> γ
+                foreach (var prod in grammar.Productions.Where(e => e.Left.Equals(topItem.SymbolAfterDot)))
                 {
-                    // Each B -> γ
-                    foreach (var prod in grammar.Productions.Where(e => e.Left.Equals(topItem.SymbolAfterDot)))
-                    {
-                        // Add B -> ·γ into closure
-                        var item = new LR0Item(grammar, prod, 0);
-                        closure.Add(item);
+                    // Add B -> ·γ into closure
+                    var item = new LR0Item(grammar, prod, 0);
+                    
+                    // If B -> ·γ is something like B -> ·Cβ, and not added in closure 
+                    // then push into stack
+                    if (!closure.Contains(item) && item.SymbolAfterDot.Type == ProductionSymbol.SymbolType.NonTerminal)
+                        computeStack.Push(item);
 
-                        // If B -> ·γ is something like B -> ·Cβ, then push into stack
-                        if (item.SymbolAfterDot.Type == ProductionSymbol.SymbolType.NonTerminal)
-                            computeStack.Push(item);
-                    }
-
-                    // All B -> γ has been added
-                    remainingSymbols.Remove(topItem.SymbolAfterDot);
+                    closure.Add(item);
                 }
             }
 

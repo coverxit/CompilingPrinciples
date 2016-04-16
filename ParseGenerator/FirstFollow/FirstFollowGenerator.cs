@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ParseTableGenerator
+namespace ParseGenerator
 {
     public class FirstFollowGenerator
     {
@@ -185,7 +185,6 @@ namespace ParseTableGenerator
                     }
             }
             */
-            
             
             foreach (var prod in grammar.Productions)
             {
