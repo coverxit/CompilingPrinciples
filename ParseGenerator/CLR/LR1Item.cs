@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ParseGenerator
 {
-    class LR1Item : LR0Item
+    public class LR1Item : LR0Item
     {
         private ProductionSymbol lookahead;
 

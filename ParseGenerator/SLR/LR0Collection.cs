@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace ParseGenerator
 {
-    class LR0Collection
+    public class LR0Collection : LRCollection<LR0Item>
     {
-        private Grammar grammar;
+        public LR0Collection(Grammar grammar) : base(grammar) { }
 
-        public LR0Collection(Grammar grammar) { this.grammar = grammar; }
-
-        public HashSet<LR0Item> Closure(HashSet<LR0Item> I)
+        public override HashSet<LR0Item> Closure(HashSet<LR0Item> I)
         {
             var closure = new HashSet<LR0Item>(I);
             var computeStack = new Stack<LR0Item>();
@@ -43,7 +41,7 @@ namespace ParseGenerator
             return closure;
         }
 
-        public HashSet<LR0Item> Goto(HashSet<LR0Item> I, ProductionSymbol X)
+        public override HashSet<LR0Item> Goto(HashSet<LR0Item> I, ProductionSymbol X)
         {
             var gotoSet = new HashSet<LR0Item>();
             foreach (var item in I.Where(e => e.SymbolAfterDot.Equals(X)))
@@ -51,13 +49,13 @@ namespace ParseGenerator
             return Closure(gotoSet);
         }
 
-        public HashSet<HashSet<LR0Item>> Items()
+        public override HashSet<HashSet<LR0Item>> Items()
         {
             var collection = new HashSet<HashSet<LR0Item>>();
             var computeStack = new Stack<HashSet<LR0Item>>();
 
             // C = { CLOSURE( {[S' -> ·S]} ) }
-            var I0 = Closure(new HashSet<LR0Item>(new LR0Item[] { new LR0Item(grammar, grammar.Productions[0], 0) }));
+            var I0 = Closure(new HashSet<LR0Item>(new LR0Item[] { new LR0Item(grammar, grammar.FirstProduction, 0) }));
             collection.Add(I0);
             computeStack.Push(I0);
             

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Lex;
+
 namespace ParseGenerator
 {
     public class ProductionSymbol
@@ -33,6 +35,17 @@ namespace ParseGenerator
             this.grammar = grammar;
             this.type = type;
             this.id = id;
+        }
+
+        public ProductionSymbol(Grammar grammar, Token token)
+        {
+            this.grammar = grammar;          
+            this.type = SymbolType.Terminal;
+
+            if (token is Word)
+                this.id = grammar.TerminalTable.IndexOf("id");
+            else
+                this.id = grammar.TerminalTable.IndexOf(token.GetValue().ToString());
         }
 
         public ProductionSymbol(ProductionSymbol rhs)

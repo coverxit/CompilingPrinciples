@@ -68,7 +68,7 @@ namespace ParseGenerator
             Console.ReadLine();
         }
 
-        private static void TestLR0Collection()
+        private static void TestSLRParser()
         {
             Grammar grammar = new Grammar();
             using (var stream = new FileStream("Grammar-4.40.txt", FileMode.Open))
@@ -78,7 +78,7 @@ namespace ParseGenerator
 
             // Cope with file Grammar-4.40.txt
             Console.WriteLine("============== Closure({E' -> ·E}) ===============");
-            var closure = coll.Closure(new HashSet<LR0Item>(new LR0Item[] { new LR0Item(grammar, grammar.Productions[0], 0) }));
+            var closure = coll.Closure(new HashSet<LR0Item>(new LR0Item[] { new LR0Item(grammar, grammar.FirstProduction, 0) }));
             foreach (var e in closure)
                 Console.WriteLine(e);
 
@@ -102,6 +102,35 @@ namespace ParseGenerator
                     Console.WriteLine(i);
             }
 
+            var parseTable = SLRParseTable.Create(coll);
+            Console.WriteLine("================== Action Table ===================================");
+            for (int i = 0; i <= curIndex; i++)
+            { 
+                foreach (var term in grammar.TerminalsWithEndMarker)
+                    Console.WriteLine("ACTION[{0}, {1}]={2}", i, term, parseTable.Action(i, term));
+                Console.WriteLine("===============================================================");
+            }
+
+            Console.WriteLine("================== Goto Table ===================================");
+            for (int i = 0; i <= curIndex; i++)
+            {
+                foreach (var nonTerm in grammar.NonTerminalsWithoutAugmentedS)
+                    Console.WriteLine("GOTO[{0}, {1}]={2}", i, nonTerm, parseTable.Goto(i, nonTerm));
+                Console.WriteLine("===============================================================");
+            }
+
+            Console.WriteLine("=============== Parse: a * b ====================================");
+            var sb = new StringBuilder();
+            sb.Append("a * b");
+            sb.Append((byte)0xFF);
+
+            byte[] array = Encoding.ASCII.GetBytes(sb.ToString());
+            var parser = new Parser(grammar, parseTable);
+            var ops = parser.Parse(new MemoryStream(array));
+
+            foreach (var op in ops)
+                Console.WriteLine(op);
+
             Console.ReadLine();
         }
 
@@ -116,7 +145,7 @@ namespace ParseGenerator
             
             // Cope with file Grammar-4.55.txt
             Console.WriteLine("============== Closure({S' -> ·S, $}) ===============");
-            var closure = coll.Closure(new HashSet<LR1Item>(new LR1Item[] { new LR1Item(grammar, grammar.Productions[0], 0, grammar.EndMarker) }));
+            var closure = coll.Closure(new HashSet<LR1Item>(new LR1Item[] { new LR1Item(grammar, grammar.FirstProduction, 0, grammar.EndMarker) }));
             foreach (var e in closure)
                 Console.WriteLine(e);
 
@@ -229,10 +258,10 @@ namespace ParseGenerator
         static void Main(string[] args)
         {
             //TestFirstFollow();
-            //TestLR0Collection();
+            TestSLRParser();
             //TestLR1Collection();
 
-            TestExperiment();
+            //TestExperiment();
         }
     }
 }

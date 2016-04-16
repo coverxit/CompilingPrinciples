@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ParseGenerator
 {
-    class LR0Item
+    public class LR0Item
     {
         protected Grammar grammar;
         protected Production production;
@@ -28,7 +28,7 @@ namespace ParseGenerator
             {
                 if (dotPos < production.Right.Count)
                     return production.Right[dotPos];
-                else
+                else // dot is at the right end
                     return grammar.EndMarker;
             }
         }

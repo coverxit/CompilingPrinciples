@@ -114,7 +114,7 @@ namespace ParseGenerator
             if (firstSet == null) computeFirstSet();
 
             // Place $ in Follow(S), S is the start symbol
-            followSet.Put(grammar.Productions[0].Left, grammar.EndMarker);
+            followSet.Put(grammar.FirstProduction.Left, grammar.EndMarker);
 
             // Stores the Follow that hasn't been computed yet,
             // Such as Follow(F) = Follow(S), when Follow(S) hasn't been 

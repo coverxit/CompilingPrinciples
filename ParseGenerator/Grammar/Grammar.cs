@@ -20,6 +20,16 @@ namespace ParseGenerator
             get { return new ProductionSymbol(endMarker); }
         }
 
+        public Production FirstProduction
+        {
+            get { return new Production(productions[0]); }
+        }
+
+        public ProductionSymbol AugemntedS
+        {
+            get { return new ProductionSymbol(productions[0].Left); }
+        }
+
         private List<string> terminalTable, nonTerminalTable;
         private List<Production> productions;
 
@@ -31,6 +41,15 @@ namespace ParseGenerator
         public List<string> NonTerminalTable
         {
             get { return nonTerminalTable; }
+        }
+
+        public List<ProductionSymbol> TerminalsWithEndMarker
+        {
+            get
+            {
+                return terminalTable.Select((sym, id) => new ProductionSymbol(this, ProductionSymbol.SymbolType.Terminal, id))
+                                    .Where(e => !e.Equals(epsilon)).ToList();
+            }
         }
 
         public List<ProductionSymbol> Terminals
@@ -46,6 +65,11 @@ namespace ParseGenerator
         public List<ProductionSymbol> NonTerminals
         {
             get { return nonTerminalTable.Select((sym, id) => new ProductionSymbol(this, ProductionSymbol.SymbolType.NonTerminal, id)).ToList(); }
+        }
+
+        public List<ProductionSymbol> NonTerminalsWithoutAugmentedS
+        {
+            get { return NonTerminals.Where(e => !e.Equals(AugemntedS)).ToList(); }
         }
 
         public List<ProductionSymbol> Symbols
