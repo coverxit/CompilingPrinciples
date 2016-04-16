@@ -10,6 +10,11 @@ namespace ParseGenerator
     public class Parser
     {
         private ParseTable table;
+
+        public Parser(ParseTable pt)
+        {
+            this.table = pt;
+        }
         
         public void Parse(Stream input)
         {
