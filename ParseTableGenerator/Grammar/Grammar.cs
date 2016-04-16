@@ -9,15 +9,15 @@ namespace ParseTableGenerator
 {
     public class Grammar
     {
-        private Production.Symbol epsilon, endMarker;
-        public Production.Symbol Epsilon
+        private ProductionSymbol epsilon, endMarker;
+        public ProductionSymbol Epsilon
         {
-            get { return new Production.Symbol(epsilon); }
+            get { return new ProductionSymbol(epsilon); }
         }
 
-        public Production.Symbol EndMarker
+        public ProductionSymbol EndMarker
         {
-            get { return new Production.Symbol(endMarker); }
+            get { return new ProductionSymbol(endMarker); }
         }
 
         private List<string> terminalTable, nonTerminalTable;
@@ -33,14 +33,14 @@ namespace ParseTableGenerator
             get { return nonTerminalTable; }
         }
 
-        public List<Production.Symbol> Terminals
+        public List<ProductionSymbol> Terminals
         {
-            get { return terminalTable.Select((sym, id) => new Production.Symbol(this, Production.SymbolType.Terminal, id)).ToList(); }
+            get { return terminalTable.Select((sym, id) => new ProductionSymbol(this, ProductionSymbol.SymbolType.Terminal, id)).ToList(); }
         } 
 
-        public List<Production.Symbol> NonTerminals
+        public List<ProductionSymbol> NonTerminals
         {
-            get { return nonTerminalTable.Select((sym, id) => new Production.Symbol(this, Production.SymbolType.NonTerminal, id)).ToList(); }
+            get { return nonTerminalTable.Select((sym, id) => new ProductionSymbol(this, ProductionSymbol.SymbolType.NonTerminal, id)).ToList(); }
         }
 
         public List<Production> Productions
@@ -54,17 +54,17 @@ namespace ParseTableGenerator
             nonTerminalTable = new List<string>();
             productions = new List<Production>();
 
-            epsilon = reserveSymbol("@", Production.SymbolType.NonTerminal); // ε
-            endMarker = reserveSymbol("$", Production.SymbolType.NonTerminal); // $
+            epsilon = reserveSymbol("@", ProductionSymbol.SymbolType.NonTerminal); // ε
+            endMarker = reserveSymbol("$", ProductionSymbol.SymbolType.NonTerminal); // $
         }
 
-        private Production.Symbol reserveSymbol(string sym, Production.SymbolType type)
+        private ProductionSymbol reserveSymbol(string sym, ProductionSymbol.SymbolType type)
         {
             int id = -1;
 
             switch (type)
             {
-                case Production.SymbolType.NonTerminal:
+                case ProductionSymbol.SymbolType.NonTerminal:
                     lock (nonTerminalTable)
                     {
                         nonTerminalTable.Add(sym);
@@ -72,7 +72,7 @@ namespace ParseTableGenerator
                     }
                     break;
 
-                case Production.SymbolType.Terminal:
+                case ProductionSymbol.SymbolType.Terminal:
                     lock (terminalTable)
                     {
                         terminalTable.Add(sym);
@@ -81,7 +81,7 @@ namespace ParseTableGenerator
                     break;
             }
 
-            return new Production.Symbol(this, type, id);
+            return new ProductionSymbol(this, type, id);
         }
 
         public void Parse(Stream stream)
@@ -137,7 +137,7 @@ namespace ParseTableGenerator
                 // First, find terminal table
                 int id = terminalTable.IndexOf(sym);
                 if (id != -1)
-                    prod.AppendRightSymbol(Production.SymbolType.Terminal, id);
+                    prod.AppendRightSymbol(ProductionSymbol.SymbolType.Terminal, id);
                 else
                 {
                     // Then, find nonterminal table
@@ -151,7 +151,7 @@ namespace ParseTableGenerator
                         }
                     }
 
-                    prod.AppendRightSymbol(Production.SymbolType.NonTerminal, id);
+                    prod.AppendRightSymbol(ProductionSymbol.SymbolType.NonTerminal, id);
                 }
             }
         }

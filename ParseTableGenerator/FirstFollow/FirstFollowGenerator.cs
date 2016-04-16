@@ -52,10 +52,10 @@ namespace ParseTableGenerator
             computeFollowSet();
         }
 
-        private void computeFirstSet(Production.Symbol curSymbol)
+        private void computeFirstSet(ProductionSymbol curSymbol)
         {
             // X is a terminal, First(X) = { X }
-            if (curSymbol.Type == Production.SymbolType.NonTerminal)
+            if (curSymbol.Type == ProductionSymbol.SymbolType.NonTerminal)
                 firstSet.Put(curSymbol, curSymbol);
             else
             {
@@ -114,7 +114,7 @@ namespace ParseTableGenerator
             // Stores the Follow that hasn't been computed yet,
             // Such as Follow(F) = Follow(S), when Follow(S) hasn't been 
             // computed yet.
-            var pendingCompute = new Dictionary<Production.Symbol, HashSet<Production.Symbol>>();
+            var pendingCompute = new Dictionary<ProductionSymbol, HashSet<ProductionSymbol>>();
             
             /*
             foreach (var prod in grammar.Productions)
@@ -188,11 +188,11 @@ namespace ParseTableGenerator
                 rightReverse.Reverse();
 
                 // Because we reversely compute, so First(β) can be compute on each loop below.
-                var firstBeta = new HashSet<Production.Symbol>();
+                var firstBeta = new HashSet<ProductionSymbol>();
 
                 foreach (var e in rightReverse.Select((value, index) => new { index, value }))
                 {
-                    if (e.value.Type == Production.SymbolType.Terminal)
+                    if (e.value.Type == ProductionSymbol.SymbolType.Terminal)
                     {
                         if (e.index == 0)
                         {
@@ -205,7 +205,7 @@ namespace ParseTableGenerator
                             // Because we'll excpet the ε in First(β) below.
                             var containsEplison = firstBeta.Contains(grammar.Epsilon);
                             // If A -> αBβ, First(β) - {ε} is in Follow(B), α can be ε
-                            firstBeta.ExceptWith(new Production.Symbol[] { grammar.Epsilon });
+                            firstBeta.ExceptWith(new ProductionSymbol[] { grammar.Epsilon });
                             followSet.Put(e.value, firstBeta);
 
                             // If A -> αBβ, and First(β) contains ε, then Follow(A) is in Follow(B)
@@ -222,7 +222,7 @@ namespace ParseTableGenerator
 
                     unionLeft:
                         if (!pendingCompute.ContainsKey(e.value))
-                            pendingCompute.Add(e.value, new HashSet<Production.Symbol>());
+                            pendingCompute.Add(e.value, new HashSet<ProductionSymbol>());
                         pendingCompute[e.value].Add(prod.Left);
                     }
 
@@ -230,8 +230,8 @@ namespace ParseTableGenerator
                     // Then we update First(β).
                     // Compute First(Xi) first, actually we have compute all terminals,
                     // but nonterminals are not.
-                    var curPosFirst = new HashSet<Production.Symbol>();
-                    if (e.value.Type == Production.SymbolType.NonTerminal)
+                    var curPosFirst = new HashSet<ProductionSymbol>();
+                    if (e.value.Type == ProductionSymbol.SymbolType.NonTerminal)
                         curPosFirst.Add(e.value);
                     else
                         curPosFirst = firstSet.Get(e.value);
@@ -249,7 +249,7 @@ namespace ParseTableGenerator
             // Finish computing
             foreach (var e in pendingCompute.Keys)
             {
-                var pendingComputeStack = new Stack<Production.Symbol>();
+                var pendingComputeStack = new Stack<ProductionSymbol>();
                 pendingComputeStack.Push(e);
 
                 while (pendingComputeStack.Count > 0)

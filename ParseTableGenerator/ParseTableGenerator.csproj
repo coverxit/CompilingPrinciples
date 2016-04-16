@@ -42,10 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FirstFollowSet.cs" />
-    <Compile Include="FirstFollowGenerator.cs" />
-    <Compile Include="Grammar.cs" />
-    <Compile Include="Production.cs" />
+    <Compile Include="FirstFollow\FirstFollowGenerator.cs" />
+    <Compile Include="FirstFollow\FirstFollowSet.cs" />
+    <Compile Include="Grammar\Grammar.cs" />
+    <Compile Include="Grammar\Production.cs" />
+    <Compile Include="Grammar\ProductionSymbol.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
