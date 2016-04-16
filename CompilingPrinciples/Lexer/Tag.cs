@@ -21,6 +21,7 @@ namespace Lex
 
         VarType = 10,
 
+        EndMarker = 65535,
         InvalidToken = 65536,
     }
 }

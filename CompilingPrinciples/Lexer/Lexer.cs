@@ -65,7 +65,7 @@ namespace Lex
             {
                 if (nextByte == ' ' || nextByte == '\t' || nextByte == '\r') continue;
                 else if (nextByte == '\n') { line++; col = 0; }
-                else if (nextByte == -1) { return null; } // EOF
+                else if (nextByte == -1) { return new EndMarker(); } // EOF
                 else break;
             }
 

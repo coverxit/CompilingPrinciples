@@ -19,30 +19,24 @@ namespace CompilingPrinciples
             using (var stream = new FileStream("test.txt", FileMode.Open))
             {
                 Lexer lexer = new Lexer(stream);
-                Token token;
+                Token token = null;
                 int curLine = 1;
 
                 Console.WriteLine("============== Line 1 ==============");
-                while (true)
+                while (!(token is EndMarker))
                 {
-                    try
-                    {
-                        token = lexer.ScanNextToken();
-                        if (curLine != lexer.CurrentLine)
-                            Console.WriteLine("============== Line " + lexer.CurrentLine + " ==============");
+                    token = lexer.ScanNextToken();
+                    if (curLine != lexer.CurrentLine)
+                        Console.WriteLine("============== Line " + lexer.CurrentLine + " ==============");
 
-                        if (token is Identifier)
-                            Console.WriteLine("<" + token.GetTokenType() + ", '" +
-                                lexer.SymbolTable.GetSymbol(token.GetValue()) + "'>");
-                        else
-                            Console.WriteLine(token.ToString());
+                    if (token is Identifier)
+                        Console.WriteLine("<" + token.GetTokenType() + ", '" +
+                            lexer.SymbolTable.GetSymbol(token.GetValue()) + "'>");
+                    else
+                        Console.WriteLine(token.ToString());
 
-                        curLine = lexer.CurrentLine;
-                    }
-                    catch (NullReferenceException)
-                    {
-                        break;
-                    }
+                    curLine = lexer.CurrentLine;
+
                 }
 
                 Console.WriteLine();

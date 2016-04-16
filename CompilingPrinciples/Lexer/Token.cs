@@ -24,6 +24,17 @@ namespace Lex
         }
     }
 
+    public class EndMarker : Token
+    {
+        public EndMarker() : base(Tag.EndMarker) { }
+
+        public override string GetTokenType() { return "EndMarker"; }
+
+        public override dynamic GetValue() { return "$"; }
+
+        public override string ToString() { return GetValue().ToString(); }
+    }
+
     public class InvalidToken : Token
     {
         private int line, col, pos, len;

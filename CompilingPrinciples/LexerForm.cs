@@ -84,60 +84,53 @@ namespace CompilingPrinciples
             ListViewGroup curGroup = null;
 
             listTokens.BeginUpdate();
-            while (true)
+            while (!(token is EndMarker))
             {
-                try
+                token = lexer.ScanNextToken();
+                if (curLine != lexer.CurrentLine)
                 {
-                    token = lexer.ScanNextToken();
-                    if (curLine != lexer.CurrentLine)
-                    {
-                        curGroup = listTokens.Groups.Add(lexer.CurrentLine.ToString(), "Line " + lexer.CurrentLine);
-                        curLine = lexer.CurrentLine;
-                    }
-
-                    ListViewItem item = new ListViewItem(curGroup);
-                    item.Text = token.GetTokenType();
-
-                    // Set item text & error indicator if any
-                    if (token is Identifier)
-                        item.SubItems.Add(lexer.SymbolTable.GetSymbol(token.GetValue()));
-                    else if (token is InvalidToken)
-                    {
-                        InvalidToken errToken = token as InvalidToken;
-                        textCode.IndicatorFillRange(errToken.Position, errToken.Length);
-                        item.SubItems.Add(token.GetValue().ToString());
-                    }
-                    else
-                        item.SubItems.Add(token.GetValue().ToString());
-
-                    // Set item style
-                    if (token is Operator || token is Separator)
-                        item.ForeColor = Color.Gray;
-                    else if (token is Lex.Decimal)
-                        item.ForeColor = Color.ForestGreen;
-                    else if (token is InvalidToken)
-                        item.ForeColor = Color.Red;
-                    else if (token is Identifier)
-                    {
-                        item.UseItemStyleForSubItems = false;
-                        item.SubItems[1].Font = new Font(item.Font, FontStyle.Bold);
-                    }
-                    else if (token is Keyword)
-                    {
-                        item.ForeColor = Color.Blue;
-                        item.Font = new Font(item.Font, FontStyle.Bold);
-
-                        item.UseItemStyleForSubItems = false;
-                        item.SubItems[1].Font = new Font(item.Font, FontStyle.Italic);
-                        item.SubItems[1].ForeColor = Color.DarkBlue;
-                    }
-
-                    listTokens.Items.Add(item);
+                    curGroup = listTokens.Groups.Add(lexer.CurrentLine.ToString(), "Line " + lexer.CurrentLine);
+                    curLine = lexer.CurrentLine;
                 }
-                catch (NullReferenceException)
+
+                ListViewItem item = new ListViewItem(curGroup);
+                item.Text = token.GetTokenType();
+
+                // Set item text & error indicator if any
+                if (token is Identifier)
+                    item.SubItems.Add(lexer.SymbolTable.GetSymbol(token.GetValue()));
+                else if (token is InvalidToken)
                 {
-                    break;
+                    InvalidToken errToken = token as InvalidToken;
+                    textCode.IndicatorFillRange(errToken.Position, errToken.Length);
+                    item.SubItems.Add(token.GetValue().ToString());
                 }
+                else
+                    item.SubItems.Add(token.GetValue().ToString());
+
+                // Set item style
+                if (token is Operator || token is Separator)
+                    item.ForeColor = Color.Gray;
+                else if (token is Lex.Decimal)
+                    item.ForeColor = Color.ForestGreen;
+                else if (token is InvalidToken)
+                    item.ForeColor = Color.Red;
+                else if (token is Identifier)
+                {
+                    item.UseItemStyleForSubItems = false;
+                    item.SubItems[1].Font = new Font(item.Font, FontStyle.Bold);
+                }
+                else if (token is Keyword)
+                {
+                    item.ForeColor = Color.Blue;
+                    item.Font = new Font(item.Font, FontStyle.Bold);
+
+                    item.UseItemStyleForSubItems = false;
+                    item.SubItems[1].Font = new Font(item.Font, FontStyle.Italic);
+                    item.SubItems[1].ForeColor = Color.DarkBlue;
+                }
+
+                listTokens.Items.Add(item);
             }
             listTokens.EndUpdate();
 
