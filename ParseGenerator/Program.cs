@@ -406,21 +406,29 @@ namespace ParseGenerator
                         }
 
 
-                        /*
                         foreach (var e in pend.value.Value[term].Entries.Select((value, index) => new { index, value })
-                                                                        .Where(e => e.value.Type ==
-                                                                        (term.ToString() == ";" ? ActionTableEntry.ActionType.Reduce : ActionTableEntry.ActionType.Shift)))
+                                                                       .Where(e => e.value.Type == ActionTableEntry.ActionType.Reduce))
                         {
-                            pend.value.Value[term].SetPreferEntry(pend.value.Value[term].Entries.ToList()[e.index]);
-                            Console.WriteLine("Choosed: " + pend.value.Value[term].PreferEntry);
+                            if (pend.value.Value[term].Entries.ToList()[e.index].ReduceProduction.ToString() != "S -> if ( C ) S")
+                                pend.value.Value[term].SetPreferEntry(pend.value.Value[term].Entries.ToList()[e.index]);
                         }
-                        */
-                        
 
-                        
+                        if (!pend.value.Value[term].PreferedEntrySpecified)
+                        {
+                            foreach (var e in pend.value.Value[term].Entries.Select((value, index) => new { index, value })
+                                                                       .Where(e => e.value.Type == ActionTableEntry.ActionType.Shift))
+                            {
+                                pend.value.Value[term].SetPreferEntry(pend.value.Value[term].Entries.ToList()[e.index]);
+                            }
+                        }
+
+                        Console.WriteLine("Choosed: " + pend.value.Value[term].PreferEntry);
+
+
+                        /*
                         int sel = int.Parse(Console.ReadLine());
                         pend.value.Value[term].SetPreferEntry(pend.value.Value[term].Entries.ToList()[sel]);
-                        
+                        */
                     }
 
             /*
@@ -605,8 +613,8 @@ namespace ParseGenerator
             //TestDanglingElse_SLR();
             //TestDanglingElse_LR1();
 
-            TestExperiment_SLR();
-            //TestExperiment_LR1();
+            //TestExperiment_SLR();
+            TestExperiment_LR1();
         }
     }
 }
