@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
+using Lex;
+using Symbol;
+
 namespace ParseGenerator
 {
     public class Grammar
@@ -33,6 +36,12 @@ namespace ParseGenerator
         private List<string> terminalTable, nonTerminalTable;
         private List<Production> productions;
 
+        private SymbolTable symbolTable;
+        public SymbolTable SymbolTable
+        {
+            get { return symbolTable; }
+        }
+
         public List<string> TerminalTable
         {
             get { return terminalTable; }
@@ -47,11 +56,11 @@ namespace ParseGenerator
         {
             get
             {
-                return terminalTable.Select((sym, id) => new ProductionSymbol(this, ProductionSymbol.SymbolType.Terminal, id))
-                                    .Where(e => !e.Equals(epsilon)).ToList();
+                return terminalTable.Select((sym, id) => new ProductionSymbol(this, ProductionSymbol.SymbolType.Terminal, id)).ToList();
             }
         }
 
+        /*
         public List<ProductionSymbol> Terminals
         {
             // Exclude $ and ε
@@ -59,6 +68,17 @@ namespace ParseGenerator
             {
                 return terminalTable.Select((sym, id) => new ProductionSymbol(this, ProductionSymbol.SymbolType.Terminal, id))
                                     .Where(e => !e.Equals(epsilon) && !e.Equals(endMarker)).ToList();
+            }
+        }
+        */
+
+        public List<ProductionSymbol> Terminals
+        {
+            // Exclude $
+            get
+            {
+                return terminalTable.Select((sym, id) => new ProductionSymbol(this, ProductionSymbol.SymbolType.Terminal, id))
+                                    .Where(e => !e.Equals(endMarker)).ToList();
             }
         }
 
@@ -72,7 +92,7 @@ namespace ParseGenerator
             get { return NonTerminals.Where(e => !e.Equals(AugemntedS)).ToList(); }
         }
 
-        public List<ProductionSymbol> Symbols
+        public List<ProductionSymbol> GrammarSymbols
         {
             get
             {
@@ -87,8 +107,10 @@ namespace ParseGenerator
             get { return new List<Production>(productions); }
         }
 
-        public Grammar()
+        public Grammar(SymbolTable symbolTable)
         {
+            this.symbolTable = symbolTable;
+
             terminalTable = new List<string>();
             nonTerminalTable = new List<string>();
             productions = new List<Production>();
@@ -194,6 +216,33 @@ namespace ParseGenerator
                 }
             }
         }
+        
+        public int GetIdInTerminalTable(Token token)
+        {
+            string symbolToFind = string.Empty;
 
+            if (token is EndMarker)
+                symbolToFind = "$";
+            else if (token is Lex.Decimal)
+                symbolToFind = "decimal";
+            if (token is Word)
+            {
+                var wordToken = token as Word;
+                symbolToFind = wordToken is Identifier ? "id" : symbolTable.GetSymbol(wordToken.IdInSymbolTable);
+            }
+            else if (token is Operator)
+            {
+                var opToken = token as Operator;
+                symbolToFind = opToken.GetValue().ToString();
+            }
+            else if (token is Separator)
+            {
+                var spToken = token as Separator;
+                symbolToFind = spToken.GetValue().ToString();
+            }
+            // else Invalid Token
+
+            return terminalTable.IndexOf(symbolToFind);
+        }
     }
 }

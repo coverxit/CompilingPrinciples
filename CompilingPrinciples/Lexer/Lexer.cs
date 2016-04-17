@@ -31,14 +31,15 @@ namespace Lex
         private Stream stream;
         private int nextByte = ' ';
 
-        private SymbolTable symbolTable = new SymbolTable();
+        private SymbolTable symbolTable;
         public SymbolTable SymbolTable
         {
             get { return new SymbolTable(symbolTable); }
         }
 
-        public Lexer(Stream stream)
+        public Lexer(SymbolTable symbolTable, Stream stream)
         {
+            this.symbolTable = symbolTable;
             this.stream = stream;
 
             reserveKeyword("if", Tag.If);

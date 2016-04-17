@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using Lex;
+using Symbol;
 
 namespace ParseGenerator
 {
@@ -12,6 +13,11 @@ namespace ParseGenerator
     {
         private ParseTable<T> parseTable;
         private Grammar grammar;
+
+        public Grammar Grammar
+        {
+            get { return grammar; }
+        }
 
         public Parser(Grammar grammar, ParseTable<T> pt)
         {
@@ -21,8 +27,9 @@ namespace ParseGenerator
         
         public List<string> Parse(Stream input)
         {
-            var lexer = new Lexer(input);
+            var lexer = new Lexer(grammar.SymbolTable, input);
             var parseStack = new Stack<int>();
+            var symbolStack = new Stack<ProductionSymbol>();
             var ops = new List<string>();
             var accept = false;
             
@@ -31,10 +38,15 @@ namespace ParseGenerator
 
             // Push initial state
             parseStack.Push(parseTable.InitialState);
+            symbolStack.Push(grammar.EndMarker);
 
             // Repeat forever
             while (!accept)
             {
+                foreach (var s in symbolStack.Reverse())
+                    Console.Write(s.ToString() + " ");
+                Console.WriteLine();
+
                 // let s be the state on top of the stack
                 var top = parseStack.Peek();
                 var action = parseTable.Action[top][new ProductionSymbol(grammar, token)].PreferEntry;
@@ -45,6 +57,7 @@ namespace ParseGenerator
                     case ActionTableEntry.ActionType.Shift:
                         // push t onto stack
                         parseStack.Push(action.ShiftState);
+                        symbolStack.Push(new ProductionSymbol(grammar, token));
 
                         // let a be the next input symbol
                         token = lexer.ScanNextToken();
@@ -54,15 +67,25 @@ namespace ParseGenerator
 
                     // ACTION[s, a] = reduce A -> β
                     case ActionTableEntry.ActionType.Reduce:
+                        var betaLength = action.ReduceProduction.Right.Count;
+
+                        // Check if β = ε, if so, |β| = 0
+                        if (action.ReduceProduction.Right.Count == 1 && action.ReduceProduction.Right[0].Equals(grammar.Epsilon))
+                            betaLength = 0;
+
                         // pop |β| symbols off the stack
-                        for (int i = 0; i < action.ReduceProduction.Right.Count; i++)
+                        for (int i = 0; i < betaLength; i++)
+                        {
                             parseStack.Pop();
+                            symbolStack.Pop();
+                        }
 
                         // let state t now be on top the stack
                         top = parseStack.Peek();
 
                         // push GOTO[t, A] onto stack
                         parseStack.Push(parseTable.Goto[top][action.ReduceProduction.Left]);
+                        symbolStack.Push(action.ReduceProduction.Left);
 
                         // output the production
                         ops.Add(action.ToString());

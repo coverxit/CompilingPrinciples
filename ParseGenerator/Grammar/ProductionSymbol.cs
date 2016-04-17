@@ -41,11 +41,7 @@ namespace ParseGenerator
         {
             this.grammar = grammar;          
             this.type = SymbolType.Terminal;
-
-            if (token is Word)
-                this.id = grammar.TerminalTable.IndexOf("id");
-            else
-                this.id = grammar.TerminalTable.IndexOf(token.GetValue().ToString());
+            this.id = grammar.GetIdInTerminalTable(token);
         }
 
         public ProductionSymbol(ProductionSymbol rhs)

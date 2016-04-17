@@ -33,8 +33,9 @@ namespace ParseGenerator
                 }
 
                 // Foreach [A -> α·, a] in Ii, A is not S', set ACTION[i, a] to "reduce A -> α"
+                // Dont forget check [A -> ·, a].
                 foreach (var item in e.value.Where(i => !i.Production.Left.Equals(collection.Grammar.FirstProduction.Left))
-                                            .Where(i => i.SymbolAfterDot.Equals(collection.Grammar.EndMarker)))
+                                            .Where(i => i.SymbolAfterDot.Equals(collection.Grammar.EndMarker) || i.SymbolAfterDot.Equals(collection.Grammar.Epsilon)))
                     AddToActionTable(e.index, item.Lookahead, ActionTableEntry.Reduce(item.Production));
 
                 // If [S' -> S·, $] in Ii, then set ACTION[i, $] to "accept"

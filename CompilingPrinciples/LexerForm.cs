@@ -17,6 +17,7 @@ namespace CompilingPrinciples
     public partial class LexerForm : Form
     {
         private const int ErrorIndicatorIndex = 8;
+        private SymbolTable symbolTable = new SymbolTable();
 
         public LexerForm()
         {
@@ -77,7 +78,7 @@ namespace CompilingPrinciples
             byte[] array = Encoding.ASCII.GetBytes(textCode.Text);
             MemoryStream stream = new MemoryStream(array);
 
-            Lexer lexer = new Lexer(stream);
+            Lexer lexer = new Lexer(symbolTable, stream);
             Token token = null;
 
             int curLine = 0;

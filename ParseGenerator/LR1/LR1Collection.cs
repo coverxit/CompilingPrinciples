@@ -51,13 +51,12 @@ namespace ParseGenerator
                         // Add [B -> ·γ, b] into closure
                         var item = new LR1Item(grammar, prod, 0, b);
                         
-                        // If B -> ·γ is something like B -> ·Cβ, then push into stack
+                        // If [B -> ·γ, b] is something like [B -> ·Cβ, b], then push into stack
                         if (!closure.Contains(item) && item.SymbolAfterDot.Type == ProductionSymbol.SymbolType.NonTerminal)
                             computeStack.Push(item);
 
                         closure.Add(item);
                     }
-
             }
 
             return closure;
@@ -86,7 +85,7 @@ namespace ParseGenerator
                 var topSet = computeStack.Pop();
 
                 // For each grammaer symbol X
-                foreach (var sym in grammar.Symbols)
+                foreach (var sym in grammar.GrammarSymbols)
                 {
                     var gotoSet = Goto(topSet, sym);
 

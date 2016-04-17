@@ -45,7 +45,9 @@ namespace ParseGenerator
         {
             var gotoSet = new HashSet<LR0Item>();
             foreach (var item in I.Where(e => e.SymbolAfterDot.Equals(X)))
-                gotoSet.Add(new LR0Item(grammar, item.Production, item.DotPosition + 1));
+                gotoSet.Add(new LR0Item(grammar, item.Production,
+                                        // Special check for ε
+                                        X.Equals(grammar.Epsilon) ? item.DotPosition : item.DotPosition + 1));
             return Closure(gotoSet);
         }
 
@@ -64,7 +66,7 @@ namespace ParseGenerator
                 var topSet = computeStack.Pop();
 
                 // For each grammaer symbol X
-                foreach (var sym in grammar.Symbols)
+                foreach (var sym in grammar.GrammarSymbols)
                 {
                     var gotoSet = Goto(topSet, sym);
 

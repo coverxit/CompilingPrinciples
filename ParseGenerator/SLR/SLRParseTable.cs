@@ -32,8 +32,9 @@ namespace ParseGenerator
 
                 // Foreach [A -> α·] in Ii, set ACTION[i, a] to "reduce A -> α"
                 // for all a in FOLLOW(A), A is not S'
+                // Dont forget check [A -> ·, a].
                 foreach (var item in e.value.Where(i => !i.Production.Left.Equals(collection.Grammar.FirstProduction.Left))
-                                            .Where(i => i.SymbolAfterDot.Equals(collection.Grammar.EndMarker)))
+                                            .Where(i => i.SymbolAfterDot.Equals(collection.Grammar.EndMarker) || i.SymbolAfterDot.Equals(collection.Grammar.Epsilon)))
                 {
                     // For all a in Follow(A), set ACTION[i, a] to "reduct A -> α"
                     foreach (var a in collection.Follow.Get(item.Production.Left))

@@ -38,10 +38,6 @@ namespace ParseGenerator
             this.grammar = grammar;
             this.production = prod;
             this.dotPos = dotPos;
-
-            // A -> ε generates [A -> ·]
-            if (production.Right.Count == 1 && prod.Right[0].Equals(grammar.Epsilon))
-                this.dotPos = 1;
         }
 
         public void SetDotPosition(int pos)

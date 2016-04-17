@@ -91,6 +91,11 @@ namespace Lex
     {
         protected int idInSymbolTable;
 
+        public int IdInSymbolTable
+        {
+            get { return idInSymbolTable; }
+        }
+
         public Word(int id, Tag tag) : base(tag) { this.idInSymbolTable = id; }
 
         public override dynamic GetValue() { return String.Format("symbol table id: {0}", idInSymbolTable); }

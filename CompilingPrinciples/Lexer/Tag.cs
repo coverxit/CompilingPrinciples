@@ -20,7 +20,7 @@ namespace Lex
         Do = 9,
 
         VarType = 10,
-
+        
         EndMarker = 65535,
         InvalidToken = 65536,
     }

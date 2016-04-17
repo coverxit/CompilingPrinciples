@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using Symbol;
 
 namespace ParseGenerator
 {
@@ -11,8 +12,9 @@ namespace ParseGenerator
     {
         private static void TestFirstFollow()
         {
-            Grammar grammar = new Grammar();
-            using (var stream = new FileStream("Grammar-4.28.txt", FileMode.Open))
+            Grammar grammar = new Grammar(new SymbolTable());
+            using (var stream = new FileStream("Grammar-Ex.txt", FileMode.Open))
+            //using (var stream = new FileStream("Grammar-4.28.txt", FileMode.Open))
                 grammar.Parse(stream);
 
             FirstFollowGenerator gen = new FirstFollowGenerator(grammar);
@@ -70,7 +72,9 @@ namespace ParseGenerator
 
         private static void TestSLRParser()
         {
-            Grammar grammar = new Grammar();
+            var symbolTable = new SymbolTable();
+
+            Grammar grammar = new Grammar(symbolTable);
             using (var stream = new FileStream("Grammar-4.40.txt", FileMode.Open))
                 grammar.Parse(stream);
 
@@ -136,7 +140,8 @@ namespace ParseGenerator
 
         private static void TestLR1Parser()
         {
-            Grammar grammar = new Grammar();
+            var symbolTable = new SymbolTable();
+            Grammar grammar = new Grammar(symbolTable);
             using (var stream = new FileStream("Grammar-4.55.txt", FileMode.Open))
                 grammar.Parse(stream);
 
@@ -186,7 +191,8 @@ namespace ParseGenerator
 
         private static void TestExperiment_SLR()
         {
-            Grammar grammar = new Grammar();
+            var symbolTable = new SymbolTable();
+            Grammar grammar = new Grammar(symbolTable);
             using (var stream = new FileStream("Grammar-Ex.txt", FileMode.Open))
                 grammar.Parse(stream);
 
@@ -265,12 +271,24 @@ namespace ParseGenerator
                                         Console.WriteLine(it);
                             }
                         }
-                            
 
+                        /*
+                        foreach (var e in pend.value.Value[term].Entries.Select((value, index) => new { index, value })
+                                                                        .Where(e => e.value.Type == 
+                                                                        (term.ToString() == ";" ? ActionTableEntry.ActionType.Reduce : ActionTableEntry.ActionType.Shift )))
+                        {
+                            pend.value.Value[term].SetPreferEntry(pend.value.Value[term].Entries.ToList()[e.index]);
+                            Console.WriteLine("Choosed: " + pend.value.Value[term].PreferEntry);
+                        }
+                        */
+                        
+                        
                         int sel = int.Parse(Console.ReadLine());
                         pend.value.Value[term].SetPreferEntry(pend.value.Value[term].Entries.ToList()[sel]);
+                        
                     }
             
+            /*
             Console.WriteLine("================== Action Table ===================================");
             for (int i = 0; i < slrPT.StateCount; i++)
             {
@@ -286,13 +304,23 @@ namespace ParseGenerator
                     Console.WriteLine("GOTO[{0}, {1}]={2}", i, nonTerm, slrPT.Goto[i][nonTerm]);
                 Console.WriteLine("===============================================================");
             }
+            */
+
+            Console.WriteLine("=============== Parse Sample Code ===================================");
+           
+            var parser = new Parser<LR0Item>(grammar, slrPT);
+            var ops = parser.Parse(new FileStream("SampleCode.lc", FileMode.Open));
+
+            foreach (var op in ops)
+                Console.WriteLine(op);
 
             Console.ReadLine();
         }
 
         private static void TestExperiment_LR1()
         {
-            Grammar grammar = new Grammar();
+            var symbolTable = new SymbolTable();
+            Grammar grammar = new Grammar(symbolTable);
             using (var stream = new FileStream("Grammar-Ex.txt", FileMode.Open))
                 grammar.Parse(stream);
 
@@ -374,10 +402,24 @@ namespace ParseGenerator
                         }
 
 
+                        /*
+                        foreach (var e in pend.value.Value[term].Entries.Select((value, index) => new { index, value })
+                                                                        .Where(e => e.value.Type ==
+                                                                        (term.ToString() == ";" ? ActionTableEntry.ActionType.Reduce : ActionTableEntry.ActionType.Shift)))
+                        {
+                            pend.value.Value[term].SetPreferEntry(pend.value.Value[term].Entries.ToList()[e.index]);
+                            Console.WriteLine("Choosed: " + pend.value.Value[term].PreferEntry);
+                        }
+                        */
+                        
+
+                        
                         int sel = int.Parse(Console.ReadLine());
                         pend.value.Value[term].SetPreferEntry(pend.value.Value[term].Entries.ToList()[sel]);
+                        
                     }
 
+            /*
             Console.WriteLine("================== Action Table ===================================");
             for (int i = 0; i < LR1PT.StateCount; i++)
             {
@@ -393,13 +435,24 @@ namespace ParseGenerator
                     Console.WriteLine("GOTO[{0}, {1}]={2}", i, nonTerm, LR1PT.Goto[i][nonTerm]);
                 Console.WriteLine("===============================================================");
             }
+            */
+
+            Console.WriteLine("=============== Parse Sample Code ===================================");
+            var parser = new Parser<LR1Item>(grammar, LR1PT);
+            var ops = parser.Parse(new FileStream("SampleCode.lc", FileMode.Open));
+
+            foreach (var op in ops)
+                Console.WriteLine(op);
+
+            Console.ReadLine();
 
             Console.ReadLine();
         }
 
         private static void TestDanglingElse_SLR()
         {
-            Grammar grammar = new Grammar();
+            var symbolTable = new SymbolTable();
+            Grammar grammar = new Grammar(symbolTable);
             //using (var stream = new FileStream("Grammar-4.3.txt", FileMode.Open))
             using (var stream = new FileStream("Grammar-4.67.txt", FileMode.Open))
                 grammar.Parse(stream);
@@ -470,7 +523,8 @@ namespace ParseGenerator
 
         private static void TestDanglingElse_LR1()
         {
-            Grammar grammar = new Grammar();
+            var symbolTable = new SymbolTable();
+            Grammar grammar = new Grammar(symbolTable);
             using (var stream = new FileStream("Grammar-4.3.txt", FileMode.Open))
             //using (var stream = new FileStream("Grammar-4.67.txt", FileMode.Open))
                 grammar.Parse(stream);
@@ -544,11 +598,11 @@ namespace ParseGenerator
             //TestFirstFollow();
             //TestSLRParser();
             //TestLR1Parser();
-            //TestDanglingElse_SLR();
+            TestDanglingElse_SLR();
             //TestDanglingElse_LR1();
 
             //TestExperiment_SLR();
-            TestExperiment_LR1();
+            //TestExperiment_LR1();
         }
     }
 }

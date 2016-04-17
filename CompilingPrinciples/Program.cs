@@ -18,7 +18,7 @@ namespace CompilingPrinciples
             Console.WriteLine("----------------Lexer Test---------------");
             using (var stream = new FileStream("test.txt", FileMode.Open))
             {
-                Lexer lexer = new Lexer(stream);
+                Lexer lexer = new Lexer(new SymbolTable(), stream);
                 Token token = null;
                 int curLine = 1;
 
