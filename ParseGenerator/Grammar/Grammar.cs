@@ -240,7 +240,8 @@ namespace ParseGenerator
                 var spToken = token as Separator;
                 symbolToFind = spToken.GetValue().ToString();
             }
-            // else Invalid Token
+            else // InvalidToken
+                throw new ApplicationException("Invalid Token.");
 
             return terminalTable.IndexOf(symbolToFind);
         }
