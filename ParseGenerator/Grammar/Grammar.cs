@@ -225,7 +225,7 @@ namespace ParseGenerator
                 symbolToFind = "$";
             else if (token is Lex.Decimal)
                 symbolToFind = "decimal";
-            if (token is Word)
+            else if (token is Word)
             {
                 var wordToken = token as Word;
                 symbolToFind = wordToken is Identifier ? "id" : symbolTable.GetSymbol(wordToken.IdInSymbolTable);

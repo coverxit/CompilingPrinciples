@@ -36,6 +36,7 @@ namespace ParseGenerator
     {
         private ParseTable<T> parseTable;
         private Grammar grammar;
+        private List<InvalidToken> invalidTokens = new List<InvalidToken>();
 
         public Grammar Grammar
         {
@@ -46,6 +47,11 @@ namespace ParseGenerator
         {
             this.grammar = grammar;
             this.parseTable = pt;
+        }
+
+        private string ErrorRoutine(int state, ProductionSymbol symbol)
+        {
+            throw new NotImplementedException();
         }
         
         public List<Tuple<string, string>> Parse(Stream input)
@@ -66,9 +72,24 @@ namespace ParseGenerator
             // Repeat forever
             while (!accept)
             {
+                // check token first
+                if (token is InvalidToken)
+                {
+                    invalidTokens.Add(token as InvalidToken);
+
+                    // Panic-mode Error Recovery
+                    while (!(token is Separator))
+                    {
+                        token = lexer.ScanNextToken();
+                        if (token is InvalidToken)
+                            invalidTokens.Add(token as InvalidToken);
+                    }
+                }
+
                 // let s be the state on top of the stack
                 var top = parseStack.Peek();
-                var action = parseTable.Action[top][new ProductionSymbol(grammar, token)].PreferEntry;
+                var symbol = new ProductionSymbol(grammar, token);
+                var action = parseTable.Action[top][symbol].PreferEntry;
 
                 switch (action.Type)
                 {
@@ -118,7 +139,8 @@ namespace ParseGenerator
 
                     // ACTION[s, a] = error
                     case ActionTableEntry.ActionType.Error:
-                        throw new ApplicationException("Parser Error.");
+                        ops.Add(new Tuple<string, string>(ErrorRoutine(top, symbol), symbolStack.ToString()));
+                        break;
                 }
             }
 
