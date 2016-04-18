@@ -248,6 +248,7 @@ namespace ParseGenerator
 
             var LR0coll = new LR0Collection(grammar);
             var slrPT = SLRParseTable.Create(LR0coll);
+            Console.WriteLine("State count: " + slrPT.StateCount);
             Console.WriteLine("======================== Select Prefer Entry =======================");
             foreach (var pend in slrPT.Action.Select((value, index) => new { index, value }))
                 foreach (var term in grammar.TerminalsWithEndMarker)
@@ -315,8 +316,9 @@ namespace ParseGenerator
             var parser = new Parser<LR0Item>(grammar, slrPT);
             var ops = parser.Parse(new FileStream("SampleCode.lc", FileMode.Open));
 
+            Console.WriteLine("{0,-40} {1}", "SYMBOLS", "ACTION");
             foreach (var op in ops)
-                Console.WriteLine(op);
+                Console.WriteLine("{0,-40} {1}", op.Item2, op.Item1);
 
             Console.ReadLine();
         }
@@ -454,9 +456,7 @@ namespace ParseGenerator
             var ops = parser.Parse(new FileStream("SampleCode.lc", FileMode.Open));
 
             foreach (var op in ops)
-                Console.WriteLine(op);
-
-            Console.ReadLine();
+                Console.WriteLine("{0,20} {1}", op.Item2, op.Item1);
 
             Console.ReadLine();
         }
@@ -613,8 +613,8 @@ namespace ParseGenerator
             //TestDanglingElse_SLR();
             //TestDanglingElse_LR1();
 
-            //TestExperiment_SLR();
-            TestExperiment_LR1();
+            TestExperiment_SLR();
+            //TestExperiment_LR1();
         }
     }
 }

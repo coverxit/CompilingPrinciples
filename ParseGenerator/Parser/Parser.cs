@@ -9,6 +9,29 @@ using Symbol;
 
 namespace ParseGenerator
 {
+    public class SymbolStack
+    {
+        private Stack<ProductionSymbol> symbolStack = new Stack<ProductionSymbol>();
+
+        public void Push(ProductionSymbol sym)
+        {
+            symbolStack.Push(sym);
+        }
+
+        public ProductionSymbol Pop()
+        {
+            return symbolStack.Pop();
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (var e in symbolStack.Reverse())
+                sb.Append(e.ToString() + " ");
+            return sb.ToString(0, sb.Length - 1);
+        }
+    }
+
     public class Parser<T> where T: LR0Item
     {
         private ParseTable<T> parseTable;
@@ -25,12 +48,12 @@ namespace ParseGenerator
             this.parseTable = pt;
         }
         
-        public List<string> Parse(Stream input)
+        public List<Tuple<string, string>> Parse(Stream input)
         {
             var lexer = new Lexer(grammar.SymbolTable, input);
             var parseStack = new Stack<int>();
-            var symbolStack = new Stack<ProductionSymbol>();
-            var ops = new List<string>();
+            var symbolStack = new SymbolStack();
+            var ops = new List<Tuple<string, string>>();
             var accept = false;
             
             // Let a be the first symbol of w$
@@ -43,10 +66,6 @@ namespace ParseGenerator
             // Repeat forever
             while (!accept)
             {
-                foreach (var s in symbolStack.Reverse())
-                    Console.Write(s.ToString() + " ");
-                Console.WriteLine();
-
                 // let s be the state on top of the stack
                 var top = parseStack.Peek();
                 var action = parseTable.Action[top][new ProductionSymbol(grammar, token)].PreferEntry;
@@ -62,7 +81,7 @@ namespace ParseGenerator
                         // let a be the next input symbol
                         token = lexer.ScanNextToken();
 
-                        ops.Add(action.ToString());
+                        ops.Add(new Tuple<string, string>(action.ToString(), symbolStack.ToString()));
                         break;
 
                     // ACTION[s, a] = reduce A -> β
@@ -88,13 +107,13 @@ namespace ParseGenerator
                         symbolStack.Push(action.ReduceProduction.Left);
 
                         // output the production
-                        ops.Add(action.ToString());
+                        ops.Add(new Tuple<string, string>(action.ToString(), symbolStack.ToString()));
                         break;
 
                     // ACTION[s, a] = accept
                     case ActionTableEntry.ActionType.Accept:
                         accept = true;
-                        ops.Add(action.ToString());
+                        ops.Add(new Tuple<string, string>(action.ToString(), symbolStack.ToString()));
                         break;
 
                     // ACTION[s, a] = error
