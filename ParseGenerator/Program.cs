@@ -613,8 +613,8 @@ namespace ParseGenerator
             //TestDanglingElse_SLR();
             //TestDanglingElse_LR1();
 
-            TestExperiment_SLR();
-            //TestExperiment_LR1();
+            //TestExperiment_SLR();
+            TestExperiment_LR1();
         }
     }
 }
