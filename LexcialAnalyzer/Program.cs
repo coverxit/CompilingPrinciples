@@ -7,7 +7,7 @@ using System.IO;
 using System.Windows.Forms;
 
 using LexicalAnalyzer;
-using Symbol;
+using SymbolEnvironment;
 
 namespace CompilingPrinciples
 {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using LexicalAnalyzer;
 
-namespace Symbol
+namespace SymbolEnvironment
 {
     public class SymbolTableEntry
     {
