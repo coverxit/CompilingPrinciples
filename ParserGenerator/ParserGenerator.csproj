@@ -7,8 +7,8 @@
     <ProjectGuid>{EC6F8CBF-8E6D-4273-AC42-B4B484B7422B}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ParseGenerator</RootNamespace>
-    <AssemblyName>ParseGenerator</AssemblyName>
+    <RootNamespace>ParserGenerator</RootNamespace>
+    <AssemblyName>ParserGenerator</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -63,6 +63,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LexcialAnalyzer\LexcialAnalyzer.csproj">
+      <Project>{48a30c7a-21a5-459b-8cb9-3ebbb921aaf8}</Project>
+      <Name>LexcialAnalyzer</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
