@@ -8,6 +8,6 @@ namespace ParserGenerator
 {
     public interface IParserErrorRoutine
     {
-        string ErrorRoutine(int state, ProductionSymbol symbol);
+        string ErrorRoutine(int state, ProductionSymbol symbol, Stack<int> parseStack, SymbolStack symbolStack);
     }
 }

@@ -10,34 +10,6 @@ using SymbolEnvironment;
 
 namespace ParserGenerator
 {
-    public class SymbolStack
-    {
-        private Stack<ProductionSymbol> symbolStack = new Stack<ProductionSymbol>();
-
-        public void Push(ProductionSymbol sym)
-        {
-            symbolStack.Push(sym);
-        }
-
-        public ProductionSymbol Pop()
-        {
-            return symbolStack.Pop();
-        }
-
-        public ProductionSymbol Peek()
-        {
-            return symbolStack.Peek();
-        }
-
-        public override string ToString()
-        {
-            StringBuilder sb = new StringBuilder();
-            foreach (var e in symbolStack.Reverse())
-                sb.Append(e.ToString() + " ");
-            return sb.ToString(0, sb.Length - 1);
-        }
-    }
-
     public class Parser<T> where T: LR0Item
     {
         private ParseTable<T> parseTable;
@@ -142,7 +114,10 @@ namespace ParserGenerator
 
                     // ACTION[s, a] = error
                     case ActionTableEntry.ActionType.Error:
-                        ops.Add(new Tuple<string, string>(errRoutine.ErrorRoutine(top, symbol), symbolStack.ToString()));
+                        if (errRoutine != null)
+                            throw new ApplicationException("Syntax Error at " + token.Line + ":" + token.Column);
+
+                        ops.Add(new Tuple<string, string>(errRoutine.ErrorRoutine(top, symbol, parseStack, symbolStack), symbolStack.ToString()));
                         break;
                 }
             }
