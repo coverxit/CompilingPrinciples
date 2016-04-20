@@ -5,9 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
+using LexicalAnalyzer;
 using SymbolEnvironment;
+using SyntaxAnalyzer;
 
-namespace ParserGenerator
+namespace CompilingPrinciples
 {
     class Program
     {
@@ -456,8 +458,9 @@ namespace ParserGenerator
             var parser = new Parser<LR1Item>(symbolTable, grammar, LR1PT, null);
             var ops = parser.Parse(new FileStream("SampleCode.lc", FileMode.Open));
 
+            Console.WriteLine("{0,-40} {1}", "SYMBOLS", "ACTION");
             foreach (var op in ops)
-                Console.WriteLine("{0,20} {1}", op.Item2, op.Item1);
+                Console.WriteLine("{0,-40} {1}", op.Item2, op.Item1);
 
             Console.ReadLine();
         }
@@ -614,8 +617,8 @@ namespace ParserGenerator
             //TestDanglingElse_SLR();
             //TestDanglingElse_LR1();
 
-            TestExperiment_SLR();
-            //TestExperiment_LR1();
+            //TestExperiment_SLR();
+            TestExperiment_LR1();
         }
     }
 }

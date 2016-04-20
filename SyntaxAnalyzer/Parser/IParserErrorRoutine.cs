@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using LexicalAnalyzer;
 
-namespace ParserGenerator
+namespace SyntaxAnalyzer
 {
     public interface IParserErrorRoutine
     {

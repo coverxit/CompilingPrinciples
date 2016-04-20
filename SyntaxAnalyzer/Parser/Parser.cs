@@ -8,7 +8,7 @@ using System.IO;
 using LexicalAnalyzer;
 using SymbolEnvironment;
 
-namespace ParserGenerator
+namespace SyntaxAnalyzer
 {
     public class Parser<T> where T: LR0Item
     {
