@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ParseGenerator
+namespace ParserGenerator
 {
     public class LR1ParseTable : ParseTable<LR1Item>
     {

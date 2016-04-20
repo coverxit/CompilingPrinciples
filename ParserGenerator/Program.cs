@@ -7,7 +7,7 @@ using System.IO;
 
 using SymbolEnvironment;
 
-namespace ParseGenerator
+namespace ParserGenerator
 {
     class Program
     {

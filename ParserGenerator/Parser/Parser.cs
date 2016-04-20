@@ -8,7 +8,7 @@ using System.IO;
 using LexicalAnalyzer;
 using SymbolEnvironment;
 
-namespace ParseGenerator
+namespace ParserGenerator
 {
     public class SymbolStack
     {

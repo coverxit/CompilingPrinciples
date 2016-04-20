@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using LexicalAnalyzer;
 
-namespace ParseGenerator
+namespace ParserGenerator
 {
     public class ProductionSymbol
     {
