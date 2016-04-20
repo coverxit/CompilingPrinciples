@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-using Lex;
+using LexicalAnalyzer;
 using Symbol;
 
 namespace ParseGenerator
@@ -41,11 +41,16 @@ namespace ParseGenerator
     {
         private ParseTable<T> parseTable;
         private Grammar grammar;
-        private List<InvalidToken> invalidTokens = new List<InvalidToken>();
+        private List<Tuple<int, int>> invalidRegions = new List<Tuple<int, int>>();
 
         public Grammar Grammar
         {
             get { return grammar; }
+        }
+
+        public List<Tuple<int, int>> InvalidRegions
+        {
+            get { return new List<Tuple<int, int>>(invalidRegions); }
         }
 
         public Parser(Grammar grammar, ParseTable<T> pt)
@@ -77,18 +82,16 @@ namespace ParseGenerator
             // Repeat forever
             while (!accept)
             {
-                // check token first
+                // process invalid token first
                 if (token is InvalidToken)
                 {
-                    invalidTokens.Add(token as InvalidToken);
+                    int regionStart = token.Position;
 
                     // Panic-mode Error Recovery
                     while (!(token is Separator))
-                    {
                         token = lexer.ScanNextToken();
-                        if (token is InvalidToken)
-                            invalidTokens.Add(token as InvalidToken);
-                    }
+
+                    invalidRegions.Add(new Tuple<int, int>(regionStart, token.Position - regionStart));
                 }
 
                 // let s be the state on top of the stack

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-using Lex;
+using LexicalAnalyzer;
 using Symbol;
 
 namespace ParseGenerator
@@ -223,7 +223,7 @@ namespace ParseGenerator
 
             if (token is EndMarker)
                 symbolToFind = "$";
-            else if (token is Lex.Decimal)
+            else if (token is LexicalAnalyzer.Decimal)
                 symbolToFind = "decimal";
             else if (token is Word)
             {

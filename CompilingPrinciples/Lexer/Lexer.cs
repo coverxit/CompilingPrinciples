@@ -6,7 +6,7 @@ using System.IO;
 using System.Diagnostics;
 using Symbol;
 
-namespace Lex
+namespace LexicalAnalyzer
 {
     public class Lexer
     {

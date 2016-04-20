@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 
-using Lex;
+using LexicalAnalyzer;
 using Symbol;
 
 namespace CompilingPrinciples
@@ -126,7 +126,7 @@ namespace CompilingPrinciples
                 // Set item style
                 if (token is Operator || token is Separator)
                     item.ForeColor = Color.Gray;
-                else if (token is Lex.Decimal)
+                else if (token is LexicalAnalyzer.Decimal)
                     item.ForeColor = Color.ForestGreen;
                 else if (token is InvalidToken)
                     item.ForeColor = Color.Red;
@@ -156,7 +156,7 @@ namespace CompilingPrinciples
                 item.Text = s.index.ToString();
                 item.SubItems.Add(s.value.Lexeme);
 
-                if (s.value.Tag != Lex.Tag.Identifier)
+                if (s.value.Tag != LexicalAnalyzer.Tag.Identifier)
                     item.Group = listSymbols.Groups["lvGroupKeyword"];
                 else
                     item.Group = listSymbols.Groups["lvGroupIdentifier"];

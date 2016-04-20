@@ -65,9 +65,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CompilingPrinciples\CompilingPrinciples.csproj">
+    <ProjectReference Include="..\CompilingPrinciples\LexcialAnalyzer.csproj">
       <Project>{48a30c7a-21a5-459b-8cb9-3ebbb921aaf8}</Project>
-      <Name>CompilingPrinciples</Name>
+      <Name>LexcialAnalyzer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
