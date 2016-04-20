@@ -43,7 +43,7 @@ namespace ParserGenerator
             var accept = false;
             
             // Let a be the first symbol of w$
-            Token token = lexer.ScanNextToken();
+            Token token = lexer.ScanNextToken(), prevToken = null;
 
             // Push initial state
             parseStack.Push(parseTable.InitialState);
@@ -78,6 +78,7 @@ namespace ParserGenerator
                         symbolStack.Push(new ProductionSymbol(grammar, token));
 
                         // let a be the next input symbol
+                        prevToken = token;
                         token = lexer.ScanNextToken();
 
                         ops.Add(new Tuple<string, string>(action.ToString(), symbolStack.ToString()));
@@ -114,10 +115,10 @@ namespace ParserGenerator
 
                     // ACTION[s, a] = error
                     case ActionTableEntry.ActionType.Error:
-                        if (errRoutine != null)
-                            throw new ApplicationException("Syntax Error at " + token.Line + ":" + token.Column);
+                        if (errRoutine == null)
+                            throw new ApplicationException("Syntax Error near Line " + token.Line);
 
-                        ops.Add(new Tuple<string, string>(errRoutine.ErrorRoutine(top, symbol, parseStack, symbolStack), symbolStack.ToString()));
+                        ops.Add(new Tuple<string, string>(errRoutine.ErrorRoutine(top, symbol, prevToken, parseStack, symbolStack), symbolStack.ToString()));
                         break;
                 }
             }

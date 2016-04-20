@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using LexicalAnalyzer;
+
 namespace ParserGenerator
 {
     public interface IParserErrorRoutine
     {
-        string ErrorRoutine(int state, ProductionSymbol symbol, Stack<int> parseStack, SymbolStack symbolStack);
+        string ErrorRoutine(int state, ProductionSymbol symbol, Token previousToken, Stack<int> parseStack, SymbolStack symbolStack);
     }
 }
