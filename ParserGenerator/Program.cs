@@ -130,7 +130,7 @@ namespace ParserGenerator
             sb.Append((byte)0xFF);
 
             byte[] array = Encoding.ASCII.GetBytes(sb.ToString());
-            var parser = new Parser<LR0Item>(grammar, parseTable, null);
+            var parser = new Parser<LR0Item>(symbolTable, grammar, parseTable, null);
             var ops = parser.Parse(new MemoryStream(array));
 
             foreach (var op in ops)
@@ -314,7 +314,7 @@ namespace ParserGenerator
 
             Console.WriteLine("=============== Parse Sample Code ===================================");
            
-            var parser = new Parser<LR0Item>(grammar, slrPT, null);
+            var parser = new Parser<LR0Item>(symbolTable, grammar, slrPT, null);
             var ops = parser.Parse(new FileStream("SampleCode.lc", FileMode.Open));
 
             Console.WriteLine("{0,-40} {1}", "SYMBOLS", "ACTION");
@@ -453,7 +453,7 @@ namespace ParserGenerator
             */
 
             Console.WriteLine("=============== Parse Sample Code ===================================");
-            var parser = new Parser<LR1Item>(grammar, LR1PT, null);
+            var parser = new Parser<LR1Item>(symbolTable, grammar, LR1PT, null);
             var ops = parser.Parse(new FileStream("SampleCode.lc", FileMode.Open));
 
             foreach (var op in ops)

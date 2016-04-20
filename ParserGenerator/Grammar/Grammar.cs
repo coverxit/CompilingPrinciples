@@ -35,12 +35,7 @@ namespace ParserGenerator
 
         private List<string> terminalTable, nonTerminalTable;
         private List<Production> productions;
-
         private SymbolTable symbolTable;
-        public SymbolTable SymbolTable
-        {
-            get { return symbolTable; }
-        }
 
         public List<string> TerminalTable
         {

@@ -14,6 +14,7 @@ namespace ParserGenerator
     {
         private ParseTable<T> parseTable;
         private Grammar grammar;
+        private SymbolTable symbolTable;
         private List<Tuple<int, int>> invalidRegions = new List<Tuple<int, int>>();
         private IParserErrorRoutine errRoutine;
 
@@ -27,8 +28,9 @@ namespace ParserGenerator
             get { return new List<Tuple<int, int>>(invalidRegions); }
         }
 
-        public Parser(Grammar grammar, ParseTable<T> pt, IParserErrorRoutine errRoutine)
+        public Parser(SymbolTable symbolTable, Grammar grammar, ParseTable<T> pt, IParserErrorRoutine errRoutine)
         {
+            this.symbolTable = symbolTable;
             this.grammar = grammar;
             this.parseTable = pt;
             this.errRoutine = errRoutine;
@@ -36,7 +38,7 @@ namespace ParserGenerator
         
         public List<Tuple<string, string>> Parse(Stream input)
         {
-            var lexer = new Lexer(grammar.SymbolTable, input);
+            var lexer = new Lexer(symbolTable, input);
             var parseStack = new Stack<int>();
             var symbolStack = new SymbolStack();
             var ops = new List<Tuple<string, string>>();
