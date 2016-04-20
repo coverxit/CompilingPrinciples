@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace SyntaxAnalyzer
 {
+    [Serializable]
     public abstract class ParseTable<T> where T: LR0Item
     {
         public const int ErrorGotoState = -1;

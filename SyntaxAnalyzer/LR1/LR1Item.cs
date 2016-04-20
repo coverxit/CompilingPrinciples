@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace SyntaxAnalyzer
 {
+    [Serializable]
     public class LR1Item : LR0Item
     {
         private ProductionSymbol lookahead;

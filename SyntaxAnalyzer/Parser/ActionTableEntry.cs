@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace SyntaxAnalyzer
 {
+    [Serializable]
     public class ActionTableEntry
     {
         public enum ActionType
@@ -17,18 +18,19 @@ namespace SyntaxAnalyzer
         }
 
         private ActionType type;
+        private int shiftState;
+        private Production reduceProd;
+
         public ActionType Type
         {
             get { return type; }
         }
 
-        private int shiftState;
         public int ShiftState
         {
             get { return shiftState; }
         }
 
-        private Production reduceProd;
         public Production ReduceProduction
         {
             get { return reduceProd; }
@@ -111,10 +113,10 @@ namespace SyntaxAnalyzer
         }
     }
 
+    [Serializable]
     public class MultipleEntry
     {
         private HashSet<ActionTableEntry> entries;
- 
         private ActionTableEntry preferEntry = null;
         
         public HashSet<ActionTableEntry> Entries

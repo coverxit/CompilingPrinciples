@@ -6,17 +6,20 @@ using System.Threading.Tasks;
 
 namespace SyntaxAnalyzer
 { 
+    [Serializable]
     public class Production
     {
+        [NonSerialized]
         private Grammar grammar;
 
         private int leftNonTerminalId;
+        private List<ProductionSymbol> rightExpression;
+
         public ProductionSymbol Left
         {
             get { return new ProductionSymbol(grammar, ProductionSymbol.SymbolType.NonTerminal, leftNonTerminalId); }
         }
-
-        private List<ProductionSymbol> rightExpression;
+     
         public List<ProductionSymbol> Right
         {
             get { return new List<ProductionSymbol>(rightExpression); }

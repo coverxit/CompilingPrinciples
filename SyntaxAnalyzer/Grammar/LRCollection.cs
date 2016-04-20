@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace SyntaxAnalyzer
 {
+    [Serializable]
     public abstract class LRCollection<T> where T: LR0Item
     {
+        [NonSerialized]
         protected Grammar grammar;
         public Grammar Grammar
         {

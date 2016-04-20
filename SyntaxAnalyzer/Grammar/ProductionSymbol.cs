@@ -8,6 +8,7 @@ using LexicalAnalyzer;
 
 namespace SyntaxAnalyzer
 {
+    [Serializable]
     public class ProductionSymbol
     {
         public enum SymbolType
@@ -18,6 +19,8 @@ namespace SyntaxAnalyzer
 
         private SymbolType type;
         private int id;
+
+        [NonSerialized]
         private Grammar grammar;
 
         public SymbolType Type

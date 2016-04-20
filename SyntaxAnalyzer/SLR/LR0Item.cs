@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 namespace SyntaxAnalyzer
 {
+    [Serializable]
     public class LR0Item
     {
+        [NonSerialized]
         protected Grammar grammar;
+
         protected Production production;
 
         public Production Production

@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace SyntaxAnalyzer
 {
+    [Serializable]
     public class FirstFollowSet
     {
+        [NonSerialized]
         private Grammar grammar;
 
         private Dictionary<ProductionSymbol, HashSet<ProductionSymbol>> sets;

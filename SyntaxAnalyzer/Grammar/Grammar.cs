@@ -10,9 +10,18 @@ using SymbolEnvironment;
 
 namespace SyntaxAnalyzer
 {
+    [Serializable]
     public class Grammar
     {
+        [NonSerialized]
         private ProductionSymbol epsilon, endMarker;
+    
+        private List<string> terminalTable, nonTerminalTable;
+        private List<Production> productions;
+
+        [NonSerialized]
+        private SymbolTable symbolTable;
+
         public ProductionSymbol Epsilon
         {
             get { return new ProductionSymbol(epsilon); }
@@ -32,10 +41,6 @@ namespace SyntaxAnalyzer
         {
             get { return new ProductionSymbol(productions[0].Left); }
         }
-
-        private List<string> terminalTable, nonTerminalTable;
-        private List<Production> productions;
-        private SymbolTable symbolTable;
 
         public List<string> TerminalTable
         {
