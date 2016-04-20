@@ -69,7 +69,7 @@ namespace ParseGenerator
                 foreach (var prod in prods)
                 {
                     // If X -> Epsilon exists, Epsilon is in First(X)
-                    if (prod.Right.Count == 1 && prod.Right[0].Equals(grammar.Epsilon))
+                    if (prod.IsEpsilonProduction())
                         firstSet.Put(curSymbol, grammar.Epsilon);
                     else
                     {
@@ -83,7 +83,7 @@ namespace ParseGenerator
                             // Avoid infinite recursion
                             if (sym.Equals(curSymbol))
                             {
-                                var epsilonProds = prods.Where(e => e.Right.Count == 1 && e.Right[0].Equals(grammar.Epsilon));
+                                var epsilonProds = prods.Where(e => e.IsEpsilonProduction());
                                 if (epsilonProds.Count() == 0) // No CurSymbol -> Epsilon, just break
                                     break;
                             }

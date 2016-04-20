@@ -23,6 +23,11 @@ namespace ParseGenerator
             return symbolStack.Pop();
         }
 
+        public ProductionSymbol Peek()
+        {
+            return symbolStack.Peek();
+        }
+
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
@@ -107,12 +112,9 @@ namespace ParseGenerator
 
                     // ACTION[s, a] = reduce A -> β
                     case ActionTableEntry.ActionType.Reduce:
-                        var betaLength = action.ReduceProduction.Right.Count;
-
                         // Check if β = ε, if so, |β| = 0
-                        if (action.ReduceProduction.Right.Count == 1 && action.ReduceProduction.Right[0].Equals(grammar.Epsilon))
-                            betaLength = 0;
-
+                        var betaLength = action.ReduceProduction.IsEpsilonProduction() ? 0 : action.ReduceProduction.Right.Count;
+                        
                         // pop |β| symbols off the stack
                         for (int i = 0; i < betaLength; i++)
                         {

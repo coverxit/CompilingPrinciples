@@ -40,6 +40,11 @@ namespace ParseGenerator
             this.leftNonTerminalId = id;
         }
 
+        public bool IsEpsilonProduction()
+        {
+            return Right.Count == 1 && Right[0].Equals(grammar.Epsilon);
+        }
+
         public void AppendRightSymbol(ProductionSymbol.SymbolType type, int id)
         {
             rightExpression.Add(new ProductionSymbol(grammar, type, id));
