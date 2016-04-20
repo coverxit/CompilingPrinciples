@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 using LexicalAnalyzer;
 using SymbolEnvironment;
@@ -323,6 +325,14 @@ namespace CompilingPrinciples
             foreach (var op in ops)
                 Console.WriteLine("{0,-40} {1}", op.Item2, op.Item1);
 
+            Console.WriteLine("==================== Serialization =================================");
+            var outStream = new FileStream("SLRParserContext.dat", FileMode.Create);
+            var formatter = new BinaryFormatter();
+
+            formatter.Serialize(outStream, grammar);
+            formatter.Serialize(outStream, slrPT);
+
+            Console.WriteLine("Done.");
             Console.ReadLine();
         }
 
@@ -609,6 +619,34 @@ namespace CompilingPrinciples
             Console.ReadLine();
         }
 
+        private static void TestDeserialization_SLR()
+        {
+            using (var se_stream = new FileStream("SLRParserContext.dat", FileMode.Open))
+            {
+                var formatter = new BinaryFormatter();
+
+                Console.WriteLine("==================== Deserialization =================================");
+                var newSymbolTable = new SymbolTable();
+
+                formatter.Context = new StreamingContext(StreamingContextStates.All, newSymbolTable);
+                var newGrammar = formatter.Deserialize(se_stream) as Grammar;
+
+                formatter.Context = new StreamingContext(StreamingContextStates.All, newGrammar);
+                var newPT = formatter.Deserialize(se_stream) as SLRParseTable;
+
+                Console.WriteLine("=============== Parse Sample Code ===================================");
+
+                var newParser = new Parser<LR0Item>(newSymbolTable, newGrammar, newPT, null);
+                var newOps = newParser.Parse(new FileStream("SampleCode.lc", FileMode.Open));
+
+                Console.WriteLine("{0,-40} {1}", "SYMBOLS", "ACTION");
+                foreach (var op in newOps)
+                    Console.WriteLine("{0,-40} {1}", op.Item2, op.Item1);
+            }
+
+            Console.ReadLine();
+        }
+
         static void Main(string[] args)
         {
             //TestFirstFollow();
@@ -618,7 +656,9 @@ namespace CompilingPrinciples
             //TestDanglingElse_LR1();
 
             //TestExperiment_SLR();
-            TestExperiment_LR1();
+            TestDeserialization_SLR();
+
+            //TestExperiment_LR1();
         }
     }
 }

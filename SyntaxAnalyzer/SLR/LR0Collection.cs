@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace SyntaxAnalyzer
 {
+    [Serializable]
     public class LR0Collection : LRCollection<LR0Item>
     {
         public LR0Collection(Grammar grammar) : base(grammar) { }

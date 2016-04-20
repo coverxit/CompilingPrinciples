@@ -66,6 +66,8 @@ namespace SyntaxAnalyzer
                     invalidRegions.Add(new Tuple<int, int>(regionStart, token.Position - regionStart));
                 }
 
+                Console.WriteLine(symbolStack.ToString());
+
                 // let s be the state on top of the stack
                 var top = parseStack.Peek();
                 var symbol = new ProductionSymbol(grammar, token);

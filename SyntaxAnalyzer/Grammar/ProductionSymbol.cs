@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.Serialization;
 
 using LexicalAnalyzer;
 
@@ -81,6 +82,12 @@ namespace SyntaxAnalyzer
                 default: // Should never be called
                     return null;
             }
+        }
+
+        [OnDeserialized]
+        private void OnDeserialized(StreamingContext context)
+        {
+            this.grammar = context.Context as Grammar;
         }
     }
 }

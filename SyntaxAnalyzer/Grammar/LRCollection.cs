@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.Serialization;
 
 namespace SyntaxAnalyzer
 {
@@ -42,5 +43,11 @@ namespace SyntaxAnalyzer
         public abstract HashSet<T> Goto(HashSet<T> I, ProductionSymbol X);
 
         public abstract HashSet<HashSet<T>> Items();
+
+        [OnDeserialized]
+        private void OnDeserialized(StreamingContext context)
+        {
+            this.grammar = context.Context as Grammar;
+        }
     }
 }

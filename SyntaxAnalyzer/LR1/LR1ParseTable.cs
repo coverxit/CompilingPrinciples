@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace SyntaxAnalyzer
 {
+    [Serializable]
     public class LR1ParseTable : ParseTable<LR1Item>
     {
         // Use Factory Pattern to create

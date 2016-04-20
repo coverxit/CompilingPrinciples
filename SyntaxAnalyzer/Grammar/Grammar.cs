@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Runtime.Serialization;
 
 using LexicalAnalyzer;
 using SymbolEnvironment;
@@ -13,7 +14,6 @@ namespace SyntaxAnalyzer
     [Serializable]
     public class Grammar
     {
-        [NonSerialized]
         private ProductionSymbol epsilon, endMarker;
     
         private List<string> terminalTable, nonTerminalTable;
@@ -244,6 +244,15 @@ namespace SyntaxAnalyzer
                 throw new ApplicationException("Invalid Token.");
 
             return terminalTable.IndexOf(symbolToFind);
+        }
+        
+        [OnDeserialized]
+        private void OnDeserialized(StreamingContext context)
+        {
+            this.symbolTable = context.Context as SymbolTable;
+
+            epsilon = new ProductionSymbol(this, ProductionSymbol.SymbolType.Terminal, terminalTable.IndexOf("@")); // ε
+            endMarker = new ProductionSymbol(this, ProductionSymbol.SymbolType.Terminal, terminalTable.IndexOf("$")); // $
         }
     }
 }

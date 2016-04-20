@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.Serialization;
 
 namespace SyntaxAnalyzer
 { 
@@ -85,6 +86,12 @@ namespace SyntaxAnalyzer
             }
             
             return sb.ToString();
+        }
+
+        [OnDeserialized]
+        private void OnDeserialized(StreamingContext context)
+        {
+            this.grammar = context.Context as Grammar;
         }
     }
 }

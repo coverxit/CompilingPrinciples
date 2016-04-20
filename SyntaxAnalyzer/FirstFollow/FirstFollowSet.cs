@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.Serialization;
 
 namespace SyntaxAnalyzer
 {
@@ -47,6 +48,12 @@ namespace SyntaxAnalyzer
             if (!sets.ContainsKey(sym))
                 sets.Add(sym, new HashSet<ProductionSymbol>());
             sets[sym].UnionWith(val);
+        }
+
+        [OnDeserialized]
+        private void OnDeserialized(StreamingContext context)
+        {
+            this.grammar = context.Context as Grammar;
         }
     }
 }
