@@ -17,6 +17,7 @@ namespace CompilingPrinciples
     public partial class LexerForm : Form
     {
         private const int ErrorIndicatorIndex = 8;
+        private const int TokenIndicatorIndex = 9;
         private SymbolTable symbolTable = new SymbolTable();
 
         public LexerForm()
@@ -54,6 +55,9 @@ namespace CompilingPrinciples
             textCode.Indicators[ErrorIndicatorIndex].Style = ScintillaNET.IndicatorStyle.Squiggle;
             textCode.Indicators[ErrorIndicatorIndex].HoverStyle = ScintillaNET.IndicatorStyle.CompositionThick;
             textCode.Indicators[ErrorIndicatorIndex].ForeColor = Color.Red;
+
+            textCode.Indicators[TokenIndicatorIndex].Style = ScintillaNET.IndicatorStyle.Box;
+            textCode.Indicators[TokenIndicatorIndex].ForeColor = Color.Blue;
         }
 
         private void btnOpen_Click(object sender, EventArgs e)
@@ -73,6 +77,9 @@ namespace CompilingPrinciples
             listSymbols.Items.Clear();
 
             textCode.IndicatorCurrent = ErrorIndicatorIndex;
+            textCode.IndicatorClearRange(0, textCode.Text.Length);
+
+            textCode.IndicatorCurrent = TokenIndicatorIndex;
             textCode.IndicatorClearRange(0, textCode.Text.Length);
             
             byte[] array = Encoding.ASCII.GetBytes(textCode.Text);
@@ -102,12 +109,19 @@ namespace CompilingPrinciples
                     item.SubItems.Add(lexer.SymbolTable.GetSymbol(token.GetValue()));
                 else if (token is InvalidToken)
                 {
-                    InvalidToken errToken = token as InvalidToken;
-                    textCode.IndicatorFillRange(errToken.Position, errToken.Length);
+                    textCode.IndicatorCurrent = ErrorIndicatorIndex;
+                    textCode.IndicatorFillRange(token.Position, token.Length);
                     item.SubItems.Add(token.GetValue().ToString());
                 }
                 else
                     item.SubItems.Add(token.GetValue().ToString());
+
+                // Set valid token indicator
+                if (!(token is InvalidToken))
+                {
+                    textCode.IndicatorCurrent = TokenIndicatorIndex;
+                    textCode.IndicatorFillRange(token.Position, token.Length);
+                }
 
                 // Set item style
                 if (token is Operator || token is Separator)

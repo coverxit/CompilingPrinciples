@@ -7,38 +7,7 @@ namespace Lex
 {
     public abstract class Token
     {
-        protected Tag tag;
-        public Tag Tag
-        {
-            get { return tag; }
-        }
-
-        public Token(Tag tag) { this.tag = tag; }
-
-        public abstract string GetTokenType();
-        public abstract dynamic GetValue();
-
-        public override string ToString()
-        {
-            return String.Format("<{0}, '{1}'>", GetTokenType(), GetValue());
-        }
-    }
-
-    public class EndMarker : Token
-    {
-        public EndMarker() : base(Tag.EndMarker) { }
-
-        public override string GetTokenType() { return "EndMarker"; }
-
-        public override dynamic GetValue() { return "$"; }
-
-        public override string ToString() { return GetValue().ToString(); }
-    }
-
-    public class InvalidToken : Token
-    {
-        private int line, col, pos, len;
-        private string token;
+        protected int line, col, pos, len;
 
         public int Line
         {
@@ -60,12 +29,51 @@ namespace Lex
             get { return len; }
         }
 
+        protected Tag tag;
+        public Tag Tag
+        {
+            get { return tag; }
+        }
+
+        public Token(int line, int col, int pos, int len, Tag tag)
+        {
+            this.line = line;
+            this.col = col;
+            this.pos = pos;
+            this.len = len;
+            this.tag = tag;
+        }
+
+        public abstract string GetTokenType();
+        public abstract dynamic GetValue();
+
+        public override string ToString()
+        {
+            return String.Format("<{0}, '{1}'>", GetTokenType(), GetValue());
+        }
+    }
+
+    public class EndMarker : Token
+    {
+        public EndMarker(int line, int col, int pos) : base(line, col, pos, 1, Tag.EndMarker) { }
+
+        public override string GetTokenType() { return "EndMarker"; }
+
+        public override dynamic GetValue() { return "$"; }
+
+        public override string ToString() { return GetValue().ToString(); }
+    }
+
+    public class InvalidToken : Token
+    {
+        private string token;
+
         public string Token
         {
             get { return token; }
         }
 
-        public InvalidToken(int line, int col, int pos, int len, string token) : base(Tag.InvalidToken)
+        public InvalidToken(int line, int col, int pos, int len, string token) : base(line, col, pos, len, Tag.InvalidToken)
         {
             this.line = line;
             this.col = col;
@@ -96,32 +104,32 @@ namespace Lex
             get { return idInSymbolTable; }
         }
 
-        public Word(int id, Tag tag) : base(tag) { this.idInSymbolTable = id; }
+        public Word(int id, int line, int col, int pos, int len, Tag tag) : base(line, col, pos, len, tag) { this.idInSymbolTable = id; }
 
         public override dynamic GetValue() { return String.Format("symbol table id: {0}", idInSymbolTable); }
     }
 
     public class Identifier : Word
     {
-        public Identifier(int id) : base(id, Tag.Identifier) { }
+        public Identifier(int id, int line, int col, int pos, int len) : base(id, line, col, pos, len, Tag.Identifier) { }
         public override string GetTokenType() { return "Identifier"; }
         public override dynamic GetValue() { return idInSymbolTable; }
     }
 
     public abstract class Keyword : Word
     {
-        protected Keyword(int id, Tag tag) : base(id, tag) { }
+        protected Keyword(int id, int line, int col, int pos, int len, Tag tag) : base(id, line, col, pos, len, tag) { }
 
-        public static Word Create(int id, Tag tag, string lexeme)
+        public static Word Create(int id, string lexeme, int line, int col, int pos, int len, Tag tag)
         {
             switch (tag)
             {
-                case Tag.If: return new If(id);
-                case Tag.Then: return new Then(id);
-                case Tag.Else: return new Else(id);
-                case Tag.While: return new While(id);
-                case Tag.Do: return new Do(id);
-                case Tag.VarType: return new VarType(id, lexeme);
+                case Tag.If: return new If(id, line, col, pos);
+                case Tag.Then: return new Then(id, line, col, pos);
+                case Tag.Else: return new Else(id, line, col, pos);
+                case Tag.While: return new While(id, line, col, pos);
+                case Tag.Do: return new Do(id, line, col, pos);
+                case Tag.VarType: return new VarType(id, lexeme, line, col, pos, len);
 
                 default: // Shall never be called
                     throw new ApplicationException("Keyword Tag Mismatch");
@@ -133,31 +141,31 @@ namespace Lex
 
     public class If : Keyword
     {
-        public If(int id) : base(id, Tag.If) { }
+        public If(int id, int line, int col, int pos) : base(id, line, col, pos, 2, Tag.If) { }
         public override string GetTokenType() { return "If"; }
     }
 
     public class Then : Keyword
     {
-        public Then(int id) : base(id, Tag.Then) { }
+        public Then(int id, int line, int col, int pos) : base(id, line, col, pos, 4, Tag.Then) { }
         public override string GetTokenType() { return "Then"; }
     }
 
     public class Else : Keyword
     {
-        public Else(int id) : base(id, Tag.Else) { }
+        public Else(int id, int line, int col, int pos) : base(id, line, col, pos, 4, Tag.Else) { }
         public override string GetTokenType() { return "Else"; }
     }
 
     public class While : Keyword
     {
-        public While(int id) : base(id, Tag.While) { }
+        public While(int id, int line, int col, int pos) : base(id, line, col, pos, 5, Tag.While) { }
         public override string GetTokenType() { return "While"; }
     }
 
     public class Do : Keyword
     {
-        public Do(int id) : base(id, Tag.Do) { }
+        public Do(int id, int line, int col, int pos) : base(id, line, col, pos, 2, Tag.Do) { }
         public override string GetTokenType() { return "Do"; }
     }
 
@@ -175,9 +183,9 @@ namespace Lex
             get { return type; }
         }
 
-        public VarType(int id, TypeEnum type) : base(id, Tag.VarType) { this.type = type; }
+        public VarType(int id, TypeEnum type, int line, int col, int pos, int len) : base(id, line, col, pos, len, Tag.VarType) { this.type = type; }
 
-        public VarType(int id, string str) : base(id, Tag.VarType)
+        public VarType(int id, string str, int line, int col, int pos, int len) : base(id, line, col, pos, len, Tag.VarType)
         {
             switch (str)
             {
@@ -213,7 +221,7 @@ namespace Lex
     {
         private int value;
 
-        public Decimal(int value) : base(Tag.Decimal) { this.value = value; }
+        public Decimal(int value, int line, int col, int pos, int len) : base(line, col, pos, len, Tag.Decimal) { this.value = value; }
         public override string GetTokenType() { return "Decimal"; }
         public override dynamic GetValue() { return value; }
     }
@@ -243,11 +251,11 @@ namespace Lex
             get { return type; }
         }
 
-        public Operator(TypeEnum type) : base(Tag.Operator) { this.type = type; }
+        public Operator(TypeEnum type, int line, int col, int pos, int len) : base(line, col, pos, len, Tag.Operator) { this.type = type; }
 
-        public Operator(char ch) : this(ch.ToString()) { }
+        public Operator(char ch, int line, int col, int pos, int len) : this(ch.ToString(), line, col, pos, len) { }
 
-        public Operator(string str) : base(Tag.Operator)
+        public Operator(string str, int line, int col, int pos, int len) : base(line, col, pos, len, Tag.Operator)
         {
             switch (str)
             {
@@ -298,7 +306,7 @@ namespace Lex
     {
         private char ch;
 
-        public Separator(char ch) : base(Tag.Separator) { this.ch = ch; }
+        public Separator(char ch, int line, int col, int pos) : base(line, col, pos, 1, Tag.Separator) { this.ch = ch; }
         public override string GetTokenType() { return "Separator"; }
         public override dynamic GetValue() { return ch; }
     }

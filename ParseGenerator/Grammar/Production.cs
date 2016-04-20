@@ -40,7 +40,7 @@ namespace ParseGenerator
             this.leftNonTerminalId = id;
         }
 
-        public bool IsEpsilonProduction()
+        public bool IsRightEpsilon()
         {
             return Right.Count == 1 && Right[0].Equals(grammar.Epsilon);
         }

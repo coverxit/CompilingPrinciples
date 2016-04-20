@@ -113,7 +113,7 @@ namespace ParseGenerator
                     // ACTION[s, a] = reduce A -> β
                     case ActionTableEntry.ActionType.Reduce:
                         // Check if β = ε, if so, |β| = 0
-                        var betaLength = action.ReduceProduction.IsEpsilonProduction() ? 0 : action.ReduceProduction.Right.Count;
+                        var betaLength = action.ReduceProduction.IsRightEpsilon() ? 0 : action.ReduceProduction.Right.Count;
                         
                         // pop |β| symbols off the stack
                         for (int i = 0; i < betaLength; i++)
