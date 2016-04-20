@@ -43,6 +43,7 @@ namespace ParserGenerator
         private ParseTable<T> parseTable;
         private Grammar grammar;
         private List<Tuple<int, int>> invalidRegions = new List<Tuple<int, int>>();
+        private IParserErrorRoutine errRoutine;
 
         public Grammar Grammar
         {
@@ -54,15 +55,11 @@ namespace ParserGenerator
             get { return new List<Tuple<int, int>>(invalidRegions); }
         }
 
-        public Parser(Grammar grammar, ParseTable<T> pt)
+        public Parser(Grammar grammar, ParseTable<T> pt, IParserErrorRoutine errRoutine)
         {
             this.grammar = grammar;
             this.parseTable = pt;
-        }
-
-        private string ErrorRoutine(int state, ProductionSymbol symbol)
-        {
-            throw new NotImplementedException();
+            this.errRoutine = errRoutine;
         }
         
         public List<Tuple<string, string>> Parse(Stream input)
@@ -145,7 +142,7 @@ namespace ParserGenerator
 
                     // ACTION[s, a] = error
                     case ActionTableEntry.ActionType.Error:
-                        ops.Add(new Tuple<string, string>(ErrorRoutine(top, symbol), symbolStack.ToString()));
+                        ops.Add(new Tuple<string, string>(errRoutine.ErrorRoutine(top, symbol), symbolStack.ToString()));
                         break;
                 }
             }

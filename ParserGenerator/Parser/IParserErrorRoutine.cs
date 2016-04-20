@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ParserGenerator
 {
-    interface IParserErrorRoutine
+    public interface IParserErrorRoutine
     {
         string ErrorRoutine(int state, ProductionSymbol symbol);
     }
