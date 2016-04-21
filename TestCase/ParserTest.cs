@@ -11,15 +11,15 @@ using CompilingPrinciples.LexicalAnalyzer;
 using CompilingPrinciples.SymbolEnvironment;
 using CompilingPrinciples.SyntaxAnalyzer;
 
-namespace CompilingPrinciples
+namespace CompilingPrinciples.TestCase
 {
-    class Program
+    public class ParserTest
     {
         private static void TestFirstFollow()
         {
             Grammar grammar = new Grammar(new SymbolTable());
             using (var stream = new FileStream("Grammar-Ex.txt", FileMode.Open))
-            //using (var stream = new FileStream("Grammar-4.28.txt", FileMode.Open))
+                //using (var stream = new FileStream("Grammar-4.28.txt", FileMode.Open))
                 grammar.Parse(stream);
 
             FirstFollowGenerator gen = new FirstFollowGenerator(grammar);
@@ -92,7 +92,7 @@ namespace CompilingPrinciples
                 Console.WriteLine(e);
 
             Console.WriteLine("============== GOTO({E' -> E·, E -> E· + T}, +) ===============");
-            var gotoSet = coll.Goto(new HashSet<LR0Item>(new LR0Item[] { new LR0Item(grammar, grammar.Productions[0], 1), new LR0Item(grammar, grammar.Productions[1], 1) }), 
+            var gotoSet = coll.Goto(new HashSet<LR0Item>(new LR0Item[] { new LR0Item(grammar, grammar.Productions[0], 1), new LR0Item(grammar, grammar.Productions[1], 1) }),
                 new ProductionSymbol(grammar, ProductionSymbol.SymbolType.Terminal, grammar.TerminalTable.IndexOf("+")));
             foreach (var e in gotoSet)
                 Console.WriteLine(e);
@@ -114,7 +114,7 @@ namespace CompilingPrinciples
             var parseTable = SLRParseTable.Create(coll);
             Console.WriteLine("================== Action Table ===================================");
             for (int i = 0; i <= curIndex; i++)
-            { 
+            {
                 foreach (var term in grammar.TerminalsWithEndMarker)
                     Console.WriteLine("ACTION[{0}, {1}]={2}", i, term, parseTable.Action[i][term]);
                 Console.WriteLine("===============================================================");
@@ -152,7 +152,7 @@ namespace CompilingPrinciples
 
             var coll = new LR1Collection(grammar);
             var gen = new FirstFollowGenerator(grammar);
-            
+
             // Cope with file Grammar-4.55.txt
             Console.WriteLine("============== Closure({S' -> ·S, $}) ===============");
             var closure = coll.Closure(new HashSet<LR1Item>(new LR1Item[] { new LR1Item(grammar, grammar.FirstProduction, 0, grammar.EndMarker) }));
@@ -290,14 +290,14 @@ namespace CompilingPrinciples
                             foreach (var e in pend.value.Value[term].Entries.Select((value, index) => new { index, value })
                                                                        .Where(e => e.value.Type == ActionTableEntry.ActionType.Shift))
                             {
-                                    pend.value.Value[term].SetPreferEntry(pend.value.Value[term].Entries.ToList()[e.index]);
+                                pend.value.Value[term].SetPreferEntry(pend.value.Value[term].Entries.ToList()[e.index]);
                             }
                         }
 
                         Console.WriteLine("Choosed: " + pend.value.Value[term].PreferEntry);
 
                     }
-            
+
             /*
             Console.WriteLine("================== Action Table ===================================");
             for (int i = 0; i < slrPT.StateCount; i++)
@@ -317,15 +317,15 @@ namespace CompilingPrinciples
             */
 
             Console.WriteLine("=============== Parse Sample Code ===================================");
-           
+
             var parser = new Parser<LR0Item>(symbolTable, grammar, slrPT, null);
-            var fs = new FileStream("SampleCode.lc", FileMode.Open);
+            var fs = new FileStream("ParserTest.lc", FileMode.Open);
             var ops = parser.Parse(fs);
 
             Console.WriteLine("{0,-40} {1}", "SYMBOLS", "ACTION");
             foreach (var op in ops)
                 Console.WriteLine("{0,-40} {1}", op.Item2, op.Item1);
-  
+
             fs.Close();
 
             Console.WriteLine("==================== Serialization =================================");
@@ -393,7 +393,7 @@ namespace CompilingPrinciples
 
                 Console.WriteLine(" }");
             }
-            
+
             var LR1coll = new LR1Collection(grammar);
             var LR1PT = LR1ParseTable.Create(LR1coll);
 
@@ -467,7 +467,7 @@ namespace CompilingPrinciples
 
             Console.WriteLine("=============== Parse Sample Code ===================================");
             var parser = new Parser<LR1Item>(symbolTable, grammar, LR1PT, null);
-            var ops = parser.Parse(new FileStream("SampleCode.lc", FileMode.Open));
+            var ops = parser.Parse(new FileStream("ParserTest.lc", FileMode.Open));
 
             Console.WriteLine("{0,-40} {1}", "SYMBOLS", "ACTION");
             foreach (var op in ops)
@@ -631,7 +631,7 @@ namespace CompilingPrinciples
 
             Console.WriteLine("=============== Parse Sample Code ===================================");
 
-            var fs = new FileStream("SampleCode.lc", FileMode.Open);
+            var fs = new FileStream("ParserTest.lc", FileMode.Open);
             var newOps = parser.Parse(fs);
 
             Console.WriteLine("{0,-40} {1}", "SYMBOLS", "ACTION");
@@ -644,7 +644,7 @@ namespace CompilingPrinciples
             Console.ReadLine();
         }
 
-        static void Main(string[] args)
+        public static void LaunchTest()
         {
             //TestFirstFollow();
             //TestSLRParser();

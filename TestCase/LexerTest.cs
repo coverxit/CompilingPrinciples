@@ -16,7 +16,7 @@ namespace CompilingPrinciples.TestCase
         public static void LexerCLITest()
         {
             Console.WriteLine("----------------Lexer Test---------------");
-            using (var stream = new FileStream("test.txt", FileMode.Open))
+            using (var stream = new FileStream("LexerTest.lc", FileMode.Open))
             {
                 Lexer lexer = new Lexer(new SymbolTable(), stream);
                 Token token = null;
@@ -51,6 +51,12 @@ namespace CompilingPrinciples.TestCase
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new LexerForm());
+        }
+
+        public static void LaunchTest()
+        {
+            LexerCLITest();
+            LexerGUITest();
         }
     }
 }

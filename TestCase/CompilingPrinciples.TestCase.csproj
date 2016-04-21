@@ -58,6 +58,7 @@
       <DependentUpon>LexerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="LexerTest.cs" />
+    <Compile Include="ParserTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

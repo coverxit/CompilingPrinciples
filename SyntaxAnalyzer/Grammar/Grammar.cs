@@ -224,7 +224,7 @@ namespace CompilingPrinciples.SyntaxAnalyzer
 
             if (token is EndMarker)
                 symbolToFind = "$";
-            else if (token is CompilingPrinciplesLexicalAnalyzer.Decimal)
+            else if (token is LexicalAnalyzer.Decimal)
                 symbolToFind = "decimal";
             else if (token is Word)
             {
