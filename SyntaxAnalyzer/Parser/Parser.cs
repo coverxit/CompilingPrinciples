@@ -83,6 +83,9 @@ namespace CompilingPrinciples.SyntaxAnalyzer
             var symbolStack = new SymbolStack();
             var ops = new List<Tuple<string, string>>();
             var accept = false;
+
+            // Clear symbol table
+            symbolTable.Clear();
             
             // Let a be the first symbol of w$
             Token token = lexer.ScanNextToken(), prevToken = null;

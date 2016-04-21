@@ -40,6 +40,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="ScintillaNET, Version=3.5.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\jacobslusser.ScintillaNET.3.5.6\lib\net40\ScintillaNET.dll</HintPath>
       <Private>True</Private>
@@ -77,6 +78,7 @@
     </Compile>
     <Compile Include="ParserTest\ParserHelper.cs" />
     <Compile Include="ParserTest\ParserTest.cs" />
+    <Compile Include="ParserTest\ParserUnitTest.cs" />
     <Compile Include="ParserTest\SLRParserErrorRoutine.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -106,6 +108,9 @@
       <Project>{ec6f8cbf-8e6d-4273-ac42-b4b484b7422b}</Project>
       <Name>CompilingPrinciples.SyntaxAnalyzer</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

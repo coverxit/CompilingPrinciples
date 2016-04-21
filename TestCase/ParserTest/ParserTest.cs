@@ -231,7 +231,11 @@ namespace CompilingPrinciples.TestCase
                         foreach (var e in pend.value.Value[term].Entries.Select((value, index) => new { index, value })
                                                                        .Where(e => e.value.Type == ActionTableEntry.ActionType.Reduce))
                         {
-                            if (pend.value.Value[term].Entries.ToList()[e.index].ReduceProduction.ToString() != "S -> if ( C ) S")
+                            if (term.ToString() == "else" && pend.value.Value[term].Entries.ToList()[e.index].ReduceProduction.ToString() == "S -> if ( C ) S")
+                            {
+                                // just skip
+                            }
+                            else
                                 pend.value.Value[term].SetPreferEntry(pend.value.Value[term].Entries.ToList()[e.index]);
                         }
 
