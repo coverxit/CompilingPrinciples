@@ -345,7 +345,9 @@ namespace CompilingPrinciples.TestCase
             var parseTable = LR1ParseTable.Create(coll);
 
             ShowFirstFollowSets(grammar, coll.First, coll.Follow);
-            
+
+            Console.WriteLine("State count: " + parseTable.StateCount);
+
             AutoSelectAmbiguousAction(grammar, parseTable, coll);
 
             Console.WriteLine("=============== Parse Sample Code ===================================");
@@ -470,10 +472,10 @@ namespace CompilingPrinciples.TestCase
             //TestDanglingElse_LR1("Grammar-4.3.txt");
             //TestDanglingElse_LR1("Grammar-4.67.txt");
 
-            //TestExperiment_SLR();
+            TestExperiment_SLR();
             TestDeserialization_SLR();
 
-            //TestExperiment_LR1();
+            TestExperiment_LR1();
             TestDeserialization_LR1();
         }
     }
