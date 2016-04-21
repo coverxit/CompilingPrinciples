@@ -160,6 +160,12 @@ namespace CompilingPrinciples.SyntaxAnalyzer
                 preferEntry = null;
         }
 
+        public void SetPreferEntry(int id)
+        {
+            preferEntry = entries.Select((value, index) => new { index, value })
+                                 .Where(e => e.index == id).Single().value;
+        }
+
         public void SetPreferEntry(ActionTableEntry entry)
         {
             preferEntry = entry;

@@ -472,8 +472,8 @@ namespace CompilingPrinciples.TestCase
             //TestDanglingElse_LR1("Grammar-4.3.txt");
             //TestDanglingElse_LR1("Grammar-4.67.txt");
 
-            //TestExperiment_SLR();
-            //TestDeserialization_SLR();
+            TestExperiment_SLR();
+            TestDeserialization_SLR();
 
             //TestExperiment_LR1();
             //TestDeserialization_LR1();

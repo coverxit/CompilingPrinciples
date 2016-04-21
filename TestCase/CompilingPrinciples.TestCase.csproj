@@ -75,6 +75,7 @@
     <Compile Include="ParserTest\ParserForm.Designer.cs">
       <DependentUpon>ParserForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ParserTest\ParserHelper.cs" />
     <Compile Include="ParserTest\ParserTest.cs" />
     <Compile Include="ParserTest\SLRParserErrorRoutine.cs" />
     <Compile Include="Program.cs" />
