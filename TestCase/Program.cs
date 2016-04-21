@@ -16,8 +16,13 @@ namespace CompilingPrinciples.TestCase
         [STAThread]
         static void Main(string[] args)
         {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
             LexerTest.LaunchTest();
-            //ParserTest.LaunchTest();
+            ParserTest.LaunchTest();
+
+            Application.Run();
         }
     }
 }

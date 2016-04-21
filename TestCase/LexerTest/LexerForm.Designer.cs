@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewGroup listViewGroup11 = new System.Windows.Forms.ListViewGroup("Keyword", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup12 = new System.Windows.Forms.ListViewGroup("Identifier", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Keyword", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Identifier", System.Windows.Forms.HorizontalAlignment.Left);
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.tablePanelControls = new System.Windows.Forms.TableLayoutPanel();
             this.panelToken = new System.Windows.Forms.Panel();
@@ -218,13 +218,13 @@
             this.symbolHeaderSymbol});
             this.listSymbolTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listSymbolTable.FullRowSelect = true;
-            listViewGroup11.Header = "Keyword";
-            listViewGroup11.Name = "lvGroupKeyword";
-            listViewGroup12.Header = "Identifier";
-            listViewGroup12.Name = "lvGroupIdentifier";
+            listViewGroup1.Header = "Keyword";
+            listViewGroup1.Name = "lvGroupKeyword";
+            listViewGroup2.Header = "Identifier";
+            listViewGroup2.Name = "lvGroupIdentifier";
             this.listSymbolTable.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup11,
-            listViewGroup12});
+            listViewGroup1,
+            listViewGroup2});
             this.listSymbolTable.Location = new System.Drawing.Point(0, 0);
             this.listSymbolTable.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.listSymbolTable.MultiSelect = false;
@@ -366,7 +366,6 @@
             this.Controls.Add(this.tableLayout);
             this.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.Name = "LexerForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Shindo\'s Lexical Analyzer";
             this.tablePanelControls.ResumeLayout(false);
             this.panelToken.ResumeLayout(false);

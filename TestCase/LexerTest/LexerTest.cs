@@ -48,14 +48,12 @@ namespace CompilingPrinciples.TestCase
 
         public static void LexerGUITest()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new LexerForm());
+            new LexerForm().Show();
         }
 
         public static void LaunchTest()
         {
-            LexerCLITest();
+            // LexerCLITest();
             LexerGUITest();
         }
     }

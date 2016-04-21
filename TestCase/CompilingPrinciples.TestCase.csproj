@@ -51,14 +51,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LexerForm.cs">
+    <Compile Include="LexerTest\LexerForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LexerForm.Designer.cs">
+    <Compile Include="LexerTest\LexerForm.Designer.cs">
       <DependentUpon>LexerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="LexerTest.cs" />
-    <Compile Include="ParserTest.cs" />
+    <Compile Include="LexerTest\LexerTest.cs" />
+    <Compile Include="ParserTest\ParserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ParserTest\ParserForm.Designer.cs">
+      <DependentUpon>ParserForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ParserTest\ParserTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -68,8 +74,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="LexerForm.resx">
+    <EmbeddedResource Include="LexerTest\LexerForm.resx">
       <DependentUpon>LexerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ParserTest\ParserForm.resx">
+      <DependentUpon>ParserForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
