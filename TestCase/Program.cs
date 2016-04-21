@@ -16,8 +16,8 @@ namespace CompilingPrinciples.TestCase
         [STAThread]
         static void Main(string[] args)
         {
-            //LexerTest.LaunchTest();
-            ParserTest.LaunchTest();
+            LexerTest.LaunchTest();
+            //ParserTest.LaunchTest();
         }
     }
 }
