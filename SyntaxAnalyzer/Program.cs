@@ -319,18 +319,19 @@ namespace CompilingPrinciples
             Console.WriteLine("=============== Parse Sample Code ===================================");
            
             var parser = new Parser<LR0Item>(symbolTable, grammar, slrPT, null);
-            var ops = parser.Parse(new FileStream("SampleCode.lc", FileMode.Open));
+            var fs = new FileStream("SampleCode.lc", FileMode.Open);
+            var ops = parser.Parse(fs);
 
             Console.WriteLine("{0,-40} {1}", "SYMBOLS", "ACTION");
             foreach (var op in ops)
                 Console.WriteLine("{0,-40} {1}", op.Item2, op.Item1);
+  
+            fs.Close();
 
             Console.WriteLine("==================== Serialization =================================");
-            var outStream = new FileStream("SLRParserContext.dat", FileMode.Create);
-            var formatter = new BinaryFormatter();
-
-            formatter.Serialize(outStream, grammar);
-            formatter.Serialize(outStream, slrPT);
+            var outStream = new FileStream("SLRParserContext.ctx", FileMode.Create);
+            parser.SaveContext(outStream);
+            outStream.Close();
 
             Console.WriteLine("Done.");
             Console.ReadLine();
@@ -552,7 +553,7 @@ namespace CompilingPrinciples
             var symbolTable = new SymbolTable();
             Grammar grammar = new Grammar(symbolTable);
             using (var stream = new FileStream("Grammar-4.3.txt", FileMode.Open))
-            //using (var stream = new FileStream("Grammar-4.67.txt", FileMode.Open))
+                //using (var stream = new FileStream("Grammar-4.67.txt", FileMode.Open))
                 grammar.Parse(stream);
 
             var LR1Coll = new LR1Collection(grammar);
@@ -621,28 +622,24 @@ namespace CompilingPrinciples
 
         private static void TestDeserialization_SLR()
         {
-            using (var se_stream = new FileStream("SLRParserContext.dat", FileMode.Open))
-            {
-                var formatter = new BinaryFormatter();
+            var se_stream = new FileStream("SLRParserContext.ctx", FileMode.Open);
 
-                Console.WriteLine("==================== Deserialization =================================");
-                var newSymbolTable = new SymbolTable();
+            Console.WriteLine("==================== Deserialization =================================");
+            var st = new SymbolTable();
 
-                formatter.Context = new StreamingContext(StreamingContextStates.All, newSymbolTable);
-                var newGrammar = formatter.Deserialize(se_stream) as Grammar;
+            var parser = Parser.LoadContext(se_stream, st, null);
 
-                formatter.Context = new StreamingContext(StreamingContextStates.All, newGrammar);
-                var newPT = formatter.Deserialize(se_stream) as SLRParseTable;
+            Console.WriteLine("=============== Parse Sample Code ===================================");
 
-                Console.WriteLine("=============== Parse Sample Code ===================================");
+            var fs = new FileStream("SampleCode.lc", FileMode.Open);
+            var newOps = parser.Parse(fs);
 
-                var newParser = new Parser<LR0Item>(newSymbolTable, newGrammar, newPT, null);
-                var newOps = newParser.Parse(new FileStream("SampleCode.lc", FileMode.Open));
+            Console.WriteLine("{0,-40} {1}", "SYMBOLS", "ACTION");
+            foreach (var op in newOps)
+                Console.WriteLine("{0,-40} {1}", op.Item2, op.Item1);
 
-                Console.WriteLine("{0,-40} {1}", "SYMBOLS", "ACTION");
-                foreach (var op in newOps)
-                    Console.WriteLine("{0,-40} {1}", op.Item2, op.Item1);
-            }
+            fs.Close();
+            se_stream.Close();
 
             Console.ReadLine();
         }
@@ -655,7 +652,7 @@ namespace CompilingPrinciples
             //TestDanglingElse_SLR();
             //TestDanglingElse_LR1();
 
-            //TestExperiment_SLR();
+            TestExperiment_SLR();
             TestDeserialization_SLR();
 
             //TestExperiment_LR1();

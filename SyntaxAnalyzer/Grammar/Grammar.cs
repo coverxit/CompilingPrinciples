@@ -14,6 +14,7 @@ namespace SyntaxAnalyzer
     [Serializable]
     public class Grammar
     {
+        [NonSerialized]
         private ProductionSymbol epsilon, endMarker;
     
         private List<string> terminalTable, nonTerminalTable;
@@ -24,12 +25,12 @@ namespace SyntaxAnalyzer
 
         public ProductionSymbol Epsilon
         {
-            get { return new ProductionSymbol(epsilon); }
+            get { return epsilon; }
         }
 
         public ProductionSymbol EndMarker
         {
-            get { return new ProductionSymbol(endMarker); }
+            get { return endMarker; }
         }
 
         public Production FirstProduction
@@ -39,7 +40,7 @@ namespace SyntaxAnalyzer
 
         public ProductionSymbol AugemntedS
         {
-            get { return new ProductionSymbol(productions[0].Left); }
+            get { return productions[0].Left; }
         }
 
         public List<string> TerminalTable

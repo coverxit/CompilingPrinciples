@@ -39,7 +39,7 @@ namespace SyntaxAnalyzer
             this.rightExpression = new List<ProductionSymbol>(rhs.rightExpression);
         }
 
-        public void SetLeftNonTerminal(int id)
+        internal void SetLeftNonTerminal(int id)
         {
             this.leftNonTerminalId = id;
         }
@@ -49,14 +49,14 @@ namespace SyntaxAnalyzer
             return Right.Count == 1 && Right[0].Equals(grammar.Epsilon);
         }
 
-        public void AppendRightSymbol(ProductionSymbol.SymbolType type, int id)
+        internal void AppendRightSymbol(ProductionSymbol.SymbolType type, int id)
         {
             rightExpression.Add(new ProductionSymbol(grammar, type, id));
         }
 
-        public void AppendRightSymbol(ProductionSymbol sym)
+        internal void AppendRightSymbol(ProductionSymbol sym)
         {
-            rightExpression.Add(new ProductionSymbol(sym));
+            rightExpression.Add(sym);
         }
 
         public override int GetHashCode()

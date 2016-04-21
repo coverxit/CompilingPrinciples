@@ -9,13 +9,18 @@ namespace SyntaxAnalyzer
     [Serializable]
     public abstract class ParseTable<T> where T: LR0Item
     {
-        public const int ErrorGotoState = -1;
+        private const int ErrorGotoState = -1;
 
         protected Dictionary<int, Dictionary<ProductionSymbol, MultipleEntry>> actionTable;
         protected Dictionary<int, Dictionary<ProductionSymbol, int>> gotoTable;
 
         protected LRCollection<T> collection;
         protected List<HashSet<T>> itemsList;
+
+        public Type ItemType
+        {
+            get { return typeof(T); }
+        }
 
         public Dictionary<int, Dictionary<ProductionSymbol, MultipleEntry>> Action
         {
@@ -75,6 +80,10 @@ namespace SyntaxAnalyzer
                                     .Where(i => i.value.SetEquals(collection.Goto(e.value, A)))
                                     .DefaultIfEmpty(new { index = ErrorGotoState, value = new HashSet<T>() })
                                     .SingleOrDefault().index;
+
+                    // No Ij exists
+                    if (j == ErrorGotoState)
+                        continue;
 
                     // Set GOTO[i, A] = j
                     if (!gotoTable.ContainsKey(e.index))

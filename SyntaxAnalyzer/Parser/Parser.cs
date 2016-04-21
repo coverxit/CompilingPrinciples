@@ -5,18 +5,21 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+
 using LexicalAnalyzer;
 using SymbolEnvironment;
 
 namespace SyntaxAnalyzer
 {
-    public class Parser<T> where T: LR0Item
+    public abstract class Parser
     {
-        private ParseTable<T> parseTable;
-        private Grammar grammar;
-        private SymbolTable symbolTable;
-        private List<Tuple<int, int>> invalidRegions = new List<Tuple<int, int>>();
-        private IParserErrorRoutine errRoutine;
+        // (S)hindo's (P)arser (C)ontext (D)ata - 0x44435053
+        public const int ContextMagicNumber = 0x44435053;
+
+        protected Grammar grammar;
+        protected List<Tuple<int, int>> invalidRegions = new List<Tuple<int, int>>();
 
         public Grammar Grammar
         {
@@ -28,6 +31,46 @@ namespace SyntaxAnalyzer
             get { return new List<Tuple<int, int>>(invalidRegions); }
         }
 
+        public abstract List<Tuple<string, string>> Parse(Stream input);
+        public abstract void SaveContext(Stream stream);
+
+        public static Parser LoadContext(Stream stream, SymbolTable symbolTable, IParserErrorRoutine errRoutine)
+        {
+            byte[] buf = new byte[sizeof(int)];
+            stream.Read(buf, 0, sizeof(int));
+
+            int magicNum = BitConverter.ToInt32(buf, 0);
+            if (magicNum != ContextMagicNumber)
+                throw new ApplicationException("Invalid Magic Number!");
+
+            var formatter = new BinaryFormatter();
+
+            formatter.Context = new StreamingContext(StreamingContextStates.All, symbolTable);
+            var grammar = formatter.Deserialize(stream) as Grammar;
+
+            formatter.Context = new StreamingContext(StreamingContextStates.All, null);
+            var itemType = formatter.Deserialize(stream) as Type;
+
+            formatter.Context = new StreamingContext(StreamingContextStates.All, grammar);
+            if (itemType.FullName == typeof(LR0Item).FullName)
+            {
+                var parseTable = formatter.Deserialize(stream) as SLRParseTable;
+                return new Parser<LR0Item>(symbolTable, grammar, parseTable, errRoutine);
+            }
+            else // LR1Item
+            {
+                var parseTable = formatter.Deserialize(stream) as LR1ParseTable;
+                return new Parser<LR1Item>(symbolTable, grammar, parseTable, errRoutine);
+            }
+        }
+    }
+
+    public class Parser<T> : Parser where T: LR0Item
+    {
+        private ParseTable<T> parseTable;
+        private SymbolTable symbolTable;
+        private IParserErrorRoutine errRoutine;
+        
         public Parser(SymbolTable symbolTable, Grammar grammar, ParseTable<T> pt, IParserErrorRoutine errRoutine)
         {
             this.symbolTable = symbolTable;
@@ -36,7 +79,7 @@ namespace SyntaxAnalyzer
             this.errRoutine = errRoutine;
         }
         
-        public List<Tuple<string, string>> Parse(Stream input)
+        public override List<Tuple<string, string>> Parse(Stream input)
         {
             var lexer = new Lexer(symbolTable, input);
             var parseStack = new Stack<int>();
@@ -65,9 +108,7 @@ namespace SyntaxAnalyzer
 
                     invalidRegions.Add(new Tuple<int, int>(regionStart, token.Position - regionStart));
                 }
-
-                Console.WriteLine(symbolStack.ToString());
-
+                
                 // let s be the state on top of the stack
                 var top = parseStack.Peek();
                 var symbol = new ProductionSymbol(grammar, token);
@@ -128,6 +169,17 @@ namespace SyntaxAnalyzer
             }
 
             return ops;
+        }
+
+        public override void SaveContext(Stream stream)
+        {
+            var formatter = new BinaryFormatter();
+            var magicNum = BitConverter.GetBytes(ContextMagicNumber);
+
+            stream.Write(magicNum, 0, magicNum.Length);
+            formatter.Serialize(stream, grammar);
+            formatter.Serialize(stream, parseTable.ItemType);
+            formatter.Serialize(stream, parseTable);
         }
     }
 }
