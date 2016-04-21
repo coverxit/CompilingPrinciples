@@ -32,6 +32,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
@@ -58,6 +59,12 @@
       <DependentUpon>LexerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="LexerTest\LexerTest.cs" />
+    <Compile Include="ParserTest\GenerateWaitingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ParserTest\GenerateWaitingForm.Designer.cs">
+      <DependentUpon>GenerateWaitingForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ParserTest\ParserForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -76,6 +83,9 @@
   <ItemGroup>
     <EmbeddedResource Include="LexerTest\LexerForm.resx">
       <DependentUpon>LexerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ParserTest\GenerateWaitingForm.resx">
+      <DependentUpon>GenerateWaitingForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ParserTest\ParserForm.resx">
       <DependentUpon>ParserForm.cs</DependentUpon>

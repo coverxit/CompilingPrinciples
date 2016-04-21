@@ -9,13 +9,16 @@ using System.Windows.Forms;
 
 namespace CompilingPrinciples.TestCase
 {
-    public partial class ParserForm : Form
+    public partial class GenerateWaitingForm : Form
     {
-        public ParserForm()
+        public GenerateWaitingForm()
         {
             InitializeComponent();
+        }
 
-            new GenerateWaitingForm().Show();
+        private void GenerateWaitingForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
         }
     }
 }
