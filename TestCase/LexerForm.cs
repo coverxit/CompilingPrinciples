@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Threading.Tasks;
 
 using CompilingPrinciples.LexicalAnalyzer;
 using CompilingPrinciples.SymbolEnvironment;
@@ -74,96 +75,116 @@ namespace CompilingPrinciples
         private void btnAnalyze_Click(object sender, EventArgs e)
         {
             listTokens.Items.Clear();
-            listSymbols.Items.Clear();
+            listSymbolTable.Items.Clear();
+
+            btnAnalyze.Enabled = false;
+            btnOpen.Enabled = false;
 
             textCode.IndicatorCurrent = ErrorIndicatorIndex;
             textCode.IndicatorClearRange(0, textCode.Text.Length);
 
             // textCode.IndicatorCurrent = TokenIndicatorIndex;
             // textCode.IndicatorClearRange(0, textCode.Text.Length);
-            
+
             byte[] array = Encoding.ASCII.GetBytes(textCode.Text);
             MemoryStream stream = new MemoryStream(array);
 
             Lexer lexer = new Lexer(symbolTable, stream);
             Token token = null;
 
-            int curLine = 0;
-            ListViewGroup curGroup = null;
-
-            listTokens.BeginUpdate();
-            while (!(token is EndMarker))
+            var analyseTask = new Task(() =>
             {
-                token = lexer.ScanNextToken();
-                if (curLine != lexer.CurrentLine)
+                int curLine = 0;
+                ListViewGroup curGroup = null;
+
+                this.Invoke((MethodInvoker)delegate
                 {
-                    curGroup = listTokens.Groups.Add(lexer.CurrentLine.ToString(), "Line " + lexer.CurrentLine);
-                    curLine = lexer.CurrentLine;
-                }
+                   listTokens.BeginUpdate();
+                   while (!(token is EndMarker))
+                   {
+                       token = lexer.ScanNextToken();
+                       if (curLine != lexer.CurrentLine)
+                       {
+                           curGroup = listTokens.Groups.Add(lexer.CurrentLine.ToString(), "Line " + lexer.CurrentLine);
+                           curLine = lexer.CurrentLine;
+                       }
 
-                ListViewItem item = new ListViewItem(curGroup);
-                item.Text = token.GetTokenType();
+                       ListViewItem item = new ListViewItem(curGroup);
+                       item.Text = token.GetTokenType();
 
-                // Set item text & error indicator if any
-                if (token is Identifier)
-                    item.SubItems.Add(lexer.SymbolTable.GetSymbol(token.GetValue()));
-                else if (token is InvalidToken)
-                {
-                    textCode.IndicatorCurrent = ErrorIndicatorIndex;
-                    textCode.IndicatorFillRange(token.Position, token.Length);
-                    item.SubItems.Add(token.GetValue().ToString());
-                }
-                else
-                    item.SubItems.Add(token.GetValue().ToString());
+                       // Set item text & error indicator if any
+                       if (token is Identifier)
+                           item.SubItems.Add(lexer.SymbolTable.GetSymbol(token.GetValue()));
+                       else if (token is InvalidToken)
+                       {
+                           textCode.IndicatorCurrent = ErrorIndicatorIndex;
+                           textCode.IndicatorFillRange(token.Position, token.Length);
+                           item.SubItems.Add(token.GetValue().ToString());
+                       }
+                       else
+                           item.SubItems.Add(token.GetValue().ToString());
 
-                // Set valid token indicator
-                // if (!(token is InvalidToken))
-                // {
-                //    textCode.IndicatorCurrent = TokenIndicatorIndex;
-                //    textCode.IndicatorFillRange(token.Position, token.Length);
-                // }
+                       // Set valid token indicator
+                       // if (!(token is InvalidToken))
+                       // {
+                       //    textCode.IndicatorCurrent = TokenIndicatorIndex;
+                       //    textCode.IndicatorFillRange(token.Position, token.Length);
+                       // }
 
-                // Set item style
-                if (token is Operator || token is Separator)
-                    item.ForeColor = Color.Gray;
-                else if (token is LexicalAnalyzer.Decimal)
-                    item.ForeColor = Color.ForestGreen;
-                else if (token is InvalidToken)
-                    item.ForeColor = Color.Red;
-                else if (token is Identifier)
-                {
-                    item.UseItemStyleForSubItems = false;
-                    item.SubItems[1].Font = new Font(item.Font, FontStyle.Bold);
-                }
-                else if (token is Keyword)
-                {
-                    item.ForeColor = Color.Blue;
-                    item.Font = new Font(item.Font, FontStyle.Bold);
+                       // Set item style
+                       if (token is Operator || token is Separator)
+                           item.ForeColor = Color.Gray;
+                       else if (token is LexicalAnalyzer.Decimal)
+                           item.ForeColor = Color.ForestGreen;
+                       else if (token is InvalidToken)
+                           item.ForeColor = Color.Red;
+                       else if (token is Identifier)
+                       {
+                           item.UseItemStyleForSubItems = false;
+                           item.SubItems[1].Font = new Font(item.Font, FontStyle.Bold);
+                       }
+                       else if (token is Keyword)
+                       {
+                           item.ForeColor = Color.Blue;
+                           item.Font = new Font(item.Font, FontStyle.Bold);
 
-                    item.UseItemStyleForSubItems = false;
-                    item.SubItems[1].Font = new Font(item.Font, FontStyle.Italic);
-                    item.SubItems[1].ForeColor = Color.DarkBlue;
-                }
+                           item.UseItemStyleForSubItems = false;
+                           item.SubItems[1].Font = new Font(item.Font, FontStyle.Italic);
+                           item.SubItems[1].ForeColor = Color.DarkBlue;
+                       }
 
-                listTokens.Items.Add(item);
-            }
-            listTokens.EndUpdate();
+                       listTokens.Items.Add(item);
+                   }
+                   listTokens.EndUpdate();
+                });
+            });
 
-            listSymbols.BeginUpdate();
-            foreach (var s in lexer.SymbolTable.ToList().Select((value, index) => new { index, value }))
+            analyseTask.ContinueWith((lastTask) =>
             {
-                ListViewItem item = new ListViewItem();
-                item.Text = s.index.ToString();
-                item.SubItems.Add(s.value.Lexeme);
+                this.Invoke((MethodInvoker)delegate
+                {
+                    listSymbolTable.BeginUpdate();
+                    foreach (var s in lexer.SymbolTable.ToList().Select((value, index) => new { index, value }))
+                    {
+                        ListViewItem item = new ListViewItem();
+                        item.Text = s.index.ToString();
+                        item.SubItems.Add(s.value.Lexeme);
 
-                if (s.value.Tag != LexicalAnalyzer.Tag.Identifier)
-                    item.Group = listSymbols.Groups["lvGroupKeyword"];
-                else
-                    item.Group = listSymbols.Groups["lvGroupIdentifier"];
+                        if (s.value.Tag != LexicalAnalyzer.Tag.Identifier)
+                            item.Group = listSymbolTable.Groups["lvGroupKeyword"];
+                        else
+                            item.Group = listSymbolTable.Groups["lvGroupIdentifier"];
 
-                listSymbols.Items.Add(item);
-            }
-            listSymbols.EndUpdate();
+                        listSymbolTable.Items.Add(item);
+                    }
+                    listSymbolTable.EndUpdate();
+
+                    btnAnalyze.Enabled = true;
+                    btnOpen.Enabled = true;
+                });
+            });
+
+            analyseTask.Start();
         }
 
         private void textCode_KeyUp(object sender, KeyEventArgs e)

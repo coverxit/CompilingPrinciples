@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Shindo's Lexical Analyzer Module")]
+[assembly: AssemblyTitle("CompilingPrinciples.ParserGenerator")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Shindo's Lexical Analyzer Module")]
-[assembly: AssemblyCopyright("Copyright © Shindo 2016")]
+[assembly: AssemblyProduct("CompilingPrinciples.ParserGenerator")]
+[assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("48a30c7a-21a5-459b-8cb9-3ebbb921aaf8")]
+[assembly: Guid("5b5dc27b-f361-4054-afda-6ac30d9d8ece")]
 
 // Version information for an assembly consists of the following four values:
 //
