@@ -54,7 +54,8 @@ namespace CompilingPrinciples.SyntaxAnalyzer
 
             GenerateActionTable();
             GenerateGotoTable();
-            FillErrors();
+            // Don't fill errors, for saving memory
+            // FillErrors();
             SetInitialState(initialItem);
         }
 
@@ -82,6 +83,7 @@ namespace CompilingPrinciples.SyntaxAnalyzer
                                     .SingleOrDefault().index;
 
                     // No Ij exists
+                    // Note that, we don't save error state, for saving memory
                     if (j == ErrorGotoState)
                         continue;
 

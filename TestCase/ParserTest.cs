@@ -115,7 +115,7 @@ namespace CompilingPrinciples.TestCase
             Console.WriteLine("================== Action Table ===================================");
             for (int i = 0; i <= curIndex; i++)
             {
-                foreach (var term in grammar.TerminalsWithEndMarker)
+                foreach (var term in grammar.TerminalsWithEndMarker.Where(e => parseTable.Action[i].ContainsKey(e)))
                     Console.WriteLine("ACTION[{0}, {1}]={2}", i, term, parseTable.Action[i][term]);
                 Console.WriteLine("===============================================================");
             }
@@ -123,9 +123,10 @@ namespace CompilingPrinciples.TestCase
             Console.WriteLine("================== Goto Table ===================================");
             for (int i = 0; i <= curIndex; i++)
             {
-                foreach (var nonTerm in grammar.NonTerminalsWithoutAugmentedS)
-                    Console.WriteLine("GOTO[{0}, {1}]={2}", i, nonTerm, parseTable.Goto[i][nonTerm]);
-                Console.WriteLine("===============================================================");
+                if (parseTable.Goto.ContainsKey(i))
+                    foreach (var nonTerm in grammar.NonTerminalsWithoutAugmentedS.Where(e => parseTable.Goto[i].ContainsKey(e)))
+                        Console.WriteLine("GOTO[{0}, {1}]={2}", i, nonTerm, parseTable.Goto[i][nonTerm]);
+                    Console.WriteLine("===============================================================");
             }
 
             Console.WriteLine("=============== Parse: a * b ====================================");
@@ -178,7 +179,7 @@ namespace CompilingPrinciples.TestCase
             Console.WriteLine("================== Action Table ===================================");
             for (int i = 0; i <= curIndex; i++)
             {
-                foreach (var term in grammar.TerminalsWithEndMarker)
+                foreach (var term in grammar.TerminalsWithEndMarker.Where(e => parseTable.Action[i].ContainsKey(e)))
                     Console.WriteLine("ACTION[{0}, {1}]={2}", i, term, parseTable.Action[i][term]);
                 Console.WriteLine("===============================================================");
             }
@@ -186,8 +187,9 @@ namespace CompilingPrinciples.TestCase
             Console.WriteLine("================== Goto Table ===================================");
             for (int i = 0; i <= curIndex; i++)
             {
-                foreach (var nonTerm in grammar.NonTerminalsWithoutAugmentedS)
-                    Console.WriteLine("GOTO[{0}, {1}]={2}", i, nonTerm, parseTable.Goto[i][nonTerm]);
+                if (parseTable.Goto.ContainsKey(i))
+                    foreach (var nonTerm in grammar.NonTerminalsWithoutAugmentedS.Where(e => parseTable.Goto[i].ContainsKey(e)))
+                        Console.WriteLine("GOTO[{0}, {1}]={2}", i, nonTerm, parseTable.Goto[i][nonTerm]);
                 Console.WriteLine("===============================================================");
             }
 
@@ -257,7 +259,7 @@ namespace CompilingPrinciples.TestCase
             Console.WriteLine("======================== Select Prefer Entry =======================");
             foreach (var pend in slrPT.Action.Select((value, index) => new { index, value }))
                 foreach (var term in grammar.TerminalsWithEndMarker)
-                    if (!pend.value.Value[term].PreferedEntrySpecified)
+                    if (pend.value.Value.ContainsKey(term) && !pend.value.Value[term].PreferedEntrySpecified)
                     {
                         Console.WriteLine("=========I[" + pend.index + "]==============");
                         foreach (var e in LR0coll.Items().Select((value, index) => new { index, value }).Where(e => e.index == pend.index))
@@ -400,7 +402,7 @@ namespace CompilingPrinciples.TestCase
             Console.WriteLine("======================== Select Prefer Entry =======================");
             foreach (var pend in LR1PT.Action.Select((value, index) => new { index, value }))
                 foreach (var term in grammar.TerminalsWithEndMarker)
-                    if (!pend.value.Value[term].PreferedEntrySpecified)
+                    if (pend.value.Value.ContainsKey(term) && !pend.value.Value[term].PreferedEntrySpecified)
                     {
                         Console.WriteLine("=========I[" + pend.index + "]==============");
                         foreach (var e in LR1coll.Items().Select((value, index) => new { index, value }).Where(e => e.index == pend.index))
@@ -504,7 +506,7 @@ namespace CompilingPrinciples.TestCase
             Console.WriteLine("======================== Select Prefer Entry =======================");
             foreach (var pend in slrPT.Action.Select((value, index) => new { index, value }))
                 foreach (var term in grammar.TerminalsWithEndMarker)
-                    if (!pend.value.Value[term].PreferedEntrySpecified)
+                    if (pend.value.Value.ContainsKey(term) && !pend.value.Value[term].PreferedEntrySpecified)
                     {
                         Console.WriteLine("=========I[" + pend.index + "]==============");
                         foreach (var e in LR0Coll.Items().Select((value, index) => new { index, value }).Where(e => e.index == pend.index))
@@ -532,7 +534,7 @@ namespace CompilingPrinciples.TestCase
             Console.WriteLine("================== Action Table ===================================");
             for (int i = 0; i < slrPT.StateCount; i++)
             {
-                foreach (var term in grammar.TerminalsWithEndMarker)
+                foreach (var term in grammar.TerminalsWithEndMarker.Where(e => slrPT.Action[i].ContainsKey(e)))
                     Console.WriteLine("ACTION[{0}, {1}]={2}", i, term, slrPT.Action[i][term]);
                 Console.WriteLine("===============================================================");
             }
@@ -540,9 +542,10 @@ namespace CompilingPrinciples.TestCase
             Console.WriteLine("================== Goto Table ===================================");
             for (int i = 0; i < slrPT.StateCount; i++)
             {
-                foreach (var nonTerm in grammar.NonTerminalsWithoutAugmentedS)
-                    Console.WriteLine("GOTO[{0}, {1}]={2}", i, nonTerm, slrPT.Goto[i][nonTerm]);
-                Console.WriteLine("===============================================================");
+                if (slrPT.Goto.ContainsKey(i))
+                    foreach (var nonTerm in grammar.NonTerminalsWithoutAugmentedS.Where(e => slrPT.Goto[i].ContainsKey(e)))
+                        Console.WriteLine("GOTO[{0}, {1}]={2}", i, nonTerm, slrPT.Goto[i][nonTerm]);
+                    Console.WriteLine("===============================================================");
             }
 
             Console.ReadLine();
@@ -576,7 +579,7 @@ namespace CompilingPrinciples.TestCase
             Console.WriteLine("======================== Select Prefer Entry =======================");
             foreach (var pend in LR1PT.Action.Select((value, index) => new { index, value }))
                 foreach (var term in grammar.TerminalsWithEndMarker)
-                    if (!pend.value.Value[term].PreferedEntrySpecified)
+                    if (pend.value.Value.ContainsKey(term) && !pend.value.Value[term].PreferedEntrySpecified)
                     {
                         Console.WriteLine("=========I[" + pend.index + "]==============");
                         foreach (var e in LR1Coll.Items().Select((value, index) => new { index, value }).Where(e => e.index == pend.index))
@@ -604,7 +607,7 @@ namespace CompilingPrinciples.TestCase
             Console.WriteLine("================== Action Table ===================================");
             for (int i = 0; i < LR1PT.StateCount; i++)
             {
-                foreach (var term in grammar.TerminalsWithEndMarker)
+                foreach (var term in grammar.TerminalsWithEndMarker.Where(e => LR1PT.Action[i].ContainsKey(e)))
                     Console.WriteLine("ACTION[{0}, {1}]={2}", i, term, LR1PT.Action[i][term]);
                 Console.WriteLine("===============================================================");
             }
@@ -612,9 +615,10 @@ namespace CompilingPrinciples.TestCase
             Console.WriteLine("================== Goto Table ===================================");
             for (int i = 0; i < LR1PT.StateCount; i++)
             {
-                foreach (var nonTerm in grammar.NonTerminalsWithoutAugmentedS)
-                    Console.WriteLine("GOTO[{0}, {1}]={2}", i, nonTerm, LR1PT.Goto[i][nonTerm]);
-                Console.WriteLine("===============================================================");
+                if (LR1PT.Goto.ContainsKey(i))
+                    foreach (var nonTerm in grammar.NonTerminalsWithoutAugmentedS.Where(e => LR1PT.Action[i].ContainsKey(e)))
+                        Console.WriteLine("GOTO[{0}, {1}]={2}", i, nonTerm, LR1PT.Goto[i][nonTerm]);
+                    Console.WriteLine("===============================================================");
             }
 
             Console.ReadLine();
@@ -646,16 +650,16 @@ namespace CompilingPrinciples.TestCase
 
         public static void LaunchTest()
         {
-            //TestFirstFollow();
-            //TestSLRParser();
-            //TestLR1Parser();
-            //TestDanglingElse_SLR();
-            //TestDanglingElse_LR1();
+            TestFirstFollow();
+            TestSLRParser();
+            TestLR1Parser();
+            TestDanglingElse_SLR();
+            TestDanglingElse_LR1();
 
             TestExperiment_SLR();
             TestDeserialization_SLR();
 
-            //TestExperiment_LR1();
+            TestExperiment_LR1();
         }
     }
 }
