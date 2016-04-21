@@ -75,6 +75,7 @@ namespace CompilingPrinciples
         {
             listTokens.Items.Clear();
             listSymbolTable.Items.Clear();
+            symbolTable.Clear();
 
             btnAnalyze.Enabled = false;
             btnOpen.Enabled = false;

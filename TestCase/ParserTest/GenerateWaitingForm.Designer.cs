@@ -28,39 +28,123 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.lblSLRProcess = new System.Windows.Forms.Label();
+            this.lblLR1Process = new System.Windows.Forms.Label();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 4;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Controls.Add(this.lblLR1Process, 2, 3);
+            this.tableLayoutPanel1.Controls.Add(this.label3, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.label2, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.label1, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.lblSLRProcess, 2, 2);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 5;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(647, 138);
+            this.tableLayoutPanel1.TabIndex = 2;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
+            this.tableLayoutPanel1.SetColumnSpan(this.label1, 2);
+            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(62, 35);
+            this.label1.Location = new System.Drawing.Point(23, 20);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(502, 31);
-            this.label1.TabIndex = 0;
+            this.label1.Size = new System.Drawing.Size(600, 35);
+            this.label1.TabIndex = 1;
             this.label1.Text = "Generating parser context, please wait...";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label2.Location = new System.Drawing.Point(23, 55);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(297, 30);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "SLR Context:";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label3.Location = new System.Drawing.Point(23, 85);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(297, 30);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "LR(1) Context:";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lblSLRProcess
+            // 
+            this.lblSLRProcess.AutoSize = true;
+            this.lblSLRProcess.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblSLRProcess.ForeColor = System.Drawing.Color.Blue;
+            this.lblSLRProcess.Location = new System.Drawing.Point(326, 55);
+            this.lblSLRProcess.Name = "lblSLRProcess";
+            this.lblSLRProcess.Size = new System.Drawing.Size(297, 30);
+            this.lblSLRProcess.TabIndex = 4;
+            this.lblSLRProcess.Text = "Generating...";
+            this.lblSLRProcess.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblLR1Process
+            // 
+            this.lblLR1Process.AutoSize = true;
+            this.lblLR1Process.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblLR1Process.ForeColor = System.Drawing.Color.Blue;
+            this.lblLR1Process.Location = new System.Drawing.Point(326, 85);
+            this.lblLR1Process.Name = "lblLR1Process";
+            this.lblLR1Process.Size = new System.Drawing.Size(297, 30);
+            this.lblLR1Process.TabIndex = 5;
+            this.lblLR1Process.Text = "Generating...";
+            this.lblLR1Process.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // GenerateWaitingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(636, 105);
+            this.ClientSize = new System.Drawing.Size(647, 138);
             this.ControlBox = false;
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.tableLayoutPanel1);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "GenerateWaitingForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Shindo\'s Syntax Analyzer";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GenerateWaitingForm_FormClosing);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        public System.Windows.Forms.Label lblSLRProcess;
+        public System.Windows.Forms.Label lblLR1Process;
     }
 }

@@ -11,7 +11,8 @@ namespace CompilingPrinciples.SyntaxAnalyzer
     public class LR0Item
     {
         [NonSerialized]
-        protected Grammar grammar;
+
+        Grammar grammar;
 
         protected Production production;
 

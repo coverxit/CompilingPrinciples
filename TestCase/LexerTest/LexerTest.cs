@@ -13,7 +13,7 @@ namespace CompilingPrinciples.TestCase
 {
     public class LexerTest
     {
-        public static void LexerCLITest()
+        public static void LaunchTest()
         {
             Console.WriteLine("----------------Lexer Test---------------");
             using (var stream = new FileStream("LexerTest.lc", FileMode.Open))
@@ -44,17 +44,6 @@ namespace CompilingPrinciples.TestCase
                 foreach (var e in lexer.SymbolTable.ToList())
                     Console.WriteLine(e.Lexeme);
             }
-        }
-
-        public static void LexerGUITest()
-        {
-            new LexerForm().Show();
-        }
-
-        public static void LaunchTest()
-        {
-            // LexerCLITest();
-            LexerGUITest();
         }
     }
 }

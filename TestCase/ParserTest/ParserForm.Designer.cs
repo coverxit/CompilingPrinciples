@@ -37,6 +37,8 @@
             this.ClientSize = new System.Drawing.Size(991, 580);
             this.Name = "ParserForm";
             this.Text = "Shindo\'s Syntax Analyzer";
+            this.Load += new System.EventHandler(this.ParserForm_Load);
+            this.Shown += new System.EventHandler(this.ParserForm_Shown);
             this.ResumeLayout(false);
 
         }

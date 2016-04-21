@@ -458,11 +458,6 @@ namespace CompilingPrinciples.TestCase
             Console.ReadLine();
         }
 
-        private static void ParserGUITest()
-        {
-            new ParserForm().Show();
-        }
-
         public static void LaunchTest()
         {
             //TestFirstFollow("Grammar-4.28.txt");
@@ -482,8 +477,6 @@ namespace CompilingPrinciples.TestCase
 
             //TestExperiment_LR1();
             //TestDeserialization_LR1();
-
-            ParserGUITest();
         }
     }
 }

@@ -12,7 +12,7 @@ namespace CompilingPrinciples.SymbolEnvironment
         private string lexeme;
         private Tag tag;
 
-        public String Lexeme
+        public string Lexeme
         {
             get { return lexeme; }
         }
@@ -64,11 +64,16 @@ namespace CompilingPrinciples.SymbolEnvironment
             return symbols[index].Lexeme;
         }
 
+        public void Clear()
+        {
+            
+        }
+
         public Tuple<SymbolTableEntry, int> GetSymbolEntry(string symbol)
         {
             for (int i = 0; i < symbols.Count; i++)
                 if (symbols[i].Lexeme == symbol)
-                    return Tuple.Create<SymbolTableEntry, int>(new SymbolTableEntry(symbols[i]), i);
+                    return Tuple.Create(new SymbolTableEntry(symbols[i]), i);
 
             return null;
         }

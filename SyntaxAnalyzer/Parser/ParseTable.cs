@@ -34,8 +34,6 @@ namespace CompilingPrinciples.SyntaxAnalyzer
         {
             get { return actionTable.Count; }
         }
-
-        protected ParseTable() { }
     }
 
     [Serializable]
