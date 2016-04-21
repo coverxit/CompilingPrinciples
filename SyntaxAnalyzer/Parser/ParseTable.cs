@@ -7,20 +7,13 @@ using System.Threading.Tasks;
 namespace CompilingPrinciples.SyntaxAnalyzer
 {
     [Serializable]
-    public abstract class ParseTable<T> where T: LR0Item
+    public abstract class ParseTable
     {
-        private const int ErrorGotoState = -1;
+        public const int ErrorGotoState = -1;
 
+        protected int initialState;
         protected Dictionary<int, Dictionary<ProductionSymbol, MultipleEntry>> actionTable;
         protected Dictionary<int, Dictionary<ProductionSymbol, int>> gotoTable;
-
-        protected LRCollection<T> collection;
-        protected List<HashSet<T>> itemsList;
-
-        public Type ItemType
-        {
-            get { return typeof(T); }
-        }
 
         public Dictionary<int, Dictionary<ProductionSymbol, MultipleEntry>> Action
         {
@@ -32,7 +25,6 @@ namespace CompilingPrinciples.SyntaxAnalyzer
             get { return new Dictionary<int, Dictionary<ProductionSymbol, int>>(gotoTable); }
         }
 
-        protected int initialState;
         public int InitialState
         {
             get { return initialState; }
@@ -41,6 +33,20 @@ namespace CompilingPrinciples.SyntaxAnalyzer
         public int StateCount
         {
             get { return actionTable.Count; }
+        }
+
+        protected ParseTable() { }
+    }
+
+    [Serializable]
+    public abstract class ParseTable<T> : ParseTable where T: LR0Item
+    {
+        protected LRCollection<T> collection;
+        protected List<HashSet<T>> itemsList;
+
+        public Type ItemType
+        {
+            get { return typeof(T); }
         }
 
         // Use Factory Pattern to create
@@ -54,8 +60,7 @@ namespace CompilingPrinciples.SyntaxAnalyzer
 
             GenerateActionTable();
             GenerateGotoTable();
-            // Don't fill errors, for saving memory
-            // FillErrors();
+            FillErrors();
             SetInitialState(initialItem);
         }
 
@@ -82,11 +87,6 @@ namespace CompilingPrinciples.SyntaxAnalyzer
                                     .DefaultIfEmpty(new { index = ErrorGotoState, value = new HashSet<T>() })
                                     .SingleOrDefault().index;
 
-                    // No Ij exists
-                    // Note that, we don't save error state, for saving memory
-                    if (j == ErrorGotoState)
-                        continue;
-
                     // Set GOTO[i, A] = j
                     if (!gotoTable.ContainsKey(e.index))
                         gotoTable.Add(e.index, new Dictionary<ProductionSymbol, int>());
@@ -107,7 +107,7 @@ namespace CompilingPrinciples.SyntaxAnalyzer
             // The errors in Goto Table has been filled in GenerateGotoTable
         }
 
-        public void SetInitialState(LR0Item initialItem)
+        public void SetInitialState(T initialItem)
         {
             // The initial state is the one containing [S' -> ·S]
             initialState = itemsList.Select((value, index) => new { index, value })

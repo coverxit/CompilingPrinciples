@@ -72,7 +72,7 @@ namespace CompilingPrinciples.TestCase
             }
         }
 
-        private static void ShowParseTable<T>(Grammar grammar, ParseTable<T> pt) where T : LR0Item
+        private static void ShowParseTable(Grammar grammar, ParseTable pt)
         {
             Console.WriteLine("================== Action Table ===================================");
             for (int i = 0; i <= pt.StateCount; i++)
@@ -137,7 +137,7 @@ namespace CompilingPrinciples.TestCase
                 grammar.Parse(stream);
                 stream.Close();
             }
-                
+
             var coll = new LR0Collection(grammar);
 
             // Cope with file Grammar-4.40.txt
@@ -155,7 +155,7 @@ namespace CompilingPrinciples.TestCase
             Console.WriteLine("============== LR(0) Collection ============================");
             ShowItems(coll);
 
-            var parseTable = SLRParseTable.Create(coll);
+            var parseTable = SLRParseTable.Create(coll) as SLRParseTable;
             ShowParseTable(grammar, parseTable);
 
             Console.WriteLine("=============== Parse: a * b ====================================");
@@ -342,7 +342,7 @@ namespace CompilingPrinciples.TestCase
             ShowSymbols(grammar);
 
             var coll = new LR1Collection(grammar);
-            var parseTable = LR1ParseTable.Create(coll);
+            var parseTable = LR1ParseTable.Create(coll) as LR1ParseTable;
 
             ShowFirstFollowSets(grammar, coll.First, coll.Follow);
             
@@ -377,7 +377,8 @@ namespace CompilingPrinciples.TestCase
             Console.WriteLine("============== LR(0) Collection ============================");
             ShowItems(coll);
 
-            var parseTable = SLRParseTable.Create(coll);
+            var parseTable = SLRParseTable.Create(coll) as SLRParseTable;
+
             ManualSelectAmbiguousAction(parseTable, grammar, coll);
 
             ShowParseTable(grammar, parseTable);
@@ -400,7 +401,7 @@ namespace CompilingPrinciples.TestCase
             Console.WriteLine("============== LR(1) Collection ============================");
             ShowItems(coll);
 
-            var parseTable = LR1ParseTable.Create(coll);
+            var parseTable = LR1ParseTable.Create(coll) as LR1ParseTable;
 
             ManualSelectAmbiguousAction(parseTable, grammar, coll);
             
@@ -413,7 +414,7 @@ namespace CompilingPrinciples.TestCase
         {
             var se_stream = new FileStream("SLRParserContext.ctx", FileMode.Open);
 
-            Console.WriteLine("==================== Deserialization =================================");
+            Console.WriteLine("==================== SLR Deserialization =================================");
             var st = new SymbolTable();
             var parser = Parser.CreateFromContext(se_stream, st, null);
 
@@ -436,7 +437,7 @@ namespace CompilingPrinciples.TestCase
         {
             var se_stream = new FileStream("LR1ParserContext.ctx", FileMode.Open);
 
-            Console.WriteLine("==================== Deserialization =================================");
+            Console.WriteLine("==================== LR(1) Deserialization =================================");
             var st = new SymbolTable();
             var parser = Parser.CreateFromContext(se_stream, st, null);
 
@@ -457,22 +458,22 @@ namespace CompilingPrinciples.TestCase
 
         public static void LaunchTest()
         {
-            TestFirstFollow("Grammar-4.28.txt");
-            TestFirstFollow("Grammar-Ex.txt");
+            //TestFirstFollow("Grammar-4.28.txt");
+            //TestFirstFollow("Grammar-Ex.txt");
 
-            TestSLRParser();
-            TestLR1Parser();
+            //TestSLRParser();
+            //TestLR1Parser();
 
-            TestDanglingElse_SLR("Grammar-4.3.txt");
-            TestDanglingElse_SLR("Grammar-4.67.txt");
+            //TestDanglingElse_SLR("Grammar-4.3.txt");
+            //TestDanglingElse_SLR("Grammar-4.67.txt");
 
-            TestDanglingElse_LR1("Grammar-4.3.txt");
-            TestDanglingElse_LR1("Grammar-4.67.txt");
+            //TestDanglingElse_LR1("Grammar-4.3.txt");
+            //TestDanglingElse_LR1("Grammar-4.67.txt");
 
-            TestExperiment_SLR();
+            //TestExperiment_SLR();
             TestDeserialization_SLR();
 
-            TestExperiment_LR1();
+            //TestExperiment_LR1();
             TestDeserialization_LR1();
         }
     }

@@ -12,12 +12,13 @@ namespace CompilingPrinciples.SyntaxAnalyzer
     {
         [NonSerialized]
         protected Grammar grammar;
+        protected FirstFollowSet firstSet, followSet;
+
         public Grammar Grammar
         {
             get { return grammar; }
         }
 
-        protected FirstFollowSet firstSet, followSet;
         public FirstFollowSet First
         {
             get { return firstSet; }
@@ -27,7 +28,6 @@ namespace CompilingPrinciples.SyntaxAnalyzer
         {
             get { return followSet; }
         }
-
 
         public LRCollection(Grammar grammar)
         {
