@@ -16,8 +16,6 @@ namespace CompilingPrinciples.SyntaxAnalyzer
         {
             foreach (var e in itemsList.Select((value, index) => new { index, value }))
             {
-                Console.Write(e.index.ToString() + " ");
-                
                 // Foreach [A -> α·aβ, b] in Ii, and GOTO(Ii, a)=Ij, then
                 // ACTION[i, a] is "shift j", a must be temrinal
                 foreach (var item in e.value.Where(i => !i.SymbolAfterDot.Equals(collection.Grammar.EndMarker)

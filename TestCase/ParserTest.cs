@@ -155,7 +155,7 @@ namespace CompilingPrinciples.TestCase
             Console.WriteLine("============== LR(0) Collection ============================");
             ShowItems(coll);
 
-            var parseTable = SLRParseTable.Create(coll) as SLRParseTable;
+            var parseTable = SLRParseTable.Create(coll);
             ShowParseTable(grammar, parseTable);
 
             Console.WriteLine("=============== Parse: a * b ====================================");
@@ -342,7 +342,7 @@ namespace CompilingPrinciples.TestCase
             ShowSymbols(grammar);
 
             var coll = new LR1Collection(grammar);
-            var parseTable = LR1ParseTable.Create(coll) as LR1ParseTable;
+            var parseTable = LR1ParseTable.Create(coll);
 
             ShowFirstFollowSets(grammar, coll.First, coll.Follow);
             
@@ -377,7 +377,7 @@ namespace CompilingPrinciples.TestCase
             Console.WriteLine("============== LR(0) Collection ============================");
             ShowItems(coll);
 
-            var parseTable = SLRParseTable.Create(coll) as SLRParseTable;
+            var parseTable = SLRParseTable.Create(coll);
 
             ManualSelectAmbiguousAction(parseTable, grammar, coll);
 
@@ -401,7 +401,7 @@ namespace CompilingPrinciples.TestCase
             Console.WriteLine("============== LR(1) Collection ============================");
             ShowItems(coll);
 
-            var parseTable = LR1ParseTable.Create(coll) as LR1ParseTable;
+            var parseTable = LR1ParseTable.Create(coll);
 
             ManualSelectAmbiguousAction(parseTable, grammar, coll);
             
