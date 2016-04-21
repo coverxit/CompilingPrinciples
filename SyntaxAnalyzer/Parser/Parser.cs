@@ -34,17 +34,13 @@ namespace CompilingPrinciples.SyntaxAnalyzer
         public abstract List<Tuple<string, string>> Parse(Stream input);
         public abstract void SaveContext(Stream stream);
 
-        public static Parser LoadContext(Stream stream, SymbolTable symbolTable, IParserErrorRoutine errRoutine)
+        public static Parser CreateFromContext(Stream stream, SymbolTable symbolTable, IParserErrorRoutine errRoutine)
         {
-            var buf = new byte[sizeof(int)];
-            stream.Read(buf, 0, sizeof(int));
-
-            var magicNum = BitConverter.ToInt32(buf, 0);
-            if (magicNum != ContextMagicNumber)
-                throw new ApplicationException("Invalid Magic Number!");
-
             // Deserialization
             var formatter = new BinaryFormatter();
+
+            if ((int)formatter.Deserialize(stream) != ContextMagicNumber)
+                throw new ApplicationException("Invalid Magic Number!");
 
             formatter.Context = new StreamingContext(StreamingContextStates.All, symbolTable);
             var grammar = formatter.Deserialize(stream) as Grammar;
@@ -175,9 +171,7 @@ namespace CompilingPrinciples.SyntaxAnalyzer
         public override void SaveContext(Stream stream)
         {
             var formatter = new BinaryFormatter();
-            var magicNum = BitConverter.GetBytes(ContextMagicNumber);
-
-            stream.Write(magicNum, 0, magicNum.Length);
+            formatter.Serialize(stream, ContextMagicNumber);
             formatter.Serialize(stream, grammar);
             formatter.Serialize(stream, parseTable.ItemType);
             formatter.Serialize(stream, parseTable);

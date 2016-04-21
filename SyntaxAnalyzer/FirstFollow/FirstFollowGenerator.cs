@@ -11,7 +11,7 @@ namespace CompilingPrinciples.SyntaxAnalyzer
         protected Grammar grammar;
         protected FirstFollowSet firstSet, followSet;
 
-        public FirstFollowSet FirstSet
+        public FirstFollowSet First
         {
             get
             {
@@ -22,7 +22,7 @@ namespace CompilingPrinciples.SyntaxAnalyzer
             }
         }
 
-        public FirstFollowSet FollowSet
+        public FirstFollowSet Follow
         {
             get
             {

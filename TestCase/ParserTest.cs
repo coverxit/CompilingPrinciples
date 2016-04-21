@@ -12,22 +12,18 @@ using CompilingPrinciples.SymbolEnvironment;
 using CompilingPrinciples.SyntaxAnalyzer;
 
 namespace CompilingPrinciples.TestCase
-{
+{   
     public class ParserTest
     {
-        private static void TestFirstFollow()
+        private static void ShowProductions(Grammar grammar)
         {
-            Grammar grammar = new Grammar(new SymbolTable());
-            using (var stream = new FileStream("Grammar-Ex.txt", FileMode.Open))
-                //using (var stream = new FileStream("Grammar-4.28.txt", FileMode.Open))
-                grammar.Parse(stream);
-
-            FirstFollowGenerator gen = new FirstFollowGenerator(grammar);
-
             Console.WriteLine("========================= Productions ======================");
             foreach (var prod in grammar.Productions)
                 Console.WriteLine(prod.ToString());
+        }
 
+        private static void ShowSymbols(Grammar grammar)
+        {
             Console.WriteLine("======================= Non-Terminals ======================");
             foreach (var e in grammar.NonTerminals.Select((value, index) => new { value, index }))
                 Console.Write(e.value.ToString() + (e.index < grammar.NonTerminals.Count - 1 ? ", " : "\n"));
@@ -35,19 +31,22 @@ namespace CompilingPrinciples.TestCase
             Console.WriteLine("========================= Terminals ========================");
             foreach (var e in grammar.Terminals.Select((value, index) => new { value, index }))
                 Console.Write(e.value.ToString() + (e.index < grammar.Terminals.Count - 1 ? ", " : "\n"));
+        }
 
+        private static void ShowFirstFollowSets(Grammar grammar, FirstFollowSet firstSet, FirstFollowSet followSet)
+        {
             Console.WriteLine("========================= First Set ========================");
             foreach (var sym in grammar.NonTerminals)
             {
                 Console.Write("First(" + sym.ToString() + ") = { ");
-                foreach (var e in gen.FirstSet.Get(sym).Select((value, index) => new { value, index }))
+                foreach (var e in firstSet.Get(sym).Select((value, index) => new { value, index }))
                 {
                     if (e.value.ToString() == "@")
                         Console.Write("ε");
                     else
                         Console.Write(e.value.ToString());
 
-                    if (e.index < gen.FirstSet.Get(sym).Count - 1)
+                    if (e.index < firstSet.Get(sym).Count - 1)
                         Console.Write(", ");
                 }
 
@@ -58,19 +57,72 @@ namespace CompilingPrinciples.TestCase
             foreach (var sym in grammar.NonTerminals)
             {
                 Console.Write("Follow(" + sym.ToString() + ") = { ");
-                foreach (var e in gen.FollowSet.Get(sym).Select((value, index) => new { value, index }))
+                foreach (var e in followSet.Get(sym).Select((value, index) => new { value, index }))
                 {
                     if (e.value.ToString() == "@")
                         Console.Write("ε");
                     else
                         Console.Write(e.value.ToString());
 
-                    if (e.index < gen.FollowSet.Get(sym).Count - 1)
+                    if (e.index < followSet.Get(sym).Count - 1)
                         Console.Write(", ");
                 }
 
                 Console.WriteLine(" }");
             }
+        }
+
+        private static void ShowParseTable<T>(Grammar grammar, ParseTable<T> pt) where T : LR0Item
+        {
+            Console.WriteLine("================== Action Table ===================================");
+            for (int i = 0; i <= pt.StateCount; i++)
+            {
+                if (pt.Action.ContainsKey(i))
+                    foreach (var term in grammar.TerminalsWithEndMarker.Where(e => pt.Action[i].ContainsKey(e)))
+                        Console.WriteLine("ACTION[{0}, {1}]={2}", i, term, pt.Action[i][term]);
+                Console.WriteLine("===============================================================");
+            }
+
+            Console.WriteLine("================== Goto Table ===================================");
+            for (int i = 0; i <= pt.StateCount; i++)
+            {
+                if (pt.Goto.ContainsKey(i))
+                    foreach (var nonTerm in grammar.NonTerminalsWithoutAugmentedS.Where(e => pt.Goto[i].ContainsKey(e)))
+                        Console.WriteLine("GOTO[{0}, {1}]={2}", i, nonTerm, pt.Goto[i][nonTerm]);
+                Console.WriteLine("===============================================================");
+            }
+        }
+
+        private static void ShowItems<T>(LRCollection<T> coll) where T : LR0Item
+        {
+            var curIndex = -1;
+            foreach (var e in coll.Items().Select((value, index) => new { index, value }))
+            {
+                if (curIndex != e.index)
+                {
+                    Console.WriteLine("==================== I[" + e.index + "] ====================");
+                    curIndex = e.index;
+                }
+
+                foreach (var i in e.value)
+                    Console.WriteLine(i);
+            }
+        }
+
+        private static void TestFirstFollow(string fileName)
+        {
+            Grammar grammar = new Grammar(new SymbolTable());
+            using (var stream = new FileStream(fileName, FileMode.Open))
+            {
+                grammar.Parse(stream);
+                stream.Close();
+            }
+
+            ShowProductions(grammar);
+            ShowSymbols(grammar);
+
+            FirstFollowGenerator gen = new FirstFollowGenerator(grammar);
+            ShowFirstFollowSets(grammar, gen.First, gen.Follow);
 
             Console.ReadLine();
         }
@@ -81,8 +133,11 @@ namespace CompilingPrinciples.TestCase
 
             Grammar grammar = new Grammar(symbolTable);
             using (var stream = new FileStream("Grammar-4.40.txt", FileMode.Open))
+            {
                 grammar.Parse(stream);
-
+                stream.Close();
+            }
+                
             var coll = new LR0Collection(grammar);
 
             // Cope with file Grammar-4.40.txt
@@ -98,36 +153,10 @@ namespace CompilingPrinciples.TestCase
                 Console.WriteLine(e);
 
             Console.WriteLine("============== LR(0) Collection ============================");
-            var curIndex = -1;
-            foreach (var e in coll.Items().Select((value, index) => new { index, value }))
-            {
-                if (curIndex != e.index)
-                {
-                    Console.WriteLine("==================== I[" + e.index + "] ====================");
-                    curIndex = e.index;
-                }
-
-                foreach (var i in e.value)
-                    Console.WriteLine(i);
-            }
+            ShowItems(coll);
 
             var parseTable = SLRParseTable.Create(coll);
-            Console.WriteLine("================== Action Table ===================================");
-            for (int i = 0; i <= curIndex; i++)
-            {
-                foreach (var term in grammar.TerminalsWithEndMarker.Where(e => parseTable.Action[i].ContainsKey(e)))
-                    Console.WriteLine("ACTION[{0}, {1}]={2}", i, term, parseTable.Action[i][term]);
-                Console.WriteLine("===============================================================");
-            }
-
-            Console.WriteLine("================== Goto Table ===================================");
-            for (int i = 0; i <= curIndex; i++)
-            {
-                if (parseTable.Goto.ContainsKey(i))
-                    foreach (var nonTerm in grammar.NonTerminalsWithoutAugmentedS.Where(e => parseTable.Goto[i].ContainsKey(e)))
-                        Console.WriteLine("GOTO[{0}, {1}]={2}", i, nonTerm, parseTable.Goto[i][nonTerm]);
-                    Console.WriteLine("===============================================================");
-            }
+            ShowParseTable(grammar, parseTable);
 
             Console.WriteLine("=============== Parse: a * b ====================================");
             var sb = new StringBuilder();
@@ -149,7 +178,10 @@ namespace CompilingPrinciples.TestCase
             var symbolTable = new SymbolTable();
             Grammar grammar = new Grammar(symbolTable);
             using (var stream = new FileStream("Grammar-4.55.txt", FileMode.Open))
+            {
                 grammar.Parse(stream);
+                stream.Close();
+            }
 
             var coll = new LR1Collection(grammar);
             var gen = new FirstFollowGenerator(grammar);
@@ -161,108 +193,24 @@ namespace CompilingPrinciples.TestCase
                 Console.WriteLine(e);
 
             Console.WriteLine("============== LR(1) Collection ============================");
-            var curIndex = -1;
-            foreach (var e in coll.Items().Select((value, index) => new { index, value }))
-            {
-                if (curIndex != e.index)
-                {
-                    Console.WriteLine("==================== I[" + e.index + "] ====================");
-                    curIndex = e.index;
-                }
-
-                foreach (var i in e.value)
-                    Console.WriteLine(i);
-            }
+            ShowItems(coll);
 
             var parseTable = LR1ParseTable.Create(coll);
-
-            Console.WriteLine("================== Action Table ===================================");
-            for (int i = 0; i <= curIndex; i++)
-            {
-                foreach (var term in grammar.TerminalsWithEndMarker.Where(e => parseTable.Action[i].ContainsKey(e)))
-                    Console.WriteLine("ACTION[{0}, {1}]={2}", i, term, parseTable.Action[i][term]);
-                Console.WriteLine("===============================================================");
-            }
-
-            Console.WriteLine("================== Goto Table ===================================");
-            for (int i = 0; i <= curIndex; i++)
-            {
-                if (parseTable.Goto.ContainsKey(i))
-                    foreach (var nonTerm in grammar.NonTerminalsWithoutAugmentedS.Where(e => parseTable.Goto[i].ContainsKey(e)))
-                        Console.WriteLine("GOTO[{0}, {1}]={2}", i, nonTerm, parseTable.Goto[i][nonTerm]);
-                Console.WriteLine("===============================================================");
-            }
-
+            ShowParseTable(grammar, parseTable);
+            
             Console.ReadLine();
         }
 
-        private static void TestExperiment_SLR()
+        private static void AutoSelectAmbiguousAction<T>(Grammar grammar, ParseTable<T> parseTable, LRCollection<T> coll) 
+            where T : LR0Item
         {
-            var symbolTable = new SymbolTable();
-            Grammar grammar = new Grammar(symbolTable);
-            using (var stream = new FileStream("Grammar-Ex.txt", FileMode.Open))
-                grammar.Parse(stream);
-
-            FirstFollowGenerator gen = new FirstFollowGenerator(grammar);
-
-            Console.WriteLine("========================= Productions ======================");
-            foreach (var prod in grammar.Productions)
-                Console.WriteLine(prod.ToString());
-
-            Console.WriteLine("======================= Non-Terminals ======================");
-            foreach (var e in grammar.NonTerminals.Select((value, index) => new { value, index }))
-                Console.Write(e.value.ToString() + (e.index < grammar.NonTerminals.Count - 1 ? ", " : "\n"));
-
-            Console.WriteLine("========================= Terminals ========================");
-            foreach (var e in grammar.Terminals.Select((value, index) => new { value, index }))
-                Console.Write(e.value.ToString() + (e.index < grammar.Terminals.Count - 1 ? ", " : "\n"));
-
-            Console.WriteLine("========================= First Set ========================");
-            foreach (var sym in grammar.NonTerminals)
-            {
-                Console.Write("First(" + sym.ToString() + ") = { ");
-                foreach (var e in gen.FirstSet.Get(sym).Select((value, index) => new { value, index }))
-                {
-                    if (e.value.ToString() == "@")
-                        Console.Write("ε");
-                    else
-                        Console.Write(e.value.ToString());
-
-                    if (e.index < gen.FirstSet.Get(sym).Count - 1)
-                        Console.Write(", ");
-                }
-
-                Console.WriteLine(" }");
-            }
-
-            Console.WriteLine("========================= Follow Set ========================");
-            foreach (var sym in grammar.NonTerminals)
-            {
-                Console.Write("Follow(" + sym.ToString() + ") = { ");
-                foreach (var e in gen.FollowSet.Get(sym).Select((value, index) => new { value, index }))
-                {
-                    if (e.value.ToString() == "@")
-                        Console.Write("ε");
-                    else
-                        Console.Write(e.value.ToString());
-
-                    if (e.index < gen.FollowSet.Get(sym).Count - 1)
-                        Console.Write(", ");
-                }
-
-                Console.WriteLine(" }");
-            }
-
-            var LR0coll = new LR0Collection(grammar);
-            var slrPT = SLRParseTable.Create(LR0coll);
-            Console.WriteLine("State count: " + slrPT.StateCount);
             Console.WriteLine("======================== Select Prefer Entry =======================");
-            foreach (var pend in slrPT.Action.Select((value, index) => new { index, value }))
+            foreach (var pend in parseTable.Action.Select((value, index) => new { index, value }))
                 foreach (var term in grammar.TerminalsWithEndMarker)
                     if (pend.value.Value.ContainsKey(term) && !pend.value.Value[term].PreferedEntrySpecified)
                     {
                         Console.WriteLine("=========I[" + pend.index + "]==============");
-                        foreach (var e in LR0coll.Items().Select((value, index) => new { index, value }).Where(e => e.index == pend.index))
+                        foreach (var e in coll.Items().Select((value, index) => new { index, value }).Where(e => e.index == pend.index))
                             foreach (var it in e.value)
                                 Console.WriteLine(it);
 
@@ -274,7 +222,7 @@ namespace CompilingPrinciples.TestCase
                             Console.WriteLine(e.index.ToString() + "." + e.value);
                             if (e.value.Type == ActionTableEntry.ActionType.Shift)
                             {
-                                foreach (var col in LR0coll.Items().Select((value, index) => new { index, value }).Where(c => c.index == e.value.ShiftState))
+                                foreach (var col in coll.Items().Select((value, index) => new { index, value }).Where(c => c.index == e.value.ShiftState))
                                     foreach (var it in col.value)
                                         Console.WriteLine(it);
                             }
@@ -299,28 +247,42 @@ namespace CompilingPrinciples.TestCase
                         Console.WriteLine("Choosed: " + pend.value.Value[term].PreferEntry);
 
                     }
+        }
 
-            /*
-            Console.WriteLine("================== Action Table ===================================");
-            for (int i = 0; i < slrPT.StateCount; i++)
-            {
+        private static void ManualSelectAmbiguousAction<T>(ParseTable<T> parseTable, Grammar grammar, LRCollection<T> coll)
+            where T : LR0Item
+        {
+            Console.WriteLine("======================== Select Prefer Entry =======================");
+            foreach (var pend in parseTable.Action.Select((value, index) => new { index, value }))
                 foreach (var term in grammar.TerminalsWithEndMarker)
-                    Console.WriteLine("ACTION[{0}, {1}]={2}", i, term, slrPT.Action[i][term]);
-                Console.WriteLine("===============================================================");
-            }
+                    if (pend.value.Value.ContainsKey(term) && !pend.value.Value[term].PreferedEntrySpecified)
+                    {
+                        Console.WriteLine("=========I[" + pend.index + "]==============");
+                        foreach (var e in coll.Items().Select((value, index) => new { index, value }).Where(e => e.index == pend.index))
+                            foreach (var it in e.value)
+                                Console.WriteLine(it);
 
-            Console.WriteLine("================== Goto Table ===================================");
-            for (int i = 0; i < slrPT.StateCount; i++)
-            {
-                foreach (var nonTerm in grammar.NonTerminalsWithoutAugmentedS)
-                    Console.WriteLine("GOTO[{0}, {1}]={2}", i, nonTerm, slrPT.Goto[i][nonTerm]);
-                Console.WriteLine("===============================================================");
-            }
-            */
+                        Console.WriteLine("============================================");
+                        Console.WriteLine("Select for ACTION[" + pend.index + ", " + term + "]");
+                        Console.WriteLine("=========== Actions pending =======");
+                        foreach (var e in pend.value.Value[term].Entries.Select((value, index) => new { index, value }))
+                        {
+                            Console.WriteLine(e.index.ToString() + "." + e.value);
+                            if (e.value.Type == ActionTableEntry.ActionType.Shift)
+                            {
+                                foreach (var col in coll.Items().Select((value, index) => new { index, value }).Where(c => c.index == e.value.ShiftState))
+                                    foreach (var it in col.value)
+                                        Console.WriteLine(it);
+                            }
+                        }
 
-            Console.WriteLine("=============== Parse Sample Code ===================================");
+                        int sel = int.Parse(Console.ReadLine());
+                        pend.value.Value[term].SetPreferEntry(pend.value.Value[term].Entries.ToList()[sel]);
+                    }
+        }
 
-            var parser = new Parser<LR0Item>(symbolTable, grammar, slrPT, null);
+        private static void ParseSampleCode(Parser parser)
+        {
             var fs = new FileStream("ParserTest.lc", FileMode.Open);
             var ops = parser.Parse(fs);
 
@@ -329,6 +291,33 @@ namespace CompilingPrinciples.TestCase
                 Console.WriteLine("{0,-40} {1}", op.Item2, op.Item1);
 
             fs.Close();
+        }
+
+        private static void TestExperiment_SLR()
+        {
+            var symbolTable = new SymbolTable();
+            Grammar grammar = new Grammar(symbolTable);
+            using (var stream = new FileStream("Grammar-Ex.txt", FileMode.Open))
+            {
+                grammar.Parse(stream);
+                stream.Close();
+            }
+
+            ShowProductions(grammar);
+            ShowSymbols(grammar);
+                
+            var coll = new LR0Collection(grammar);
+            var parseTable = SLRParseTable.Create(coll);
+
+            ShowFirstFollowSets(grammar, coll.First, coll.Follow);
+
+            Console.WriteLine("State count: " + parseTable.StateCount);
+            
+            AutoSelectAmbiguousAction(grammar, parseTable, coll);
+
+            Console.WriteLine("=============== Parse Sample Code ===================================");
+            var parser = new Parser<LR0Item>(symbolTable, grammar, parseTable, null);
+            ParseSampleCode(parser);
 
             Console.WriteLine("==================== Serialization =================================");
             var outStream = new FileStream("SLRParserContext.ctx", FileMode.Create);
@@ -344,282 +333,78 @@ namespace CompilingPrinciples.TestCase
             var symbolTable = new SymbolTable();
             Grammar grammar = new Grammar(symbolTable);
             using (var stream = new FileStream("Grammar-Ex.txt", FileMode.Open))
+            {
                 grammar.Parse(stream);
+                stream.Close();
+            }   
 
-            FirstFollowGenerator gen = new FirstFollowGenerator(grammar);
+            ShowProductions(grammar);
+            ShowSymbols(grammar);
 
-            Console.WriteLine("========================= Productions ======================");
-            foreach (var prod in grammar.Productions)
-                Console.WriteLine(prod.ToString());
+            var coll = new LR1Collection(grammar);
+            var parseTable = LR1ParseTable.Create(coll);
 
-            Console.WriteLine("======================= Non-Terminals ======================");
-            foreach (var e in grammar.NonTerminals.Select((value, index) => new { value, index }))
-                Console.Write(e.value.ToString() + (e.index < grammar.NonTerminals.Count - 1 ? ", " : "\n"));
-
-            Console.WriteLine("========================= Terminals ========================");
-            foreach (var e in grammar.Terminals.Select((value, index) => new { value, index }))
-                Console.Write(e.value.ToString() + (e.index < grammar.Terminals.Count - 1 ? ", " : "\n"));
-
-            Console.WriteLine("========================= First Set ========================");
-            foreach (var sym in grammar.NonTerminals)
-            {
-                Console.Write("First(" + sym.ToString() + ") = { ");
-                foreach (var e in gen.FirstSet.Get(sym).Select((value, index) => new { value, index }))
-                {
-                    if (e.value.ToString() == "@")
-                        Console.Write("ε");
-                    else
-                        Console.Write(e.value.ToString());
-
-                    if (e.index < gen.FirstSet.Get(sym).Count - 1)
-                        Console.Write(", ");
-                }
-
-                Console.WriteLine(" }");
-            }
-
-            Console.WriteLine("========================= Follow Set ========================");
-            foreach (var sym in grammar.NonTerminals)
-            {
-                Console.Write("Follow(" + sym.ToString() + ") = { ");
-                foreach (var e in gen.FollowSet.Get(sym).Select((value, index) => new { value, index }))
-                {
-                    if (e.value.ToString() == "@")
-                        Console.Write("ε");
-                    else
-                        Console.Write(e.value.ToString());
-
-                    if (e.index < gen.FollowSet.Get(sym).Count - 1)
-                        Console.Write(", ");
-                }
-
-                Console.WriteLine(" }");
-            }
-
-            var LR1coll = new LR1Collection(grammar);
-            var LR1PT = LR1ParseTable.Create(LR1coll);
-
-            Console.WriteLine("======================== Select Prefer Entry =======================");
-            foreach (var pend in LR1PT.Action.Select((value, index) => new { index, value }))
-                foreach (var term in grammar.TerminalsWithEndMarker)
-                    if (pend.value.Value.ContainsKey(term) && !pend.value.Value[term].PreferedEntrySpecified)
-                    {
-                        Console.WriteLine("=========I[" + pend.index + "]==============");
-                        foreach (var e in LR1coll.Items().Select((value, index) => new { index, value }).Where(e => e.index == pend.index))
-                            foreach (var it in e.value)
-                                Console.WriteLine(it);
-
-                        Console.WriteLine("============================================");
-                        Console.WriteLine("Select for ACTION[" + pend.index + ", " + term + "]");
-                        Console.WriteLine("=========== Actions pending =======");
-                        foreach (var e in pend.value.Value[term].Entries.Select((value, index) => new { index, value }))
-                        {
-                            Console.WriteLine(e.index.ToString() + "." + e.value);
-                            if (e.value.Type == ActionTableEntry.ActionType.Shift)
-                            {
-                                foreach (var col in LR1coll.Items().Select((value, index) => new { index, value }).Where(c => c.index == e.value.ShiftState))
-                                    foreach (var it in col.value)
-                                        Console.WriteLine(it);
-                            }
-                        }
-
-
-                        foreach (var e in pend.value.Value[term].Entries.Select((value, index) => new { index, value })
-                                                                       .Where(e => e.value.Type == ActionTableEntry.ActionType.Reduce))
-                        {
-                            if (pend.value.Value[term].Entries.ToList()[e.index].ReduceProduction.ToString() != "S -> if ( C ) S")
-                                pend.value.Value[term].SetPreferEntry(pend.value.Value[term].Entries.ToList()[e.index]);
-                        }
-
-                        if (!pend.value.Value[term].PreferedEntrySpecified)
-                        {
-                            foreach (var e in pend.value.Value[term].Entries.Select((value, index) => new { index, value })
-                                                                       .Where(e => e.value.Type == ActionTableEntry.ActionType.Shift))
-                            {
-                                pend.value.Value[term].SetPreferEntry(pend.value.Value[term].Entries.ToList()[e.index]);
-                            }
-                        }
-
-                        Console.WriteLine("Choosed: " + pend.value.Value[term].PreferEntry);
-
-
-                        /*
-                        int sel = int.Parse(Console.ReadLine());
-                        pend.value.Value[term].SetPreferEntry(pend.value.Value[term].Entries.ToList()[sel]);
-                        */
-                    }
-
-            /*
-            Console.WriteLine("================== Action Table ===================================");
-            for (int i = 0; i < LR1PT.StateCount; i++)
-            {
-                foreach (var term in grammar.TerminalsWithEndMarker)
-                    Console.WriteLine("ACTION[{0}, {1}]={2}", i, term, LR1PT.Action[i][term]);
-                Console.WriteLine("===============================================================");
-            }
-
-            Console.WriteLine("================== Goto Table ===================================");
-            for (int i = 0; i < LR1PT.StateCount; i++)
-            {
-                foreach (var nonTerm in grammar.NonTerminalsWithoutAugmentedS)
-                    Console.WriteLine("GOTO[{0}, {1}]={2}", i, nonTerm, LR1PT.Goto[i][nonTerm]);
-                Console.WriteLine("===============================================================");
-            }
-            */
+            ShowFirstFollowSets(grammar, coll.First, coll.Follow);
+            
+            AutoSelectAmbiguousAction(grammar, parseTable, coll);
 
             Console.WriteLine("=============== Parse Sample Code ===================================");
-            var parser = new Parser<LR1Item>(symbolTable, grammar, LR1PT, null);
-            var ops = parser.Parse(new FileStream("ParserTest.lc", FileMode.Open));
+            var parser = new Parser<LR1Item>(symbolTable, grammar, parseTable, null);
+            ParseSampleCode(parser);
 
-            Console.WriteLine("{0,-40} {1}", "SYMBOLS", "ACTION");
-            foreach (var op in ops)
-                Console.WriteLine("{0,-40} {1}", op.Item2, op.Item1);
+            Console.WriteLine("==================== Serialization =================================");
+            var outStream = new FileStream("LR1ParserContext.ctx", FileMode.Create);
+            parser.SaveContext(outStream);
+            outStream.Close();
+
+            Console.WriteLine("Done.");
 
             Console.ReadLine();
         }
 
-        private static void TestDanglingElse_SLR()
+        private static void TestDanglingElse_SLR(string fileName)
         {
             var symbolTable = new SymbolTable();
             Grammar grammar = new Grammar(symbolTable);
-            //using (var stream = new FileStream("Grammar-4.3.txt", FileMode.Open))
-            using (var stream = new FileStream("Grammar-4.67.txt", FileMode.Open))
-                grammar.Parse(stream);
 
-            var LR0Coll = new LR0Collection(grammar);
+            using (var stream = new FileStream(fileName, FileMode.Open))
+            {
+                grammar.Parse(stream);
+                stream.Close();
+            }
+
+            var coll = new LR0Collection(grammar);
             Console.WriteLine("============== LR(0) Collection ============================");
-            var LR0curIndex = -1;
-            foreach (var e in LR0Coll.Items().Select((value, index) => new { index, value }))
-            {
-                if (LR0curIndex != e.index)
-                {
-                    Console.WriteLine("==================== I[" + e.index + "] ====================");
-                    LR0curIndex = e.index;
-                }
+            ShowItems(coll);
 
-                foreach (var i in e.value)
-                    Console.WriteLine(i);
-            }
+            var parseTable = SLRParseTable.Create(coll);
+            ManualSelectAmbiguousAction(parseTable, grammar, coll);
 
-            var slrPT = SLRParseTable.Create(LR0Coll);
-
-            Console.WriteLine("======================== Select Prefer Entry =======================");
-            foreach (var pend in slrPT.Action.Select((value, index) => new { index, value }))
-                foreach (var term in grammar.TerminalsWithEndMarker)
-                    if (pend.value.Value.ContainsKey(term) && !pend.value.Value[term].PreferedEntrySpecified)
-                    {
-                        Console.WriteLine("=========I[" + pend.index + "]==============");
-                        foreach (var e in LR0Coll.Items().Select((value, index) => new { index, value }).Where(e => e.index == pend.index))
-                            foreach (var it in e.value)
-                                Console.WriteLine(it);
-
-                        Console.WriteLine("============================================");
-                        Console.WriteLine("Select for ACTION[" + pend.index + ", " + term + "]");
-                        Console.WriteLine("=========== Actions pending =======");
-                        foreach (var e in pend.value.Value[term].Entries.Select((value, index) => new { index, value }))
-                        {
-                            Console.WriteLine(e.index.ToString() + "." + e.value);
-                            if (e.value.Type == ActionTableEntry.ActionType.Shift)
-                            {
-                                foreach (var col in LR0Coll.Items().Select((value, index) => new { index, value }).Where(c => c.index == e.value.ShiftState))
-                                    foreach (var it in col.value)
-                                        Console.WriteLine(it);
-                            }
-                        }
-
-                        int sel = int.Parse(Console.ReadLine());
-                        pend.value.Value[term].SetPreferEntry(pend.value.Value[term].Entries.ToList()[sel]);
-                    }
-
-            Console.WriteLine("================== Action Table ===================================");
-            for (int i = 0; i < slrPT.StateCount; i++)
-            {
-                foreach (var term in grammar.TerminalsWithEndMarker.Where(e => slrPT.Action[i].ContainsKey(e)))
-                    Console.WriteLine("ACTION[{0}, {1}]={2}", i, term, slrPT.Action[i][term]);
-                Console.WriteLine("===============================================================");
-            }
-
-            Console.WriteLine("================== Goto Table ===================================");
-            for (int i = 0; i < slrPT.StateCount; i++)
-            {
-                if (slrPT.Goto.ContainsKey(i))
-                    foreach (var nonTerm in grammar.NonTerminalsWithoutAugmentedS.Where(e => slrPT.Goto[i].ContainsKey(e)))
-                        Console.WriteLine("GOTO[{0}, {1}]={2}", i, nonTerm, slrPT.Goto[i][nonTerm]);
-                    Console.WriteLine("===============================================================");
-            }
+            ShowParseTable(grammar, parseTable);
 
             Console.ReadLine();
         }
 
-        private static void TestDanglingElse_LR1()
+        private static void TestDanglingElse_LR1(string fileName)
         {
             var symbolTable = new SymbolTable();
             Grammar grammar = new Grammar(symbolTable);
-            using (var stream = new FileStream("Grammar-4.3.txt", FileMode.Open))
-                //using (var stream = new FileStream("Grammar-4.67.txt", FileMode.Open))
+
+            using (var stream = new FileStream(fileName, FileMode.Open))
+            {
                 grammar.Parse(stream);
+                stream.Close();
+            }
 
-            var LR1Coll = new LR1Collection(grammar);
+            var coll = new LR1Collection(grammar);
             Console.WriteLine("============== LR(1) Collection ============================");
-            var LR0curIndex = -1;
-            foreach (var e in LR1Coll.Items().Select((value, index) => new { index, value }))
-            {
-                if (LR0curIndex != e.index)
-                {
-                    Console.WriteLine("==================== I[" + e.index + "] ====================");
-                    LR0curIndex = e.index;
-                }
+            ShowItems(coll);
 
-                foreach (var i in e.value)
-                    Console.WriteLine(i);
-            }
+            var parseTable = LR1ParseTable.Create(coll);
 
-            var LR1PT = LR1ParseTable.Create(LR1Coll);
-
-            Console.WriteLine("======================== Select Prefer Entry =======================");
-            foreach (var pend in LR1PT.Action.Select((value, index) => new { index, value }))
-                foreach (var term in grammar.TerminalsWithEndMarker)
-                    if (pend.value.Value.ContainsKey(term) && !pend.value.Value[term].PreferedEntrySpecified)
-                    {
-                        Console.WriteLine("=========I[" + pend.index + "]==============");
-                        foreach (var e in LR1Coll.Items().Select((value, index) => new { index, value }).Where(e => e.index == pend.index))
-                            foreach (var it in e.value)
-                                Console.WriteLine(it);
-
-                        Console.WriteLine("============================================");
-                        Console.WriteLine("Select for ACTION[" + pend.index + ", " + term + "]");
-                        Console.WriteLine("=========== Actions pending =======");
-                        foreach (var e in pend.value.Value[term].Entries.Select((value, index) => new { index, value }))
-                        {
-                            Console.WriteLine(e.index.ToString() + "." + e.value);
-                            if (e.value.Type == ActionTableEntry.ActionType.Shift)
-                            {
-                                foreach (var col in LR1Coll.Items().Select((value, index) => new { index, value }).Where(c => c.index == e.value.ShiftState))
-                                    foreach (var it in col.value)
-                                        Console.WriteLine(it);
-                            }
-                        }
-
-                        int sel = int.Parse(Console.ReadLine());
-                        pend.value.Value[term].SetPreferEntry(pend.value.Value[term].Entries.ToList()[sel]);
-                    }
-
-            Console.WriteLine("================== Action Table ===================================");
-            for (int i = 0; i < LR1PT.StateCount; i++)
-            {
-                foreach (var term in grammar.TerminalsWithEndMarker.Where(e => LR1PT.Action[i].ContainsKey(e)))
-                    Console.WriteLine("ACTION[{0}, {1}]={2}", i, term, LR1PT.Action[i][term]);
-                Console.WriteLine("===============================================================");
-            }
-
-            Console.WriteLine("================== Goto Table ===================================");
-            for (int i = 0; i < LR1PT.StateCount; i++)
-            {
-                if (LR1PT.Goto.ContainsKey(i))
-                    foreach (var nonTerm in grammar.NonTerminalsWithoutAugmentedS.Where(e => LR1PT.Action[i].ContainsKey(e)))
-                        Console.WriteLine("GOTO[{0}, {1}]={2}", i, nonTerm, LR1PT.Goto[i][nonTerm]);
-                    Console.WriteLine("===============================================================");
-            }
+            ManualSelectAmbiguousAction(parseTable, grammar, coll);
+            
+            ShowParseTable(grammar, parseTable);
 
             Console.ReadLine();
         }
@@ -630,8 +415,30 @@ namespace CompilingPrinciples.TestCase
 
             Console.WriteLine("==================== Deserialization =================================");
             var st = new SymbolTable();
+            var parser = Parser.CreateFromContext(se_stream, st, null);
 
-            var parser = Parser.LoadContext(se_stream, st, null);
+            Console.WriteLine("=============== Parse Sample Code ===================================");
+
+            var fs = new FileStream("ParserTest.lc", FileMode.Open);
+            var newOps = parser.Parse(fs);
+
+            Console.WriteLine("{0,-40} {1}", "SYMBOLS", "ACTION");
+            foreach (var op in newOps)
+                Console.WriteLine("{0,-40} {1}", op.Item2, op.Item1);
+
+            fs.Close();
+            se_stream.Close();
+
+            Console.ReadLine();
+        }
+
+        private static void TestDeserialization_LR1()
+        {
+            var se_stream = new FileStream("LR1ParserContext.ctx", FileMode.Open);
+
+            Console.WriteLine("==================== Deserialization =================================");
+            var st = new SymbolTable();
+            var parser = Parser.CreateFromContext(se_stream, st, null);
 
             Console.WriteLine("=============== Parse Sample Code ===================================");
 
@@ -650,16 +457,23 @@ namespace CompilingPrinciples.TestCase
 
         public static void LaunchTest()
         {
-            TestFirstFollow();
+            TestFirstFollow("Grammar-4.28.txt");
+            TestFirstFollow("Grammar-Ex.txt");
+
             TestSLRParser();
             TestLR1Parser();
-            TestDanglingElse_SLR();
-            TestDanglingElse_LR1();
+
+            TestDanglingElse_SLR("Grammar-4.3.txt");
+            TestDanglingElse_SLR("Grammar-4.67.txt");
+
+            TestDanglingElse_LR1("Grammar-4.3.txt");
+            TestDanglingElse_LR1("Grammar-4.67.txt");
 
             TestExperiment_SLR();
             TestDeserialization_SLR();
 
             TestExperiment_LR1();
+            TestDeserialization_LR1();
         }
     }
 }

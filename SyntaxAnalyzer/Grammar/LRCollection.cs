@@ -34,8 +34,8 @@ namespace CompilingPrinciples.SyntaxAnalyzer
             this.grammar = grammar;
 
             var gen = new FirstFollowGenerator(grammar);
-            firstSet = gen.FirstSet;
-            followSet = gen.FollowSet;
+            firstSet = gen.First;
+            followSet = gen.Follow;
         }
 
         public abstract HashSet<T> Closure(HashSet<T> I);
