@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using LexicalAnalyzer;
+using CompilingPrinciples.LexicalAnalyzer;
 
-namespace SyntaxAnalyzer
+namespace CompilingPrinciples.SyntaxAnalyzer
 {
     public interface IParserErrorRoutine
     {

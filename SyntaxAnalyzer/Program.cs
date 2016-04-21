@@ -7,9 +7,9 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
-using LexicalAnalyzer;
-using SymbolEnvironment;
-using SyntaxAnalyzer;
+using CompilingPrinciples.LexicalAnalyzer;
+using CompilingPrinciples.SymbolEnvironment;
+using CompilingPrinciples.SyntaxAnalyzer;
 
 namespace CompilingPrinciples
 {

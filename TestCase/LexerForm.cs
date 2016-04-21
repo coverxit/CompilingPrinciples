@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 
-using LexicalAnalyzer;
-using SymbolEnvironment;
+using CompilingPrinciples.LexicalAnalyzer;
+using CompilingPrinciples.SymbolEnvironment;
 
 namespace CompilingPrinciples
 {

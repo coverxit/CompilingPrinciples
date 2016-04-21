@@ -11,6 +11,7 @@ S -> id = E
 S -> if ( C ) S ;
 S -> if ( C ) S ; else S
 S -> while ( C ) S ; S
+S -> do S ; while ( C ) ; S
 S -> S ; S
 
 C -> E > E

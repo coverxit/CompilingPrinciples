@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Runtime.Serialization;
 
-using LexicalAnalyzer;
-using SymbolEnvironment;
+using CompilingPrinciples.LexicalAnalyzer;
+using CompilingPrinciples.SymbolEnvironment;
 
-namespace SyntaxAnalyzer
+namespace CompilingPrinciples.SyntaxAnalyzer
 {
     [Serializable]
     public class Grammar
@@ -224,7 +224,7 @@ namespace SyntaxAnalyzer
 
             if (token is EndMarker)
                 symbolToFind = "$";
-            else if (token is LexicalAnalyzer.Decimal)
+            else if (token is CompilingPrinciplesLexicalAnalyzer.Decimal)
                 symbolToFind = "decimal";
             else if (token is Word)
             {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
 
-namespace SyntaxAnalyzer
+namespace CompilingPrinciples.SyntaxAnalyzer
 {
     [Serializable]
     public abstract class LRCollection<T> where T: LR0Item

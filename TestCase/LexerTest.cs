@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using System.Windows.Forms;
 
-using LexicalAnalyzer;
-using SymbolEnvironment;
+using CompilingPrinciples.LexicalAnalyzer;
+using CompilingPrinciples.SymbolEnvironment;
+using CompilingPrinciples.SyntaxAnalyzer;
 
-namespace CompilingPrinciples
+namespace CompilingPrinciples.TestCase
 {
-    class Program
+    public class LexerTest
     {
-        static void LexerCLITest()
+        public static void LexerCLITest()
         {
             Console.WriteLine("----------------Lexer Test---------------");
             using (var stream = new FileStream("test.txt", FileMode.Open))
@@ -46,18 +46,11 @@ namespace CompilingPrinciples
             }
         }
 
-        static void LexerGUITest()
+        public static void LexerGUITest()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new LexerForm());
-        }
-
-        [STAThread]
-        static void Main(string[] args)
-        {
-            LexerCLITest();
-            LexerGUITest();
         }
     }
 }

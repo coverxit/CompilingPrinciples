@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EC6F8CBF-8E6D-4273-AC42-B4B484B7422B}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{48A30C7A-21A5-459B-8CB9-3EBBB921AAF8}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SyntaxAnalyzer</RootNamespace>
-    <AssemblyName>SyntaxAnalyzer</AssemblyName>
+    <RootNamespace>CompilingPrinciples.LexicalAnalyzer</RootNamespace>
+    <AssemblyName>CompilingPrinciples.LexicalAnalyzer</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
@@ -33,45 +33,30 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LR1\LR1Collection.cs" />
-    <Compile Include="LR1\LR1Item.cs" />
-    <Compile Include="LR1\LR1ParseTable.cs" />
-    <Compile Include="FirstFollow\FirstFollowGenerator.cs" />
-    <Compile Include="FirstFollow\FirstFollowSet.cs" />
-    <Compile Include="Grammar\Grammar.cs" />
-    <Compile Include="Grammar\LRCollection.cs" />
-    <Compile Include="Grammar\Production.cs" />
-    <Compile Include="Grammar\ProductionSymbol.cs" />
-    <Compile Include="Parser\ActionTableEntry.cs" />
-    <Compile Include="Parser\IParserErrorRoutine.cs" />
-    <Compile Include="Parser\Parser.cs" />
-    <Compile Include="Parser\ParseTable.cs" />
-    <Compile Include="Parser\SymbolStack.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Lexer\Lexer.cs" />
+    <Compile Include="Lexer\Tag.cs" />
+    <Compile Include="Lexer\Token.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SLR\LR0Collection.cs" />
-    <Compile Include="SLR\LR0Item.cs" />
-    <Compile Include="SLR\SLRParseTable.cs" />
+    <Compile Include="SymbolEnvironment\SymbolTable.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\LexcialAnalyzer\LexcialAnalyzer.csproj">
-      <Project>{48a30c7a-21a5-459b-8cb9-3ebbb921aaf8}</Project>
-      <Name>LexcialAnalyzer</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

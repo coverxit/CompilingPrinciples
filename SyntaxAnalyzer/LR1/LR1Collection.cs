@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SyntaxAnalyzer
+namespace CompilingPrinciples.SyntaxAnalyzer
 {
     [Serializable]
     public class LR1Collection : LRCollection<LR1Item>

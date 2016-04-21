@@ -8,10 +8,10 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
-using LexicalAnalyzer;
-using SymbolEnvironment;
+using CompilingPrinciples.LexicalAnalyzer;
+using CompilingPrinciples.SymbolEnvironment;
 
-namespace SyntaxAnalyzer
+namespace CompilingPrinciples.SyntaxAnalyzer
 {
     public abstract class Parser
     {

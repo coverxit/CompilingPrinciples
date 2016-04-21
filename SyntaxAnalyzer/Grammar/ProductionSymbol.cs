@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
 
-using LexicalAnalyzer;
+using CompilingPrinciples.LexicalAnalyzer;
 
-namespace SyntaxAnalyzer
+namespace CompilingPrinciples.SyntaxAnalyzer
 {
     [Serializable]
     public class ProductionSymbol

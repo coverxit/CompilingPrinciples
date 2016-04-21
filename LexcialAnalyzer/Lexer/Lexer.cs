@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Diagnostics;
-using SymbolEnvironment;
 
-namespace LexicalAnalyzer
+using CompilingPrinciples.SymbolEnvironment;
+
+namespace CompilingPrinciples.LexicalAnalyzer
 {
     public class Lexer
     {
