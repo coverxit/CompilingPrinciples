@@ -36,13 +36,14 @@ namespace SyntaxAnalyzer
 
         public static Parser LoadContext(Stream stream, SymbolTable symbolTable, IParserErrorRoutine errRoutine)
         {
-            byte[] buf = new byte[sizeof(int)];
+            var buf = new byte[sizeof(int)];
             stream.Read(buf, 0, sizeof(int));
 
-            int magicNum = BitConverter.ToInt32(buf, 0);
+            var magicNum = BitConverter.ToInt32(buf, 0);
             if (magicNum != ContextMagicNumber)
                 throw new ApplicationException("Invalid Magic Number!");
 
+            // Deserialization
             var formatter = new BinaryFormatter();
 
             formatter.Context = new StreamingContext(StreamingContextStates.All, symbolTable);
@@ -71,12 +72,12 @@ namespace SyntaxAnalyzer
         private SymbolTable symbolTable;
         private IParserErrorRoutine errRoutine;
         
-        public Parser(SymbolTable symbolTable, Grammar grammar, ParseTable<T> pt, IParserErrorRoutine errRoutine)
+        public Parser(SymbolTable st, Grammar grammar, ParseTable<T> pt, IParserErrorRoutine routine)
         {
-            this.symbolTable = symbolTable;
+            this.symbolTable = st;
             this.grammar = grammar;
             this.parseTable = pt;
-            this.errRoutine = errRoutine;
+            this.errRoutine = routine;
         }
         
         public override List<Tuple<string, string>> Parse(Stream input)
