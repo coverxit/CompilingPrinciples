@@ -10,6 +10,11 @@ namespace CompilingPrinciples.SyntaxAnalyzer
     {
         private Stack<ProductionSymbol> symbolStack = new Stack<ProductionSymbol>();
 
+        public int Count
+        {
+            get { return symbolStack.Count; }
+        }
+
         public void Push(ProductionSymbol sym)
         {
             symbolStack.Push(sym);

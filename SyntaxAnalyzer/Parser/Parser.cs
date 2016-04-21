@@ -133,10 +133,13 @@ namespace CompilingPrinciples.SyntaxAnalyzer
                         
                         // pop |β| symbols off the stack
                         for (int i = 0; i < betaLength; i++)
-                        {
                             parseStack.Pop();
+
+                        // For symbol stack, we pop it until its count equals to parseStack's
+                        // Because the error routine may push new state into parseStack,
+                        // without new symbol pushed into symbolStack
+                        while (symbolStack.Count > parseStack.Count)
                             symbolStack.Pop();
-                        }
 
                         // let state t now be on top the stack
                         top = parseStack.Peek();
