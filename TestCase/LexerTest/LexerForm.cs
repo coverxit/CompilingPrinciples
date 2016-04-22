@@ -183,6 +183,7 @@ namespace CompilingPrinciples.TestCase
                     btnAnalyze.Enabled = true;
                     btnOpen.Enabled = true;
                     textCode.Enabled = true;
+                    textCode.Focus();
                 });
             });
 

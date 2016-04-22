@@ -66,7 +66,7 @@ namespace CompilingPrinciples.SymbolEnvironment
 
         public void Clear()
         {
-            
+            symbols.Clear();
         }
 
         public Tuple<SymbolTableEntry, int> GetSymbolEntry(string symbol)

@@ -135,6 +135,7 @@ namespace CompilingPrinciples.TestCase
                     rbSLR.Enabled = true;
                     rbLR1.Enabled = true;
                     textCode.Enabled = true;
+                    textCode.Focus();
                 });
             });
 
