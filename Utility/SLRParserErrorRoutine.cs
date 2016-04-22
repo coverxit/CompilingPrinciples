@@ -7,9 +7,9 @@ using CompilingPrinciples.LexicalAnalyzer;
 using CompilingPrinciples.SymbolEnvironment;
 using CompilingPrinciples.SyntaxAnalyzer;
 
-namespace CompilingPrinciples.TestCase
+namespace CompilingPrinciples.Utility
 {
-    public class LR1ParserErrorRoutine : IParserErrorRoutine
+    public class SLRParserErrorRoutine : IParserErrorRoutine
     {
         public string ErrorRoutine(int topState, ProductionSymbol symbol, Token previousToken, PrintableStack<int> parseStack, PrintableStack<ProductionSymbol> symbolStack)
         {

@@ -69,7 +69,6 @@
     <Compile Include="ParserTest\GenerateWaitingForm.Designer.cs">
       <DependentUpon>GenerateWaitingForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ParserTest\LR1ParserErrorRoutine.cs" />
     <Compile Include="ParserTest\ParserForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -79,10 +78,6 @@
     <Compile Include="ParserTest\ParserHelper.cs" />
     <Compile Include="ParserTest\ParserTest.cs" />
     <Compile Include="ParserTest\ParserUnitTest.cs" />
-    <Compile Include="ParserTest\SLRParserErrorRoutine.cs" />
-    <Compile Include="ParserTest\WindowThemeListView.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -110,6 +105,10 @@
     <ProjectReference Include="..\SyntaxAnalyzer\CompilingPrinciples.SyntaxAnalyzer.csproj">
       <Project>{ec6f8cbf-8e6d-4273-ac42-b4b484b7422b}</Project>
       <Name>CompilingPrinciples.SyntaxAnalyzer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utility\CompilingPrinciples.Utility.csproj">
+      <Project>{31818b4e-cd83-4ab9-b486-04ceeaadcb3f}</Project>
+      <Name>CompilingPrinciples.Utility</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

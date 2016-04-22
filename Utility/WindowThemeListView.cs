@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 
-namespace CompilingPrinciples.TestCase
+namespace CompilingPrinciples.Utility
 {
-    class WindowThemeListView : ListView
+    public class WindowThemeListView : ListView
     {
         public WindowThemeListView()
         {

@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using CompilingPrinciples.LexicalAnalyzer;
 using CompilingPrinciples.SymbolEnvironment;
 using CompilingPrinciples.SyntaxAnalyzer;
+using CompilingPrinciples.Utility;
 
 namespace CompilingPrinciples.TestCase
 {

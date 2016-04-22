@@ -36,14 +36,14 @@
             this.groupBoxTokens = new System.Windows.Forms.GroupBox();
             this.tablePanelTokens = new System.Windows.Forms.TableLayoutPanel();
             this.panelTokensInner = new System.Windows.Forms.Panel();
-            this.listTokens = new WindowThemeListView();
+            this.listTokens = new CompilingPrinciples.Utility.WindowThemeListView();
             this.tokenHeaderType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tokenHeaderValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panelSymbolTable = new System.Windows.Forms.Panel();
             this.groupBoxSymbolTable = new System.Windows.Forms.GroupBox();
             this.tablePanelSymbolTable = new System.Windows.Forms.TableLayoutPanel();
             this.panelSymbolTableInner = new System.Windows.Forms.Panel();
-            this.listSymbolTable = new WindowThemeListView();
+            this.listSymbolTable = new CompilingPrinciples.Utility.WindowThemeListView();
             this.symbolHeaderId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.symbolHeaderSymbol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panelCode = new System.Windows.Forms.Panel();
@@ -150,7 +150,7 @@
             this.listTokens.MultiSelect = false;
             this.listTokens.Name = "listTokens";
             this.listTokens.Size = new System.Drawing.Size(512, 690);
-            this.listTokens.TabIndex = 6;
+            this.listTokens.TabIndex = 0;
             this.listTokens.UseCompatibleStateImageBehavior = false;
             this.listTokens.View = System.Windows.Forms.View.Details;
             // 
@@ -230,7 +230,7 @@
             this.listSymbolTable.MultiSelect = false;
             this.listSymbolTable.Name = "listSymbolTable";
             this.listSymbolTable.Size = new System.Drawing.Size(327, 690);
-            this.listSymbolTable.TabIndex = 6;
+            this.listSymbolTable.TabIndex = 0;
             this.listSymbolTable.UseCompatibleStateImageBehavior = false;
             this.listSymbolTable.View = System.Windows.Forms.View.Details;
             // 
@@ -301,7 +301,7 @@
             this.btnAnalyze.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.btnAnalyze.Name = "btnAnalyze";
             this.btnAnalyze.Size = new System.Drawing.Size(132, 52);
-            this.btnAnalyze.TabIndex = 3;
+            this.btnAnalyze.TabIndex = 1;
             this.btnAnalyze.Text = "Analyze";
             this.btnAnalyze.UseVisualStyleBackColor = true;
             this.btnAnalyze.Click += new System.EventHandler(this.btnAnalyze_Click);
@@ -313,7 +313,7 @@
             this.btnOpen.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.btnOpen.Name = "btnOpen";
             this.btnOpen.Size = new System.Drawing.Size(132, 52);
-            this.btnOpen.TabIndex = 4;
+            this.btnOpen.TabIndex = 0;
             this.btnOpen.Text = "Open...";
             this.btnOpen.UseVisualStyleBackColor = true;
             this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
@@ -337,7 +337,7 @@
             this.textCode.Name = "textCode";
             this.textCode.ScrollWidth = 200;
             this.textCode.Size = new System.Drawing.Size(632, 630);
-            this.textCode.TabIndex = 4;
+            this.textCode.TabIndex = 0;
             this.textCode.UseTabs = false;
             this.textCode.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textCode_KeyUp);
             // 
@@ -402,13 +402,13 @@
         private System.Windows.Forms.GroupBox groupBoxTokens;
         private System.Windows.Forms.TableLayoutPanel tablePanelTokens;
         private System.Windows.Forms.Panel panelTokensInner;
-        private WindowThemeListView listTokens;
+        private CompilingPrinciples.Utility.WindowThemeListView listTokens;
         private System.Windows.Forms.ColumnHeader tokenHeaderType;
         private System.Windows.Forms.ColumnHeader tokenHeaderValue;
         private System.Windows.Forms.GroupBox groupBoxSymbolTable;
         private System.Windows.Forms.TableLayoutPanel tablePanelSymbolTable;
         private System.Windows.Forms.Panel panelSymbolTableInner;
-        private WindowThemeListView listSymbolTable;
+        private CompilingPrinciples.Utility.WindowThemeListView listSymbolTable;
         private System.Windows.Forms.ColumnHeader symbolHeaderId;
         private System.Windows.Forms.ColumnHeader symbolHeaderSymbol;
         private System.Windows.Forms.TableLayoutPanel tableLayout;
