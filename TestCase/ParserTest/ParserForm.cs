@@ -89,7 +89,10 @@ namespace CompilingPrinciples.TestCase
             rbLR1.Enabled = false;
             textCode.Enabled = false;
 
-            var array = Encoding.ASCII.GetBytes(textCode.Text);
+            textCode.IndicatorCurrent = ErrorIndicatorIndex;
+            textCode.IndicatorClearRange(0, textCode.Text.Length);
+
+            var inputArray = Encoding.ASCII.GetBytes(textCode.Text);
             var useSLRParser = !rbLR1.Checked;
 
             var analyseTask = new Task(() =>
@@ -99,9 +102,9 @@ namespace CompilingPrinciples.TestCase
                     listParse.BeginUpdate();
 
                     if (useSLRParser)
-                        parserHelper.SLRParser.Parse(new MemoryStream(array));
+                        parserHelper.SLRParser.Parse(new MemoryStream(inputArray));
                     else
-                        parserHelper.LR1Parser.Parse(new MemoryStream(array));
+                        parserHelper.LR1Parser.Parse(new MemoryStream(inputArray));
 
                     listParse.EnsureVisible(listParse.Items.Count - 1);
                     listParse.EndUpdate();
