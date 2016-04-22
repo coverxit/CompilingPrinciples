@@ -9,7 +9,7 @@ namespace CompilingPrinciples.SyntaxAnalyzer
     [Serializable]
     public class LR1Collection : LRCollection<LR1Item>
     {
-        public LR1Collection(Grammar grammar) : base(grammar) { }
+        public LR1Collection(Grammar grammar, IReportProgress reporter = null) : base(grammar, reporter) { }
         
         public override HashSet<LR1Item> Closure(HashSet<LR1Item> I)
         {
@@ -75,6 +75,8 @@ namespace CompilingPrinciples.SyntaxAnalyzer
         {
             var collection = new HashSet<HashSet<LR1Item>>();
             var computeStack = new Stack<HashSet<LR1Item>>();
+
+            if (reporter != null) reporter.ReportProgress("Computing items...");
 
             // C = { CLOSURE( {[S' -> ·S, $]} ) }
             var I0 = Closure(new HashSet<LR1Item>(new LR1Item[] { new LR1Item(grammar, grammar.FirstProduction, 0, grammar.EndMarker) }));

@@ -59,7 +59,7 @@
     <Compile Include="Grammar\Production.cs" />
     <Compile Include="Grammar\ProductionSymbol.cs" />
     <Compile Include="Parser\ActionTableEntry.cs" />
-    <Compile Include="Parser\IParserErrorRoutine.cs" />
+    <Compile Include="Parser\Interfaces.cs" />
     <Compile Include="Parser\Parser.cs" />
     <Compile Include="Parser\ParseTable.cs" />
     <Compile Include="Parser\SymbolStack.cs" />

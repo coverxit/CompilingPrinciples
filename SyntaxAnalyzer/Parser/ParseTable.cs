@@ -42,19 +42,23 @@ namespace CompilingPrinciples.SyntaxAnalyzer
         protected LRCollection<T> collection;
         protected List<HashSet<T>> itemsList;
 
+        [NonSerialized]
+        protected IReportProgress reporter;
+
         public Type ItemType
         {
             get { return typeof(T); }
         }
 
         // Use Factory Pattern to create
-        protected ParseTable(LRCollection<T> collection, T initialItem)
+        protected ParseTable(LRCollection<T> collection, T initialItem, IReportProgress reporter = null)
         {
             actionTable = new Dictionary<int, Dictionary<ProductionSymbol, MultipleEntry>>();
             gotoTable = new Dictionary<int, Dictionary<ProductionSymbol, int>>();
 
             this.collection = collection;
             this.itemsList = collection.Items().ToList();
+            this.reporter = reporter;
 
             GenerateActionTable();
             GenerateGotoTable();
@@ -77,6 +81,9 @@ namespace CompilingPrinciples.SyntaxAnalyzer
         {
             // If GOTO(Ii,A)=Ij, then GOTO[i, A]=j, for all nontermianls A
             foreach (var e in itemsList.Select((value, index) => new { index, value }))
+            {
+                if (reporter != null) reporter.ReportProgress("Generting GOTO table: " + e.index + "/" + itemsList.Count + "...");
+
                 foreach (var A in collection.Grammar.NonTerminals)
                 {
                     // GOTO(Ii,A)=Ij, if GOTO(Ii,A) is empty, then j = -1, marks error.
@@ -91,6 +98,7 @@ namespace CompilingPrinciples.SyntaxAnalyzer
 
                     gotoTable[e.index].Add(A, j);
                 }
+            }
         }
 
         protected void FillErrors()

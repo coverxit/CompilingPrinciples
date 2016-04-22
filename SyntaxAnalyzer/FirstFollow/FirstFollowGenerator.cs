@@ -11,6 +11,8 @@ namespace CompilingPrinciples.SyntaxAnalyzer
         protected Grammar grammar;
         protected FirstFollowSet firstSet, followSet;
 
+        private IReportProgress reporter;
+
         public FirstFollowSet First
         {
             get
@@ -33,9 +35,10 @@ namespace CompilingPrinciples.SyntaxAnalyzer
             }
         }
 
-        public FirstFollowGenerator(Grammar grammar)
+        public FirstFollowGenerator(Grammar grammar, IReportProgress reporter = null)
         {
             this.grammar = grammar;
+            this.reporter = reporter;
         }
 
         public void Generate()
@@ -49,6 +52,8 @@ namespace CompilingPrinciples.SyntaxAnalyzer
 
         private void computeFirstSet()
         {
+            if (reporter != null) reporter.ReportProgress("Computing FIRST set...");
+
             firstSet = new FirstFollowSet(grammar);
 
             foreach (var sym in grammar.NonTerminals)
@@ -112,6 +117,8 @@ namespace CompilingPrinciples.SyntaxAnalyzer
 
             // First set has to be computed first.
             if (firstSet == null) computeFirstSet();
+
+            if (reporter != null) reporter.ReportProgress("Computing FOLLOW set...");
 
             // Place $ in Follow(S), S is the start symbol
             followSet.Put(grammar.FirstProduction.Left, grammar.EndMarker);

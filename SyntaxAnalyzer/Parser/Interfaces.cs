@@ -12,4 +12,9 @@ namespace CompilingPrinciples.SyntaxAnalyzer
     {
         string ErrorRoutine(int state, ProductionSymbol symbol, Token previousToken, Stack<int> parseStack, SymbolStack symbolStack);
     }
+
+    public interface IReportProgress
+    {
+        string ReportProgress(string progress);
+    }
 }

@@ -15,12 +15,11 @@ namespace CompilingPrinciples.TestCase
 {
     public class ParserHelper
     {
-        private const string ShiftOnProduction = "S -> if ( C ) S";
-
         private static readonly string[] Grammar =
         {
             "P' -> P",
             "P -> D S",
+            "P -> D",
 
             "D -> L id ; D",
             "D -> @",
@@ -28,12 +27,11 @@ namespace CompilingPrinciples.TestCase
             "L -> int",
             "L -> float",
 
-            "S -> id = E",
-            "S -> if ( C ) S ;",
-            "S -> if ( C ) S ; else S",
-            "S -> while ( C ) S ; S",
-            "S -> do S ; while ( C ) ; S",
-            "S -> S ; S",
+            "S -> id = E ;",
+            "S -> if ( C ) S",
+            "S -> if ( C ) S else S",
+            "S -> while ( C ) S S",
+            "S -> S S",
 
             "C -> E > E",
             "C -> E < E",
@@ -198,7 +196,25 @@ namespace CompilingPrinciples.TestCase
                 foreach (var term in grammar.TerminalsWithEndMarker)
                     if (pendAction.Value.ContainsKey(term) && !pendAction.Value[term].PreferedEntrySpecified)
                     {
-                        //pendAction.Value[term].Entries;
+                        // Try reduce, but no ACTION[i, else] = reduce by "S -> if ( C ) S"
+                        foreach (var e in pendAction.Value[term].Entries.Where(e => e.Type == ActionTableEntry.ActionType.Reduce))
+                        {
+                            if (!(term.ToString() == "else" && e.ReduceProduction.ToString() == "S -> if ( C ) S"))
+                            {
+                                pendAction.Value[term].SetPreferEntry(e);
+
+                                // For [S -> S S·] and [while ( C ) S S·] on Follow(S),
+                                // we choose reduce by "while ( C ) S S"
+                                if (e.ReduceProduction.ToString() == "while ( C ) S S")
+                                    break;
+                            }
+                        }
+                            
+                        // Otherwise, we choose shift
+                        if (!pendAction.Value[term].PreferedEntrySpecified)
+                            pendAction.Value[term].SetPreferEntry(
+                                pendAction.Value[term].Entries.Where(e => e.Type == ActionTableEntry.ActionType.Shift).Single()
+                            );
                     }
         }
     }

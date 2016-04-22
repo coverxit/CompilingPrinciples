@@ -12,7 +12,11 @@ namespace CompilingPrinciples.SyntaxAnalyzer
     {
         [NonSerialized]
         protected Grammar grammar;
+
         protected FirstFollowSet firstSet, followSet;
+
+        [NonSerialized]
+        protected IReportProgress reporter;
 
         public Grammar Grammar
         {
@@ -29,11 +33,12 @@ namespace CompilingPrinciples.SyntaxAnalyzer
             get { return followSet; }
         }
 
-        public LRCollection(Grammar grammar)
+        public LRCollection(Grammar grammar, IReportProgress reporter = null)
         {
             this.grammar = grammar;
+            this.reporter = reporter;
 
-            var gen = new FirstFollowGenerator(grammar);
+            var gen = new FirstFollowGenerator(grammar, reporter);
             firstSet = gen.First;
             followSet = gen.Follow;
         }

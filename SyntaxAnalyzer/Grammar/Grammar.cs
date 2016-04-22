@@ -23,6 +23,9 @@ namespace CompilingPrinciples.SyntaxAnalyzer
         [NonSerialized]
         private SymbolTable symbolTable;
 
+        [NonSerialized]
+        private IReportProgress reporter;
+
         public ProductionSymbol Epsilon
         {
             get { return epsilon; }
@@ -108,9 +111,10 @@ namespace CompilingPrinciples.SyntaxAnalyzer
             get { return new List<Production>(productions); }
         }
 
-        public Grammar(SymbolTable symbolTable)
+        public Grammar(SymbolTable symbolTable, IReportProgress reporter = null)
         {
             this.symbolTable = symbolTable;
+            this.reporter = reporter;
 
             terminalTable = new List<string>();
             nonTerminalTable = new List<string>();
@@ -150,6 +154,8 @@ namespace CompilingPrinciples.SyntaxAnalyzer
         {
             StreamReader reader = new StreamReader(stream);
             List<Tuple<int, string>> lines = new List<Tuple<int, string>>();
+
+            if (reporter != null) reporter.ReportProgress("Parser grammar...");
 
             string line;
 

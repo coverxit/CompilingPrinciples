@@ -34,7 +34,7 @@ namespace CompilingPrinciples.SyntaxAnalyzer
         public abstract List<Tuple<string, string>> Parse(Stream input);
         public abstract void SaveContext(Stream stream);
 
-        public static Parser CreateFromContext(Stream stream, SymbolTable symbolTable, IParserErrorRoutine errRoutine)
+        public static Parser CreateFromContext(Stream stream, SymbolTable symbolTable, IParserErrorRoutine errRoutine = null)
         {
             // Deserialization
             var formatter = new BinaryFormatter();
@@ -68,7 +68,7 @@ namespace CompilingPrinciples.SyntaxAnalyzer
         private SymbolTable symbolTable;
         private IParserErrorRoutine errRoutine;
         
-        public Parser(SymbolTable st, Grammar grammar, ParseTable<T> pt, IParserErrorRoutine routine)
+        public Parser(SymbolTable st, Grammar grammar, ParseTable<T> pt, IParserErrorRoutine routine = null)
         {
             this.symbolTable = st;
             this.grammar = grammar;

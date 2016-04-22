@@ -10,12 +10,14 @@ namespace CompilingPrinciples.SyntaxAnalyzer
     public class LR1ParseTable : ParseTable<LR1Item>
     {
         // Use Factory Pattern to create
-        protected LR1ParseTable(LR1Collection collection, LR1Item initialItem) : base(collection, initialItem) { }
+        protected LR1ParseTable(LR1Collection collection, LR1Item initialItem, IReportProgress reporter = null) : base(collection, initialItem, reporter) { }
 
         protected override void GenerateActionTable()
         {
             foreach (var e in itemsList.Select((value, index) => new { index, value }))
             {
+                if (reporter != null) reporter.ReportProgress("Generating ACTION table: " + e.index + "/" + itemsList.Count + "...");
+ 
                 // Foreach [A -> α·aβ, b] in Ii, and GOTO(Ii, a)=Ij, then
                 // ACTION[i, a] is "shift j", a must be temrinal
                 foreach (var item in e.value.Where(i => !i.SymbolAfterDot.Equals(collection.Grammar.EndMarker)
@@ -43,10 +45,11 @@ namespace CompilingPrinciples.SyntaxAnalyzer
             }
         }
 
-        public static LR1ParseTable Create(LR1Collection collection)
+        public static LR1ParseTable Create(LR1Collection collection, IReportProgress reporter = null)
         {
             return new LR1ParseTable(collection, 
-                                     new LR1Item(collection.Grammar, collection.Grammar.FirstProduction, 0, collection.Grammar.EndMarker));
+                                     new LR1Item(collection.Grammar, collection.Grammar.FirstProduction, 0, collection.Grammar.EndMarker),
+                                     reporter);
         }
     }
 }
