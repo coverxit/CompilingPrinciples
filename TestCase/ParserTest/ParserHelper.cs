@@ -221,8 +221,8 @@ namespace CompilingPrinciples.TestCase
         private void DetermineAmbiguousAction<T>(Grammar grammar, ParseTable<T> parseTable, LRCollection<T> coll)
             where T : LR0Item
         {
-            var debug = new FileStream("determine.txt", FileMode.Create);
-            var writer = new StreamWriter(debug);
+            // var debug = new FileStream("determine.txt", FileMode.Create);
+            // var writer = new StreamWriter(debug);
 
             foreach (var pendAction in parseTable.Action)
                 foreach (var term in grammar.TerminalsWithEndMarker)
@@ -243,16 +243,16 @@ namespace CompilingPrinciples.TestCase
                                 pendAction.Value[term].Entries.Where(e => e.Type == ActionTableEntry.ActionType.Shift).Single()
                             );
 
-                        writer.WriteLine("==== I[" + pendAction.Key + "] ===");
-                        foreach (var e in parseTable.Items[pendAction.Key])
-                            writer.WriteLine(e);
-                         writer.WriteLine("=== Pending for ACTION[" + pendAction.Key + ", " + term + "] ===");
-                         foreach (var e in pendAction.Value[term].Entries)
-                            writer.WriteLine(e + (e.Equals(pendAction.Value[term].PreferEntry) ? " [selected]" : ""));
+                        // writer.WriteLine("==== I[" + pendAction.Key + "] ===");
+                        // foreach (var e in parseTable.Items[pendAction.Key])
+                        //    writer.WriteLine(e);
+                        // writer.WriteLine("=== Pending for ACTION[" + pendAction.Key + ", " + term + "] ===");
+                        // foreach (var e in pendAction.Value[term].Entries)
+                        //    writer.WriteLine(e + (e.Equals(pendAction.Value[term].PreferEntry) ? " [selected]" : ""));
                     }
 
-             writer.Flush();
-             writer.Close();
+             // writer.Flush();
+             // writer.Close();
         }
     }
 }
