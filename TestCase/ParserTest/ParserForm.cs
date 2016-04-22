@@ -106,7 +106,9 @@ namespace CompilingPrinciples.TestCase
                     else
                         parserHelper.LR1Parser.Parse(new MemoryStream(inputArray));
 
-                    listParse.EnsureVisible(listParse.Items.Count - 1);
+                    if (listParse.Items.Count > 0)
+                        listParse.EnsureVisible(listParse.Items.Count - 1);
+
                     listParse.EndUpdate();
 
                     var invalidRegions = (useSLRParser ? parserHelper.SLRParser as Parser : parserHelper.LR1Parser as Parser).InvalidRegions;

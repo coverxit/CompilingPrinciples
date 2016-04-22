@@ -46,7 +46,7 @@ namespace CompilingPrinciples.TestCase
             "S -> id = E ;",
             "S -> if ( C ) S",
             "S -> if ( C ) S else S",
-            "S -> while ( C ) S S",
+            "S -> while ( C ) S do S",
             "S -> S S",
 
             "C -> E > E",
@@ -221,26 +221,21 @@ namespace CompilingPrinciples.TestCase
         private void DetermineAmbiguousAction<T>(Grammar grammar, ParseTable<T> parseTable, LRCollection<T> coll)
             where T : LR0Item
         {
-            // var debug = new FileStream("determine.txt", FileMode.Create);
-            // var writer = new StreamWriter(debug);
+            var debug = new FileStream("determine.txt", FileMode.Create);
+            var writer = new StreamWriter(debug);
 
             foreach (var pendAction in parseTable.Action)
                 foreach (var term in grammar.TerminalsWithEndMarker)
                     if (pendAction.Value.ContainsKey(term) && !pendAction.Value[term].PreferedEntrySpecified)
                     {
-                        // Try reduce, but no ACTION[i, else] = reduce by "S -> if ( C ) S"
-                        foreach (var e in pendAction.Value[term].Entries.Where(e => e.Type == ActionTableEntry.ActionType.Reduce))
-                        {
-                            if (!(term.ToString() == "else" && e.ReduceProduction.ToString() == "S -> if ( C ) S"))
-                            {
-                                pendAction.Value[term].SetPreferEntry(e);
+                        // Actually, should be no more than 2 entries
+                        if (pendAction.Value[term].Entries.Count > 2)
+                            throw new ApplicationException("Pending Action Entries Count Exceeded.");
 
-                                // For [S -> S S·] and [S -> while ( C ) S S·] on Follow(S),
-                                // we choose reduce by "S -> while ( C ) S S"
-                                if (e.ReduceProduction.ToString() == "S -> while ( C ) S S")
-                                    break;
-                            }
-                        }
+                        // Try reduce, but no ACTION[i, else] = reduce by "S -> if ( C ) S"
+                        var reduce = pendAction.Value[term].Entries.Where(e => e.Type == ActionTableEntry.ActionType.Reduce).Single();
+                        if (!(term.ToString() == "else" && reduce.ReduceProduction.ToString() == "S -> if ( C ) S"))
+                            pendAction.Value[term].SetPreferEntry(reduce);
                             
                         // Otherwise, we choose shift
                         if (!pendAction.Value[term].PreferedEntrySpecified)
@@ -248,16 +243,16 @@ namespace CompilingPrinciples.TestCase
                                 pendAction.Value[term].Entries.Where(e => e.Type == ActionTableEntry.ActionType.Shift).Single()
                             );
 
-                        // writer.WriteLine("==== I[" + pendAction.Key + "] ===");
-                        // foreach (var e in parseTable.Items[pendAction.Key])
-                        //    writer.WriteLine(e);
-                        // writer.WriteLine("=== Pending for ACTION[" + pendAction.Key + ", " + term + "] ===");
-                        // foreach (var e in pendAction.Value[term].Entries)
-                        //    writer.WriteLine(e + (e.Equals(pendAction.Value[term].PreferEntry) ? " [selected]" : ""));
+                        writer.WriteLine("==== I[" + pendAction.Key + "] ===");
+                        foreach (var e in parseTable.Items[pendAction.Key])
+                            writer.WriteLine(e);
+                         writer.WriteLine("=== Pending for ACTION[" + pendAction.Key + ", " + term + "] ===");
+                         foreach (var e in pendAction.Value[term].Entries)
+                            writer.WriteLine(e + (e.Equals(pendAction.Value[term].PreferEntry) ? " [selected]" : ""));
                     }
 
-            // writer.Flush();
-            // writer.Close();
+             writer.Flush();
+             writer.Close();
         }
     }
 }

@@ -94,6 +94,7 @@ namespace CompilingPrinciples.SyntaxAnalyzer
             
             // Let a be the first symbol of w$
             Token token = lexer.ScanNextToken(), prevToken = null;
+            accept = token is EndMarker; // EndMarker?
 
             // Push initial state
             parseStack.Push(parseTable.InitialState);
