@@ -58,7 +58,8 @@ namespace CompilingPrinciples.UnitTest
             var stream = StringToMemory.Create(new string[]
             {
                 "int a;",
-                "int b;"
+                "int b;",
+                "a=2", // this line is required by syntax
             });
 
             var ops = parser.Parse(stream);

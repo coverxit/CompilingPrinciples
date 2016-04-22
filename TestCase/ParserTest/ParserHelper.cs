@@ -36,7 +36,6 @@ namespace CompilingPrinciples.TestCase
         {
             "P' -> P",
             "P -> D S",
-            "P -> D",
 
             "D -> L id ; D",
             "D -> @",
