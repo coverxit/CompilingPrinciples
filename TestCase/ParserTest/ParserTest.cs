@@ -13,11 +13,11 @@ using CompilingPrinciples.SyntaxAnalyzer;
 
 namespace CompilingPrinciples.TestCase
 {
-    public class Reporter : IReportProgress
+    public class CLIReporter : IReportProgress
     {
         public void ReportProgress(string progress)
         {
-            Console.WriteLine(progress);
+            //Console.WriteLine(progress);
         }
     }
 
@@ -236,25 +236,24 @@ namespace CompilingPrinciples.TestCase
                             }
                         }
 
-                        foreach (var e in pend.value.Value[term].Entries.Select((value, index) => new { index, value })
-                                                                       .Where(e => e.value.Type == ActionTableEntry.ActionType.Reduce))
+                        foreach (var e in pend.value.Value[term].Entries.Where(e => e.Type == ActionTableEntry.ActionType.Reduce))
                         {
-                            if (term.ToString() == "else" && pend.value.Value[term].Entries.ToList()[e.index].ReduceProduction.ToString() == "S -> if ( C ) S")
+                            if (!(term.ToString() == "else" && e.ReduceProduction.ToString() == "S -> if ( C ) S"))
                             {
-                                // just skip
+                                pend.value.Value[term].SetPreferEntry(e);
+
+                                // For [S -> S S·] and [while ( C ) S S·] on Follow(S),
+                                // we choose reduce by "while ( C ) S S"
+                                if (e.ReduceProduction.ToString() == "S -> while ( C ) S S")
+                                    break;
                             }
-                            else
-                                pend.value.Value[term].SetPreferEntry(pend.value.Value[term].Entries.ToList()[e.index]);
                         }
 
+                        // Otherwise, we choose shift
                         if (!pend.value.Value[term].PreferedEntrySpecified)
-                        {
-                            foreach (var e in pend.value.Value[term].Entries.Select((value, index) => new { index, value })
-                                                                       .Where(e => e.value.Type == ActionTableEntry.ActionType.Shift))
-                            {
-                                pend.value.Value[term].SetPreferEntry(pend.value.Value[term].Entries.ToList()[e.index]);
-                            }
-                        }
+                            pend.value.Value[term].SetPreferEntry(
+                                pend.value.Value[term].Entries.Where(e => e.Type == ActionTableEntry.ActionType.Shift).Single()
+                            );
 
                         Console.WriteLine("Choosed: " + pend.value.Value[term].PreferEntry);
 
@@ -307,7 +306,7 @@ namespace CompilingPrinciples.TestCase
 
         private static void TestExperiment_SLR()
         {
-            var reporter = new Reporter();
+            var reporter = new CLIReporter();
             var symbolTable = new SymbolTable();
             Grammar grammar = new Grammar(symbolTable, reporter);
             using (var stream = new FileStream("Grammar-Ex.txt", FileMode.Open))
@@ -343,7 +342,7 @@ namespace CompilingPrinciples.TestCase
 
         private static void TestExperiment_LR1()
         {
-            var reporter = new Reporter();
+            var reporter = new CLIReporter();
             var symbolTable = new SymbolTable();
             Grammar grammar = new Grammar(symbolTable, reporter);
             using (var stream = new FileStream("Grammar-Ex.txt", FileMode.Open))
@@ -489,7 +488,7 @@ namespace CompilingPrinciples.TestCase
             //TestExperiment_SLR();
             //TestDeserialization_SLR();
 
-            TestExperiment_LR1();
+            //TestExperiment_LR1();
             //TestDeserialization_LR1();
         }
     }

@@ -17,8 +17,8 @@ namespace CompilingPrinciples.TestCase
         static void Main(string[] args)
         {
             // CLI Tests
-            LexerTest.LaunchTest();
-            ParserTest.LaunchTest();
+            //LexerTest.LaunchTest();
+            //ParserTest.LaunchTest();
 
             // GUI Tests
             Application.EnableVisualStyles();

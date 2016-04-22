@@ -13,6 +13,23 @@ using CompilingPrinciples.SyntaxAnalyzer;
 
 namespace CompilingPrinciples.TestCase
 {
+    public class ProgressReporter : IReportProgress
+    {
+        private Label label;
+        private Form owner;
+
+        public ProgressReporter(Form owner, Label label)
+        {
+            this.owner = owner;
+            this.label = label;
+        }
+        
+        public void ReportProgress(string progress)
+        {
+            owner.Invoke((MethodInvoker)delegate { label.Text = progress; }); 
+        }
+    }
+
     public class ParserHelper
     {
         private static readonly string[] Grammar =
@@ -91,22 +108,25 @@ namespace CompilingPrinciples.TestCase
 
         public void CreateParserFromContext()
         {
-            if (File.Exists(SLRParserContextFileName) && File.Exists(LR1ParserContextFileName))
+            Task.Run(() =>
             {
-                using (var stream = new FileStream(SLRParserContextFileName, FileMode.Open))
+                if (File.Exists(SLRParserContextFileName) && File.Exists(LR1ParserContextFileName))
                 {
-                    slrParser = Parser.CreateFromContext(stream, symbolTable, new SLRParserErrorRoutine()) as Parser<LR0Item>;
-                    stream.Close();
-                }
+                    using (var stream = new FileStream(SLRParserContextFileName, FileMode.Open))
+                    {
+                        slrParser = Parser.CreateFromContext(stream, symbolTable, new SLRParserErrorRoutine()) as Parser<LR0Item>;
+                        stream.Close();
+                    }
 
-                using (var stream = new FileStream(LR1ParserContextFileName, FileMode.Open))
-                {
-                    lr1Parser = Parser.CreateFromContext(stream, symbolTable, new LR1ParserErrorRoutine()) as Parser<LR1Item>;
-                    stream.Close();
-                }
+                    using (var stream = new FileStream(LR1ParserContextFileName, FileMode.Open))
+                    {
+                        lr1Parser = Parser.CreateFromContext(stream, symbolTable, new LR1ParserErrorRoutine()) as Parser<LR1Item>;
+                        stream.Close();
+                    }
 
-                contextLoaded = true;
-            }
+                    contextLoaded = true;
+                }
+            });
         }
 
         public void CreateParserFromGrammar()
@@ -121,12 +141,13 @@ namespace CompilingPrinciples.TestCase
 
             // Show waiting form
             var waitingForm = new GenerateWaitingForm();
-            new Task(() => { owner.Invoke((MethodInvoker)delegate { waitingForm.ShowDialog(owner); }); }).Start();
+            var showFormTask = Task.Run(() => { owner.Invoke((MethodInvoker)delegate { waitingForm.ShowDialog(owner); }); });
 
             // Generate Contexts
             var slrTask = Task.Run(() =>
             {
-                var grammar = new Grammar(symbolTable);
+                var reporter = new ProgressReporter(owner, waitingForm.lblSLRProcess);
+                var grammar = new Grammar(symbolTable, reporter);
                 using (var streamCopy = new MemoryStream())
                 {
                     grammarStream.WriteTo(streamCopy);
@@ -135,8 +156,8 @@ namespace CompilingPrinciples.TestCase
                     grammar.Parse(streamCopy);
                 }
 
-                var collection = new LR0Collection(grammar);
-                var parseTable = SLRParseTable.Create(collection);
+                var collection = new LR0Collection(grammar, reporter);
+                var parseTable = SLRParseTable.Create(collection, reporter);
 
                 DetermineAmbiguousAction(grammar, parseTable, collection);
                 slrParser = new Parser<LR0Item>(symbolTable, grammar, parseTable, new SLRParserErrorRoutine());
@@ -153,7 +174,8 @@ namespace CompilingPrinciples.TestCase
 
             var lr1Task = Task.Run(() =>
             {
-                var grammar = new Grammar(symbolTable);
+                var reporter = new ProgressReporter(owner, waitingForm.lblLR1Process);
+                var grammar = new Grammar(symbolTable, reporter);
                 using (var streamCopy = new MemoryStream())
                 {
                     grammarStream.WriteTo(streamCopy);
@@ -162,13 +184,13 @@ namespace CompilingPrinciples.TestCase
                     grammar.Parse(streamCopy);
                 }
 
-                var collection = new LR1Collection(grammar);
-                var parseTable = LR1ParseTable.Create(collection);
+                var collection = new LR1Collection(grammar, reporter);
+                var parseTable = LR1ParseTable.Create(collection, reporter);
 
                 DetermineAmbiguousAction(grammar, parseTable, collection);
                 lr1Parser = new Parser<LR1Item>(symbolTable, grammar, parseTable, new SLRParserErrorRoutine());
 
-                using (var stream = new FileStream(SLRParserContextFileName, FileMode.Create))
+                using (var stream = new FileStream(LR1ParserContextFileName, FileMode.Create))
                     lr1Parser.SaveContext(stream);
 
                 owner.Invoke((MethodInvoker)delegate
@@ -178,20 +200,28 @@ namespace CompilingPrinciples.TestCase
                 });
             });
 
-            Task.Run(() =>
+            Task.Run(async () =>
             {
                 // Generally, slrTask is faster than lr1Task
                 Task.WaitAll(new Task[] { slrTask, lr1Task });
 
+                // Delay for 0.5s :P
+                await Task.Delay(500);
+
                 // Cleanup
                 grammarStream.Close();
                 owner.Invoke((MethodInvoker)delegate { waitingForm.Dispose(); });
+
+                contextLoaded = true;
             });
         }
 
         private void DetermineAmbiguousAction<T>(Grammar grammar, ParseTable<T> parseTable, LRCollection<T> coll)
             where T : LR0Item
         {
+            // var debug = new FileStream("determine.txt", FileMode.Create);
+            // var writer = new StreamWriter(debug);
+
             foreach (var pendAction in parseTable.Action)
                 foreach (var term in grammar.TerminalsWithEndMarker)
                     if (pendAction.Value.ContainsKey(term) && !pendAction.Value[term].PreferedEntrySpecified)
@@ -203,9 +233,9 @@ namespace CompilingPrinciples.TestCase
                             {
                                 pendAction.Value[term].SetPreferEntry(e);
 
-                                // For [S -> S S·] and [while ( C ) S S·] on Follow(S),
-                                // we choose reduce by "while ( C ) S S"
-                                if (e.ReduceProduction.ToString() == "while ( C ) S S")
+                                // For [S -> S S·] and [S -> while ( C ) S S·] on Follow(S),
+                                // we choose reduce by "S -> while ( C ) S S"
+                                if (e.ReduceProduction.ToString() == "S -> while ( C ) S S")
                                     break;
                             }
                         }
@@ -215,7 +245,17 @@ namespace CompilingPrinciples.TestCase
                             pendAction.Value[term].SetPreferEntry(
                                 pendAction.Value[term].Entries.Where(e => e.Type == ActionTableEntry.ActionType.Shift).Single()
                             );
+
+                        // writer.WriteLine("==== I[" + pendAction.Key + "] ===");
+                        // foreach (var e in parseTable.Items[pendAction.Key])
+                        //    writer.WriteLine(e);
+                        // writer.WriteLine("=== Pending for ACTION[" + pendAction.Key + ", " + term + "] ===");
+                        // foreach (var e in pendAction.Value[term].Entries)
+                        //    writer.WriteLine(e + (e.Equals(pendAction.Value[term].PreferEntry) ? " [selected]" : ""));
                     }
+
+            // writer.Flush();
+            // writer.Close();
         }
     }
 }

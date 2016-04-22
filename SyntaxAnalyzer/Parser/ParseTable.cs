@@ -50,6 +50,11 @@ namespace CompilingPrinciples.SyntaxAnalyzer
             get { return typeof(T); }
         }
 
+        public List<HashSet<T>> Items
+        {
+            get { return new List<HashSet<T>>(itemsList); }
+        }
+
         // Use Factory Pattern to create
         protected ParseTable(LRCollection<T> collection, T initialItem, IReportProgress reporter = null)
         {
