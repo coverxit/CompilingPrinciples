@@ -15,6 +15,6 @@ namespace CompilingPrinciples.SyntaxAnalyzer
 
     public interface IReportProgress
     {
-        string ReportProgress(string progress);
+        void ReportProgress(string progress);
     }
 }

@@ -12,7 +12,15 @@ using CompilingPrinciples.SymbolEnvironment;
 using CompilingPrinciples.SyntaxAnalyzer;
 
 namespace CompilingPrinciples.TestCase
-{   
+{
+    public class Reporter : IReportProgress
+    {
+        public void ReportProgress(string progress)
+        {
+            Console.WriteLine(progress);
+        }
+    }
+
     public class ParserTest
     {
         private static void ShowProductions(Grammar grammar)
@@ -299,8 +307,9 @@ namespace CompilingPrinciples.TestCase
 
         private static void TestExperiment_SLR()
         {
+            var reporter = new Reporter();
             var symbolTable = new SymbolTable();
-            Grammar grammar = new Grammar(symbolTable);
+            Grammar grammar = new Grammar(symbolTable, reporter);
             using (var stream = new FileStream("Grammar-Ex.txt", FileMode.Open))
             {
                 grammar.Parse(stream);
@@ -310,8 +319,8 @@ namespace CompilingPrinciples.TestCase
             ShowProductions(grammar);
             ShowSymbols(grammar);
                 
-            var coll = new LR0Collection(grammar);
-            var parseTable = SLRParseTable.Create(coll);
+            var coll = new LR0Collection(grammar, reporter);
+            var parseTable = SLRParseTable.Create(coll, reporter);
 
             ShowFirstFollowSets(grammar, coll.First, coll.Follow);
 
@@ -334,8 +343,9 @@ namespace CompilingPrinciples.TestCase
 
         private static void TestExperiment_LR1()
         {
+            var reporter = new Reporter();
             var symbolTable = new SymbolTable();
-            Grammar grammar = new Grammar(symbolTable);
+            Grammar grammar = new Grammar(symbolTable, reporter);
             using (var stream = new FileStream("Grammar-Ex.txt", FileMode.Open))
             {
                 grammar.Parse(stream);
@@ -345,8 +355,8 @@ namespace CompilingPrinciples.TestCase
             ShowProductions(grammar);
             ShowSymbols(grammar);
 
-            var coll = new LR1Collection(grammar);
-            var parseTable = LR1ParseTable.Create(coll);
+            var coll = new LR1Collection(grammar, reporter);
+            var parseTable = LR1ParseTable.Create(coll, reporter);
 
             ShowFirstFollowSets(grammar, coll.First, coll.Follow);
 
