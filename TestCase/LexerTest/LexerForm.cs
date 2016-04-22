@@ -12,7 +12,7 @@ using System.IO;
 using CompilingPrinciples.LexicalAnalyzer;
 using CompilingPrinciples.SymbolEnvironment;
 
-namespace CompilingPrinciples
+namespace CompilingPrinciples.TestCase
 {
     public partial class LexerForm : Form
     {

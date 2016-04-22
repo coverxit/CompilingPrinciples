@@ -24,8 +24,13 @@ namespace CompilingPrinciples.TestCase
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            new LexerForm().Show();
+            new ParserForm().Show();
+
+            Application.Run();
+
             //Application.Run(new LexerForm());
-            Application.Run(new ParserForm());
+            //Application.Run(new ParserForm());
         }
     }
 }

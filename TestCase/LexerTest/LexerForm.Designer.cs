@@ -1,4 +1,4 @@
-﻿namespace CompilingPrinciples
+﻿namespace CompilingPrinciples.TestCase
 {
     partial class LexerForm
     {
@@ -36,14 +36,14 @@
             this.groupBoxTokens = new System.Windows.Forms.GroupBox();
             this.tablePanelTokens = new System.Windows.Forms.TableLayoutPanel();
             this.panelTokensInner = new System.Windows.Forms.Panel();
-            this.listTokens = new System.Windows.Forms.ListView();
+            this.listTokens = new WindowThemeListView();
             this.tokenHeaderType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tokenHeaderValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panelSymbolTable = new System.Windows.Forms.Panel();
             this.groupBoxSymbolTable = new System.Windows.Forms.GroupBox();
             this.tablePanelSymbolTable = new System.Windows.Forms.TableLayoutPanel();
             this.panelSymbolTableInner = new System.Windows.Forms.Panel();
-            this.listSymbolTable = new System.Windows.Forms.ListView();
+            this.listSymbolTable = new WindowThemeListView();
             this.symbolHeaderId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.symbolHeaderSymbol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panelCode = new System.Windows.Forms.Panel();
@@ -402,13 +402,13 @@
         private System.Windows.Forms.GroupBox groupBoxTokens;
         private System.Windows.Forms.TableLayoutPanel tablePanelTokens;
         private System.Windows.Forms.Panel panelTokensInner;
-        private System.Windows.Forms.ListView listTokens;
+        private WindowThemeListView listTokens;
         private System.Windows.Forms.ColumnHeader tokenHeaderType;
         private System.Windows.Forms.ColumnHeader tokenHeaderValue;
         private System.Windows.Forms.GroupBox groupBoxSymbolTable;
         private System.Windows.Forms.TableLayoutPanel tablePanelSymbolTable;
         private System.Windows.Forms.Panel panelSymbolTableInner;
-        private System.Windows.Forms.ListView listSymbolTable;
+        private WindowThemeListView listSymbolTable;
         private System.Windows.Forms.ColumnHeader symbolHeaderId;
         private System.Windows.Forms.ColumnHeader symbolHeaderSymbol;
         private System.Windows.Forms.TableLayoutPanel tableLayout;

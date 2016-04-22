@@ -80,6 +80,9 @@
     <Compile Include="ParserTest\ParserTest.cs" />
     <Compile Include="ParserTest\ParserUnitTest.cs" />
     <Compile Include="ParserTest\SLRParserErrorRoutine.cs" />
+    <Compile Include="ParserTest\WindowThemeListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
