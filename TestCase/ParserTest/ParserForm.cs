@@ -108,9 +108,11 @@ namespace CompilingPrinciples.TestCase
 
                     listParse.EnsureVisible(listParse.Items.Count - 1);
                     listParse.EndUpdate();
+
+                    var invalidRegions = (useSLRParser ? parserHelper.SLRParser as Parser : parserHelper.LR1Parser as Parser).InvalidRegions;
+                    foreach (var r in invalidRegions)
+                        textCode.IndicatorFillRange(r.Item1, r.Item2);
                 });
-               
-                var invalidRegions = (useSLRParser ? parserHelper.SLRParser as Parser : parserHelper.LR1Parser as Parser).InvalidRegions;
             });
 
             analyseTask.ContinueWith((lastTask) =>
