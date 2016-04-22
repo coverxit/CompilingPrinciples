@@ -59,7 +59,7 @@ namespace CompilingPrinciples.UnitTest
             {
                 "int a;",
                 "int b;",
-                "a=2", // this line is required by syntax
+                "a=2;", // this line is required by syntax
             });
 
             var ops = parser.Parse(stream);

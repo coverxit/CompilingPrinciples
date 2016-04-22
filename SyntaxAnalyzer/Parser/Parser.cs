@@ -80,14 +80,17 @@ namespace CompilingPrinciples.SyntaxAnalyzer
         
         public override List<Tuple<string, string>> Parse(Stream input)
         {
+            // Clear symbol table
+            // Note that clear symbol table
+            // must before create Lexer
+            // because lexer will reverse keywords
+            symbolTable.Clear();
+
             var lexer = new Lexer(symbolTable, input);
             var parseStack = new PrintableStack<int>();
             var symbolStack = new PrintableStack<ProductionSymbol>();
             var ops = new List<Tuple<string, string>>();
             var accept = false;
-
-            // Clear symbol table
-            symbolTable.Clear();
             
             // Let a be the first symbol of w$
             Token token = lexer.ScanNextToken(), prevToken = null;
