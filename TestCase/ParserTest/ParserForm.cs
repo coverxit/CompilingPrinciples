@@ -17,13 +17,48 @@ namespace CompilingPrinciples.TestCase
 {
     public partial class ParserForm : Form
     {
+        private const int ErrorIndicatorIndex = 8;
+
         private ParserHelper parserHelper;
 
         public ParserForm()
         {
             InitializeComponent();
 
-            parserHelper = new ParserHelper(this);
+            // Show Line Number
+            textCode.Margins[0].Width = 36;
+
+            textCode.StyleResetDefault();
+            textCode.Styles[ScintillaNET.Style.Default].Font = "Consolas";
+            textCode.Styles[ScintillaNET.Style.Default].Size = 10;
+            textCode.StyleClearAll();
+
+            // Configure the CPP (C#) lexer styles
+            textCode.Styles[ScintillaNET.Style.Cpp.Default].ForeColor = Color.Silver;
+            textCode.Styles[ScintillaNET.Style.Cpp.Comment].ForeColor = Color.FromArgb(0, 128, 0); // Green
+            textCode.Styles[ScintillaNET.Style.Cpp.CommentLine].ForeColor = Color.FromArgb(0, 128, 0); // Green
+            textCode.Styles[ScintillaNET.Style.Cpp.CommentLineDoc].ForeColor = Color.FromArgb(128, 128, 128); // Gray
+            textCode.Styles[ScintillaNET.Style.Cpp.Number].ForeColor = Color.Olive;
+            textCode.Styles[ScintillaNET.Style.Cpp.Word].ForeColor = Color.Blue;
+            textCode.Styles[ScintillaNET.Style.Cpp.Word2].ForeColor = Color.Blue;
+            textCode.Styles[ScintillaNET.Style.Cpp.String].ForeColor = Color.FromArgb(163, 21, 21); // Red
+            textCode.Styles[ScintillaNET.Style.Cpp.Character].ForeColor = Color.FromArgb(163, 21, 21); // Red
+            textCode.Styles[ScintillaNET.Style.Cpp.Verbatim].ForeColor = Color.FromArgb(163, 21, 21); // Red
+            textCode.Styles[ScintillaNET.Style.Cpp.StringEol].BackColor = Color.Pink;
+            textCode.Styles[ScintillaNET.Style.Cpp.Operator].ForeColor = Color.Purple;
+            textCode.Styles[ScintillaNET.Style.Cpp.Preprocessor].ForeColor = Color.Maroon;
+
+            // Set Keywords
+            textCode.SetKeywords(0, "if then else while do");
+            textCode.SetKeywords(1, "int float");
+
+            // Set Indicator
+            textCode.Indicators[ErrorIndicatorIndex].Style = ScintillaNET.IndicatorStyle.Squiggle;
+            textCode.Indicators[ErrorIndicatorIndex].HoverStyle = ScintillaNET.IndicatorStyle.CompositionThick;
+            textCode.Indicators[ErrorIndicatorIndex].ForeColor = Color.Red;
+
+            parserHelper = new ParserHelper(this, new ParseStepReporter(this, listParse));
+            parserHelper.CreateParserFromContext();
         }
 
         private void ParserForm_Shown(object sender, EventArgs e)
@@ -32,9 +67,107 @@ namespace CompilingPrinciples.TestCase
                 parserHelper.CreateParserFromGrammar();
         }
 
-        private void ParserForm_Load(object sender, EventArgs e)
+        private void btnOpen_Click(object sender, EventArgs e)
         {
-            parserHelper.CreateParserFromContext();
+            if (DialogResult.OK == openFileDialog.ShowDialog())
+            {
+                string fileName = openFileDialog.FileName;
+                textCode.Text = File.ReadAllText(fileName);
+
+                btnAnalyze.Focus();
+            }
+        }
+
+        private void btnAnalyze_Click(object sender, EventArgs e)
+        {
+            listParse.Items.Clear();
+            listSymbolTable.Items.Clear();
+
+            btnAnalyze.Enabled = false;
+            btnOpen.Enabled = false;
+            rbSLR.Enabled = false;
+            rbLR1.Enabled = false;
+            textCode.Enabled = false;
+
+            var array = Encoding.ASCII.GetBytes(textCode.Text);
+            var useSLRParser = !rbLR1.Checked;
+
+            var analyseTask = new Task(() =>
+            {
+                this.Invoke((MethodInvoker)delegate
+                {
+                    listParse.BeginUpdate();
+
+                    if (useSLRParser)
+                        parserHelper.SLRParser.Parse(new MemoryStream(array));
+                    else
+                        parserHelper.LR1Parser.Parse(new MemoryStream(array));
+
+                    listParse.EnsureVisible(listParse.Items.Count - 1);
+                    listParse.EndUpdate();
+                });
+               
+                var invalidRegions = (useSLRParser ? parserHelper.SLRParser as Parser : parserHelper.LR1Parser as Parser).InvalidRegions;
+            });
+
+            analyseTask.ContinueWith((lastTask) =>
+            {
+                this.Invoke((MethodInvoker)delegate
+                {
+                    listSymbolTable.BeginUpdate();
+                    foreach (var s in parserHelper.SymbolTable.ToList().Select((value, index) => new { index, value }))
+                    {
+                        ListViewItem item = new ListViewItem();
+                        item.Text = s.index.ToString();
+                        item.SubItems.Add(s.value.Lexeme);
+
+                        if (s.value.Tag != LexicalAnalyzer.Tag.Identifier)
+                            item.Group = listSymbolTable.Groups["lvGroupKeyword"];
+                        else
+                            item.Group = listSymbolTable.Groups["lvGroupIdentifier"];
+
+                        listSymbolTable.Items.Add(item);
+                    }
+                    listSymbolTable.EndUpdate();
+
+                    btnAnalyze.Enabled = true;
+                    btnOpen.Enabled = true;
+                    rbSLR.Enabled = true;
+                    rbLR1.Enabled = true;
+                    textCode.Enabled = true;
+                });
+            });
+
+            analyseTask.Start();
+        }
+
+        /*
+        private void textCode_KeyUp(object sender, KeyEventArgs e)
+        {
+            btnAnalyze_Click(sender, e);
+        }
+        */
+    }
+
+    public class ParseStepReporter : IReportParseStep
+    {
+        private Form owner;
+        private ListView lvParseStep;
+
+        public ParseStepReporter(Form owner, ListView lvParseStep)
+        {
+            this.owner = owner;
+            this.lvParseStep = lvParseStep;
+        }
+
+        public void ReportStep(string action, string symbol, string state)
+        {
+            ListViewItem lvItem = new ListViewItem();
+            lvItem.Text = state;
+            lvItem.SubItems.Add(symbol);
+            lvItem.SubItems.Add(action);
+
+            owner.Invoke((MethodInvoker)delegate { lvParseStep.Items.Add(lvItem); });
         }
     }
 }

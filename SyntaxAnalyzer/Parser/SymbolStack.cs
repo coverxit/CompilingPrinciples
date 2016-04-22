@@ -6,26 +6,26 @@ using System.Threading.Tasks;
 
 namespace CompilingPrinciples.SyntaxAnalyzer
 {
-    public class SymbolStack
+    public class PrintableStack<T>
     {
-        private Stack<ProductionSymbol> symbolStack = new Stack<ProductionSymbol>();
+        private Stack<T> symbolStack = new Stack<T>();
 
         public int Count
         {
             get { return symbolStack.Count; }
         }
 
-        public void Push(ProductionSymbol sym)
+        public void Push(T sym)
         {
             symbolStack.Push(sym);
         }
 
-        public ProductionSymbol Pop()
+        public T Pop()
         {
             return symbolStack.Pop();
         }
 
-        public ProductionSymbol Peek()
+        public T Peek()
         {
             return symbolStack.Peek();
         }

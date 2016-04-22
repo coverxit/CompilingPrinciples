@@ -10,11 +10,16 @@ namespace CompilingPrinciples.SyntaxAnalyzer
 {
     public interface IParserErrorRoutine
     {
-        string ErrorRoutine(int state, ProductionSymbol symbol, Token previousToken, Stack<int> parseStack, SymbolStack symbolStack);
+        string ErrorRoutine(int topState, ProductionSymbol symbol, Token previousToken, PrintableStack<int> parseStack, PrintableStack<ProductionSymbol> symbolStack);
     }
 
     public interface IReportProgress
     {
         void ReportProgress(string progress);
+    }
+
+    public interface IReportParseStep
+    {
+        void ReportStep(string action, string symbol, string state);
     }
 }

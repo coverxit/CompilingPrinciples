@@ -74,6 +74,7 @@ namespace CompilingPrinciples.TestCase
         private const string LR1ParserContextFileName = "LR1ParserContext.ctx";
 
         private SymbolTable symbolTable = new SymbolTable();
+        private IReportParseStep stepReporter;
 
         private Parser<LR0Item> slrParser;
         private Parser<LR1Item> lr1Parser;
@@ -81,14 +82,9 @@ namespace CompilingPrinciples.TestCase
         private bool contextLoaded = false;
         private Form owner;
 
-        public ParserHelper(Form owner)
-        {
-            this.owner = owner;
-        }
-
         public SymbolTable SymbolTable
         {
-            get { return new SymbolTable(symbolTable); }
+            get { return symbolTable; }
         }
 
         public Parser<LR0Item> SLRParser
@@ -106,27 +102,30 @@ namespace CompilingPrinciples.TestCase
             get { return contextLoaded; }
         }
 
+        public ParserHelper(Form owner, IReportParseStep reporter = null)
+        {
+            this.owner = owner;
+            this.stepReporter = reporter;
+        }
+
         public void CreateParserFromContext()
         {
-            Task.Run(() =>
+            if (File.Exists(SLRParserContextFileName) && File.Exists(LR1ParserContextFileName))
             {
-                if (File.Exists(SLRParserContextFileName) && File.Exists(LR1ParserContextFileName))
+                using (var stream = new FileStream(SLRParserContextFileName, FileMode.Open))
                 {
-                    using (var stream = new FileStream(SLRParserContextFileName, FileMode.Open))
-                    {
-                        slrParser = Parser.CreateFromContext(stream, symbolTable, new SLRParserErrorRoutine()) as Parser<LR0Item>;
-                        stream.Close();
-                    }
-
-                    using (var stream = new FileStream(LR1ParserContextFileName, FileMode.Open))
-                    {
-                        lr1Parser = Parser.CreateFromContext(stream, symbolTable, new LR1ParserErrorRoutine()) as Parser<LR1Item>;
-                        stream.Close();
-                    }
-
-                    contextLoaded = true;
+                    slrParser = Parser.CreateFromContext(stream, symbolTable, new SLRParserErrorRoutine(), stepReporter) as Parser<LR0Item>;
+                    stream.Close();
                 }
-            });
+
+                using (var stream = new FileStream(LR1ParserContextFileName, FileMode.Open))
+                {
+                    lr1Parser = Parser.CreateFromContext(stream, symbolTable, new LR1ParserErrorRoutine(), stepReporter) as Parser<LR1Item>;
+                    stream.Close();
+                }
+
+                contextLoaded = true;
+            }
         }
 
         public void CreateParserFromGrammar()
@@ -160,7 +159,7 @@ namespace CompilingPrinciples.TestCase
                 var parseTable = SLRParseTable.Create(collection, reporter);
 
                 DetermineAmbiguousAction(grammar, parseTable, collection);
-                slrParser = new Parser<LR0Item>(symbolTable, grammar, parseTable, new SLRParserErrorRoutine());
+                slrParser = new Parser<LR0Item>(symbolTable, grammar, parseTable, new SLRParserErrorRoutine(), stepReporter);
 
                 using (var stream = new FileStream(SLRParserContextFileName, FileMode.Create))
                     slrParser.SaveContext(stream);
@@ -188,7 +187,7 @@ namespace CompilingPrinciples.TestCase
                 var parseTable = LR1ParseTable.Create(collection, reporter);
 
                 DetermineAmbiguousAction(grammar, parseTable, collection);
-                lr1Parser = new Parser<LR1Item>(symbolTable, grammar, parseTable, new SLRParserErrorRoutine());
+                lr1Parser = new Parser<LR1Item>(symbolTable, grammar, parseTable, new SLRParserErrorRoutine(), stepReporter);
 
                 using (var stream = new FileStream(LR1ParserContextFileName, FileMode.Create))
                     lr1Parser.SaveContext(stream);
@@ -210,7 +209,11 @@ namespace CompilingPrinciples.TestCase
 
                 // Cleanup
                 grammarStream.Close();
-                owner.Invoke((MethodInvoker)delegate { waitingForm.Dispose(); });
+                owner.Invoke((MethodInvoker)delegate 
+                {
+                    waitingForm.PermitClose = true;
+                    waitingForm.Close();
+                });
 
                 contextLoaded = true;
             });

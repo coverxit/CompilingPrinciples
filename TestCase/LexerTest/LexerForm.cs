@@ -79,6 +79,7 @@ namespace CompilingPrinciples
 
             btnAnalyze.Enabled = false;
             btnOpen.Enabled = false;
+            textCode.Enabled = false;
 
             textCode.IndicatorCurrent = ErrorIndicatorIndex;
             textCode.IndicatorClearRange(0, textCode.Text.Length);
@@ -181,6 +182,7 @@ namespace CompilingPrinciples
 
                     btnAnalyze.Enabled = true;
                     btnOpen.Enabled = true;
+                    textCode.Enabled = true;
                 });
             });
 

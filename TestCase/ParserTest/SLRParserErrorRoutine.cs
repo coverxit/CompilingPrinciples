@@ -11,7 +11,7 @@ namespace CompilingPrinciples.TestCase
 {
     public class SLRParserErrorRoutine : IParserErrorRoutine
     {
-        public string ErrorRoutine(int state, ProductionSymbol symbol, Token previousToken, Stack<int> parseStack, SymbolStack symbolStack)
+        public string ErrorRoutine(int topState, ProductionSymbol symbol, Token previousToken, PrintableStack<int> parseStack, PrintableStack<ProductionSymbol> symbolStack)
         {
             throw new NotImplementedException();
         }

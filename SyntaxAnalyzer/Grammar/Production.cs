@@ -79,11 +79,14 @@ namespace CompilingPrinciples.SyntaxAnalyzer
             sb.Append(Left);
             sb.Append(" ->");
 
-            foreach (var e in rightExpression)
-            {
-                sb.Append(" ");
-                sb.Append(e);
-            }
+            if (IsRightEpsilon())
+                sb.Append(" ε");
+            else
+                foreach (var e in rightExpression)
+                {
+                    sb.Append(" ");
+                    sb.Append(e);
+                }
             
             return sb.ToString();
         }

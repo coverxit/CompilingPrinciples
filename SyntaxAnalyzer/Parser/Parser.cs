@@ -34,7 +34,7 @@ namespace CompilingPrinciples.SyntaxAnalyzer
         public abstract List<Tuple<string, string>> Parse(Stream input);
         public abstract void SaveContext(Stream stream);
 
-        public static Parser CreateFromContext(Stream stream, SymbolTable symbolTable, IParserErrorRoutine errRoutine = null)
+        public static Parser CreateFromContext(Stream stream, SymbolTable symbolTable, IParserErrorRoutine errRoutine = null, IReportParseStep reporter = null)
         {
             // Deserialization
             var formatter = new BinaryFormatter();
@@ -52,12 +52,12 @@ namespace CompilingPrinciples.SyntaxAnalyzer
             if (itemType.FullName == typeof(LR0Item).FullName)
             {
                 var parseTable = formatter.Deserialize(stream) as SLRParseTable;
-                return new Parser<LR0Item>(symbolTable, grammar, parseTable, errRoutine);
+                return new Parser<LR0Item>(symbolTable, grammar, parseTable, errRoutine, reporter);
             }
             else // LR1Item
             {
                 var parseTable = formatter.Deserialize(stream) as LR1ParseTable;
-                return new Parser<LR1Item>(symbolTable, grammar, parseTable, errRoutine);
+                return new Parser<LR1Item>(symbolTable, grammar, parseTable, errRoutine, reporter);
             }
         }
     }
@@ -67,20 +67,22 @@ namespace CompilingPrinciples.SyntaxAnalyzer
         private ParseTable<T> parseTable;
         private SymbolTable symbolTable;
         private IParserErrorRoutine errRoutine;
+        private IReportParseStep reporter;
         
-        public Parser(SymbolTable st, Grammar grammar, ParseTable<T> pt, IParserErrorRoutine routine = null)
+        public Parser(SymbolTable st, Grammar grammar, ParseTable<T> pt, IParserErrorRoutine routine = null, IReportParseStep reporter = null)
         {
             this.symbolTable = st;
             this.grammar = grammar;
             this.parseTable = pt;
             this.errRoutine = routine;
+            this.reporter = reporter;
         }
         
         public override List<Tuple<string, string>> Parse(Stream input)
         {
             var lexer = new Lexer(symbolTable, input);
-            var parseStack = new Stack<int>();
-            var symbolStack = new SymbolStack();
+            var parseStack = new PrintableStack<int>();
+            var symbolStack = new PrintableStack<ProductionSymbol>();
             var ops = new List<Tuple<string, string>>();
             var accept = false;
 
@@ -127,6 +129,7 @@ namespace CompilingPrinciples.SyntaxAnalyzer
                         token = lexer.ScanNextToken();
 
                         ops.Add(new Tuple<string, string>(action.ToString(), symbolStack.ToString()));
+                        if (reporter != null) reporter.ReportStep(action.ToString(), symbolStack.ToString(), parseStack.ToString());
                         break;
 
                     // ACTION[s, a] = reduce A -> β
@@ -153,12 +156,15 @@ namespace CompilingPrinciples.SyntaxAnalyzer
 
                         // output the production
                         ops.Add(new Tuple<string, string>(action.ToString(), symbolStack.ToString()));
+                        if (reporter != null) reporter.ReportStep(action.ToString(), symbolStack.ToString(), parseStack.ToString());
                         break;
 
                     // ACTION[s, a] = accept
                     case ActionTableEntry.ActionType.Accept:
                         accept = true;
+
                         ops.Add(new Tuple<string, string>(action.ToString(), symbolStack.ToString()));
+                        if (reporter != null) reporter.ReportStep(action.ToString(), symbolStack.ToString(), parseStack.ToString());
                         break;
 
                     // ACTION[s, a] = error
@@ -166,7 +172,12 @@ namespace CompilingPrinciples.SyntaxAnalyzer
                         if (errRoutine == null)
                             throw new ApplicationException("Syntax Error near Line " + token.Line);
 
-                        ops.Add(new Tuple<string, string>(errRoutine.ErrorRoutine(top, symbol, prevToken, parseStack, symbolStack), symbolStack.ToString()));
+                        var ret = errRoutine.ErrorRoutine(top, symbol, prevToken, parseStack, symbolStack);
+                        var sym = symbolStack.ToString();
+                        var state = parseStack.ToString();
+
+                        ops.Add(new Tuple<string, string>(ret, sym));
+                        if (reporter != null) reporter.ReportStep(ret, sym, state);
                         break;
                 }
             }

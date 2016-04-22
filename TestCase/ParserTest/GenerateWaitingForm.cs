@@ -11,6 +11,14 @@ namespace CompilingPrinciples.TestCase
 {
     public partial class GenerateWaitingForm : Form
     {
+        private bool permitClose = false;
+
+        public bool PermitClose
+        {
+            get { return permitClose; }
+            set { permitClose = value; }
+        }
+
         public GenerateWaitingForm()
         {
             InitializeComponent();
@@ -18,7 +26,8 @@ namespace CompilingPrinciples.TestCase
 
         private void GenerateWaitingForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            e.Cancel = true;
+            if (!permitClose)
+                e.Cancel = true;
         }
     }
 }
