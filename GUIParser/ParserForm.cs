@@ -156,12 +156,17 @@ namespace CompilingPrinciples.GUIParser
             this.lvParseStep = lvParseStep;
         }
 
-        public void ReportStep(string action, string symbol, string state)
+        public void ReportStep(bool error, string action, string symbol, string state)
         {
             ListViewItem lvItem = new ListViewItem();
             lvItem.Text = state;
+            lvItem.UseItemStyleForSubItems = false;
+
             lvItem.SubItems.Add(symbol);
             lvItem.SubItems.Add(action);
+
+            if (error)
+                lvItem.SubItems[2].ForeColor = Color.Red;
 
             owner.Invoke((MethodInvoker)delegate { lvParseStep.Items.Add(lvItem); });
         }

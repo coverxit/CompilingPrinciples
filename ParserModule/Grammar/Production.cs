@@ -18,10 +18,17 @@ namespace CompilingPrinciples.ParserModule
 
         [NonSerialized]
         private int line; // used for showing short string
+
+        private int id; // used for showing short string
         
         public int LineInGrammar
         {
             get { return line; }
+        }
+
+        public int Id
+        {
+            get { return id; }
         }
 
         public ProductionSymbol Left
@@ -34,8 +41,9 @@ namespace CompilingPrinciples.ParserModule
             get { return new List<ProductionSymbol>(rightExpression); }
         }
 
-        public Production(Grammar grammar, int line = -1)
+        public Production(Grammar grammar, int id, int line = -1)
         {
+            this.id = id;
             this.line = line;
             this.grammar = grammar;
             rightExpression = new List<ProductionSymbol>();
@@ -43,6 +51,7 @@ namespace CompilingPrinciples.ParserModule
 
         public Production(Production rhs)
         {
+            this.id = rhs.id;
             this.line = rhs.line;
             this.grammar = rhs.grammar;
             this.leftNonTerminalId = rhs.leftNonTerminalId;

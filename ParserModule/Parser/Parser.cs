@@ -133,7 +133,7 @@ namespace CompilingPrinciples.ParserModule
                         token = lexer.ScanNextToken();
 
                         ops.Add(new Tuple<string, string>(action.ToString(), symbolStack.ToString()));
-                        if (reporter != null) reporter.ReportStep(action.ToString(), symbolStack.ToString(), parseStack.ToString());
+                        if (reporter != null) reporter.ReportStep(false, action.ToString(), symbolStack.ToString(), parseStack.ToString());
                         break;
 
                     // ACTION[s, a] = reduce A -> β
@@ -160,7 +160,7 @@ namespace CompilingPrinciples.ParserModule
 
                         // output the production
                         ops.Add(new Tuple<string, string>(action.ToString(), symbolStack.ToString()));
-                        if (reporter != null) reporter.ReportStep(action.ToString(), symbolStack.ToString(), parseStack.ToString());
+                        if (reporter != null) reporter.ReportStep(false, action.ToString(), symbolStack.ToString(), parseStack.ToString());
                         break;
 
                     // ACTION[s, a] = accept
@@ -168,13 +168,16 @@ namespace CompilingPrinciples.ParserModule
                         accept = true;
 
                         ops.Add(new Tuple<string, string>(action.ToString(), symbolStack.ToString()));
-                        if (reporter != null) reporter.ReportStep(action.ToString(), symbolStack.ToString(), parseStack.ToString());
+                        if (reporter != null) reporter.ReportStep(false, action.ToString(), symbolStack.ToString(), parseStack.ToString());
                         break;
 
                     // ACTION[s, a] = error
                     case ActionTableEntry.ActionType.Error:
                         if (errRoutine == null)
                             throw new ApplicationException("Syntax Error near Line " + token.Line);
+
+                        // Add to invalid, before routine modifies token
+                        invalidRegions.Add(new Tuple<int, int>(token.Position, token.Length));
 
                         var ret = errRoutine.ErrorRoutine(top, symbol, token, prevToken, parseStack, symbolStack);
                         switch (ret.Type)
@@ -194,8 +197,8 @@ namespace CompilingPrinciples.ParserModule
                         var diagnostic = "line " + token.Line + ": \"" + ret.Diagnostic + "\"";
 
                         ops.Add(new Tuple<string, string>(diagnostic, sym));
-                        if (reporter != null) reporter.ReportStep(diagnostic, sym, state);
-                        invalidRegions.Add(new Tuple<int, int>(token.Position, token.Length));
+                        if (reporter != null)
+                            reporter.ReportStep(true, diagnostic, sym, state);
                         break;
                 }
             }

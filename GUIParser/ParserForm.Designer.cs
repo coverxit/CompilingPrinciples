@@ -183,17 +183,17 @@
             // parseHeaderStack
             // 
             this.parseHeaderStack.Text = "Stack";
-            this.parseHeaderStack.Width = 400;
+            this.parseHeaderStack.Width = 375;
             // 
             // parseHeaderSymbol
             // 
             this.parseHeaderSymbol.Text = "Symbols";
-            this.parseHeaderSymbol.Width = 330;
+            this.parseHeaderSymbol.Width = 305;
             // 
             // parseHeaderAction
             // 
             this.parseHeaderAction.Text = "Action";
-            this.parseHeaderAction.Width = 350;
+            this.parseHeaderAction.Width = 400;
             // 
             // panelSymbolTable
             // 

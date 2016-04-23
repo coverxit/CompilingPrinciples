@@ -185,7 +185,7 @@ namespace CompilingPrinciples.ParserGenerator
                 // Action Grid
                 this.Invoke((MethodInvoker)delegate
                 {
-                    foreach (var s in grammar.TerminalsWithEndMarker)
+                    foreach (var s in grammar.TerminalsWithoutEpsilonWithEndMarker)
                     {
                         var col = new DataGridViewTextBoxColumn();
                         col.HeaderText = s.ToString();
@@ -199,7 +199,7 @@ namespace CompilingPrinciples.ParserGenerator
                         var row = new DataGridViewRow();
                         row.HeaderCell.Value = r.Key.ToString();
 
-                        foreach (var s in grammar.TerminalsWithEndMarker)
+                        foreach (var s in grammar.TerminalsWithoutEpsilonWithEndMarker)
                         {
                             var cell = new DataGridViewTextBoxCell();
 

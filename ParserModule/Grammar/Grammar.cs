@@ -64,17 +64,15 @@ namespace CompilingPrinciples.ParserModule
             }
         }
 
-        /*
-        public List<ProductionSymbol> Terminals
+        public List<ProductionSymbol> TerminalsWithoutEpsilonWithEndMarker
         {
-            // Exclude $ and ε
+            // Exclude ε
             get
             {
                 return terminalTable.Select((sym, id) => new ProductionSymbol(this, ProductionSymbol.SymbolType.Terminal, id))
-                                    .Where(e => !e.Equals(epsilon) && !e.Equals(endMarker)).ToList();
+                                    .Where(e => !e.Equals(epsilon)).ToList();
             }
         }
-        */
 
         public List<ProductionSymbol> Terminals
         {
@@ -153,7 +151,7 @@ namespace CompilingPrinciples.ParserModule
         public void Parse(Stream stream)
         {
             StreamReader reader = new StreamReader(stream);
-            List<Tuple<int, int, string>> lines = new List<Tuple<int, int, string>>();
+            List<Tuple<int, int, int, string>> lines = new List<Tuple<int, int, int, string>>();
 
             if (reporter != null) reporter.ReportProgress("Parsing grammar...");
 
@@ -181,15 +179,15 @@ namespace CompilingPrinciples.ParserModule
                     }
                 }
 
-                lines.Add(new Tuple<int, int, string>(lineCount++, leftNonTerminalId, right));
+                lines.Add(new Tuple<int, int, int, string>(lineCount++, lines.Count, leftNonTerminalId, right));
             }
 
             foreach (var l in lines)
             {
-                Production prod = new Production(this, l.Item1);
-                prod.SetLeftNonTerminal(l.Item2);
+                Production prod = new Production(this, l.Item2, l.Item1);
+                prod.SetLeftNonTerminal(l.Item3);
 
-                var rightExpr = l.Item3.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                var rightExpr = l.Item4.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 if (rightExpr.Length == 0) continue;
 
                 dispatchRightExpression(rightExpr, ref prod);

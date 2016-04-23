@@ -40,14 +40,14 @@ namespace CompilingPrinciples.ParserModule
             this.diagnostic = diagnostic;
         }
 
-        public static SolveOperation PushState(int state, string diagnostic)
+        public static SolveOperation PushState(int state, string diagnostic = "")
         {
             var op = new SolveOperation(OpType.PushState, diagnostic);
             op.state = state;
             return op;
         }
 
-        public static SolveOperation SkipToken(string diagnostic)
+        public static SolveOperation SkipToken(string diagnostic = "")
         {
             var op = new SolveOperation(OpType.SkipToken, diagnostic);
             return op;
@@ -66,6 +66,6 @@ namespace CompilingPrinciples.ParserModule
 
     public interface IReportParseStep
     {
-        void ReportStep(string action, string symbol, string state);
+        void ReportStep(bool error, string action, string symbol, string state);
     }
 }

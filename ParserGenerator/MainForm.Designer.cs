@@ -136,7 +136,7 @@
             this.tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
             this.tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
-            this.tableLayout.Size = new System.Drawing.Size(2380, 1114);
+            this.tableLayout.Size = new System.Drawing.Size(2352, 1114);
             this.tableLayout.TabIndex = 0;
             // 
             // tablePanelControls
@@ -157,7 +157,7 @@
             this.tablePanelControls.RowCount = 2;
             this.tablePanelControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
             this.tablePanelControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60F));
-            this.tablePanelControls.Size = new System.Drawing.Size(2334, 1093);
+            this.tablePanelControls.Size = new System.Drawing.Size(2306, 1093);
             this.tablePanelControls.TabIndex = 0;
             // 
             // groupBoxGrammar
@@ -322,7 +322,7 @@
             this.groupBoxSymbols.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBoxSymbols.Location = new System.Drawing.Point(813, 3);
             this.groupBoxSymbols.Name = "groupBoxSymbols";
-            this.groupBoxSymbols.Size = new System.Drawing.Size(599, 431);
+            this.groupBoxSymbols.Size = new System.Drawing.Size(588, 431);
             this.groupBoxSymbols.TabIndex = 1;
             this.groupBoxSymbols.TabStop = false;
             this.groupBoxSymbols.Text = "Symbols";
@@ -341,7 +341,7 @@
             this.tablePanelSymbols.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
             this.tablePanelSymbols.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tablePanelSymbols.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
-            this.tablePanelSymbols.Size = new System.Drawing.Size(593, 401);
+            this.tablePanelSymbols.Size = new System.Drawing.Size(582, 401);
             this.tablePanelSymbols.TabIndex = 1;
             // 
             // tabSymbol
@@ -352,7 +352,7 @@
             this.tabSymbol.Location = new System.Drawing.Point(8, 8);
             this.tabSymbol.Name = "tabSymbol";
             this.tabSymbol.SelectedIndex = 0;
-            this.tabSymbol.Size = new System.Drawing.Size(577, 385);
+            this.tabSymbol.Size = new System.Drawing.Size(566, 385);
             this.tabSymbol.TabIndex = 0;
             // 
             // tabPageNonTerminals
@@ -361,7 +361,7 @@
             this.tabPageNonTerminals.Location = new System.Drawing.Point(8, 39);
             this.tabPageNonTerminals.Name = "tabPageNonTerminals";
             this.tabPageNonTerminals.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageNonTerminals.Size = new System.Drawing.Size(561, 338);
+            this.tabPageNonTerminals.Size = new System.Drawing.Size(550, 338);
             this.tabPageNonTerminals.TabIndex = 0;
             this.tabPageNonTerminals.Text = "Non Terminals";
             this.tabPageNonTerminals.UseVisualStyleBackColor = true;
@@ -378,7 +378,7 @@
             this.listNonTerminals.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.listNonTerminals.MultiSelect = false;
             this.listNonTerminals.Name = "listNonTerminals";
-            this.listNonTerminals.Size = new System.Drawing.Size(555, 332);
+            this.listNonTerminals.Size = new System.Drawing.Size(544, 332);
             this.listNonTerminals.TabIndex = 0;
             this.listNonTerminals.UseCompatibleStateImageBehavior = false;
             this.listNonTerminals.View = System.Windows.Forms.View.Details;
@@ -399,7 +399,7 @@
             this.tabPageTerminals.Location = new System.Drawing.Point(8, 39);
             this.tabPageTerminals.Name = "tabPageTerminals";
             this.tabPageTerminals.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageTerminals.Size = new System.Drawing.Size(540, 338);
+            this.tabPageTerminals.Size = new System.Drawing.Size(532, 338);
             this.tabPageTerminals.TabIndex = 1;
             this.tabPageTerminals.Text = "Terminals";
             this.tabPageTerminals.UseVisualStyleBackColor = true;
@@ -416,7 +416,7 @@
             this.listTerminals.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.listTerminals.MultiSelect = false;
             this.listTerminals.Name = "listTerminals";
-            this.listTerminals.Size = new System.Drawing.Size(534, 332);
+            this.listTerminals.Size = new System.Drawing.Size(526, 332);
             this.listTerminals.TabIndex = 2;
             this.listTerminals.UseCompatibleStateImageBehavior = false;
             this.listTerminals.View = System.Windows.Forms.View.Details;
@@ -435,9 +435,9 @@
             // 
             this.groupBoxFirstFollow.Controls.Add(this.tablePanelFirstFollow);
             this.groupBoxFirstFollow.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBoxFirstFollow.Location = new System.Drawing.Point(1428, 3);
+            this.groupBoxFirstFollow.Location = new System.Drawing.Point(1417, 3);
             this.groupBoxFirstFollow.Name = "groupBoxFirstFollow";
-            this.groupBoxFirstFollow.Size = new System.Drawing.Size(903, 431);
+            this.groupBoxFirstFollow.Size = new System.Drawing.Size(886, 431);
             this.groupBoxFirstFollow.TabIndex = 2;
             this.groupBoxFirstFollow.TabStop = false;
             this.groupBoxFirstFollow.Text = "FIRST / FOLLOW Set";
@@ -456,7 +456,7 @@
             this.tablePanelFirstFollow.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
             this.tablePanelFirstFollow.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tablePanelFirstFollow.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
-            this.tablePanelFirstFollow.Size = new System.Drawing.Size(897, 401);
+            this.tablePanelFirstFollow.Size = new System.Drawing.Size(880, 401);
             this.tablePanelFirstFollow.TabIndex = 2;
             // 
             // tabFirstFollow
@@ -467,7 +467,7 @@
             this.tabFirstFollow.Location = new System.Drawing.Point(8, 8);
             this.tabFirstFollow.Name = "tabFirstFollow";
             this.tabFirstFollow.SelectedIndex = 0;
-            this.tabFirstFollow.Size = new System.Drawing.Size(881, 385);
+            this.tabFirstFollow.Size = new System.Drawing.Size(864, 385);
             this.tabFirstFollow.TabIndex = 0;
             // 
             // tabPageFirst
@@ -476,7 +476,7 @@
             this.tabPageFirst.Location = new System.Drawing.Point(8, 39);
             this.tabPageFirst.Name = "tabPageFirst";
             this.tabPageFirst.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageFirst.Size = new System.Drawing.Size(865, 338);
+            this.tabPageFirst.Size = new System.Drawing.Size(848, 338);
             this.tabPageFirst.TabIndex = 0;
             this.tabPageFirst.Text = "FIRST Set";
             this.tabPageFirst.UseVisualStyleBackColor = true;
@@ -494,7 +494,7 @@
             this.listFirst.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.listFirst.MultiSelect = false;
             this.listFirst.Name = "listFirst";
-            this.listFirst.Size = new System.Drawing.Size(859, 332);
+            this.listFirst.Size = new System.Drawing.Size(842, 332);
             this.listFirst.TabIndex = 0;
             this.listFirst.UseCompatibleStateImageBehavior = false;
             this.listFirst.View = System.Windows.Forms.View.Details;
@@ -515,7 +515,7 @@
             this.tabPageFollow.Location = new System.Drawing.Point(8, 39);
             this.tabPageFollow.Name = "tabPageFollow";
             this.tabPageFollow.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageFollow.Size = new System.Drawing.Size(834, 338);
+            this.tabPageFollow.Size = new System.Drawing.Size(822, 338);
             this.tabPageFollow.TabIndex = 1;
             this.tabPageFollow.Text = "FOLLOW Set";
             this.tabPageFollow.UseVisualStyleBackColor = true;
@@ -533,7 +533,7 @@
             this.listFollow.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.listFollow.MultiSelect = false;
             this.listFollow.Name = "listFollow";
-            this.listFollow.Size = new System.Drawing.Size(828, 332);
+            this.listFollow.Size = new System.Drawing.Size(816, 332);
             this.listFollow.TabIndex = 3;
             this.listFollow.UseCompatibleStateImageBehavior = false;
             this.listFollow.View = System.Windows.Forms.View.Details;
@@ -555,7 +555,7 @@
             this.groupBoxParseTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBoxParseTable.Location = new System.Drawing.Point(813, 440);
             this.groupBoxParseTable.Name = "groupBoxParseTable";
-            this.groupBoxParseTable.Size = new System.Drawing.Size(1518, 650);
+            this.groupBoxParseTable.Size = new System.Drawing.Size(1490, 650);
             this.groupBoxParseTable.TabIndex = 3;
             this.groupBoxParseTable.TabStop = false;
             this.groupBoxParseTable.Text = "Parsing Table";
@@ -574,7 +574,7 @@
             this.tablePanelParsingTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
             this.tablePanelParsingTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tablePanelParsingTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
-            this.tablePanelParsingTable.Size = new System.Drawing.Size(1512, 620);
+            this.tablePanelParsingTable.Size = new System.Drawing.Size(1484, 620);
             this.tablePanelParsingTable.TabIndex = 2;
             // 
             // tabParsingTable
@@ -586,7 +586,7 @@
             this.tabParsingTable.Location = new System.Drawing.Point(8, 8);
             this.tabParsingTable.Name = "tabParsingTable";
             this.tabParsingTable.SelectedIndex = 0;
-            this.tabParsingTable.Size = new System.Drawing.Size(1496, 604);
+            this.tabParsingTable.Size = new System.Drawing.Size(1468, 604);
             this.tabParsingTable.TabIndex = 0;
             // 
             // tabPageStates
@@ -595,7 +595,7 @@
             this.tabPageStates.Location = new System.Drawing.Point(8, 39);
             this.tabPageStates.Name = "tabPageStates";
             this.tabPageStates.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageStates.Size = new System.Drawing.Size(1480, 557);
+            this.tabPageStates.Size = new System.Drawing.Size(1452, 557);
             this.tabPageStates.TabIndex = 2;
             this.tabPageStates.Text = "States";
             this.tabPageStates.UseVisualStyleBackColor = true;
@@ -637,7 +637,7 @@
             this.gridStates.RowHeadersVisible = false;
             this.gridStates.RowTemplate.Height = 33;
             this.gridStates.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridStates.Size = new System.Drawing.Size(1474, 551);
+            this.gridStates.Size = new System.Drawing.Size(1446, 551);
             this.gridStates.StandardTab = true;
             this.gridStates.TabIndex = 1;
             this.gridStates.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridStates_CellMouseDown);
@@ -672,7 +672,7 @@
             this.tabPageActionTable.Location = new System.Drawing.Point(8, 39);
             this.tabPageActionTable.Name = "tabPageActionTable";
             this.tabPageActionTable.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageActionTable.Size = new System.Drawing.Size(1428, 557);
+            this.tabPageActionTable.Size = new System.Drawing.Size(1408, 557);
             this.tabPageActionTable.TabIndex = 0;
             this.tabPageActionTable.Text = "ACTION";
             this.tabPageActionTable.UseVisualStyleBackColor = true;
@@ -713,7 +713,7 @@
             this.gridAction.RowsDefaultCellStyle = dataGridViewCellStyle6;
             this.gridAction.RowTemplate.Height = 33;
             this.gridAction.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.gridAction.Size = new System.Drawing.Size(1422, 551);
+            this.gridAction.Size = new System.Drawing.Size(1402, 551);
             this.gridAction.StandardTab = true;
             this.gridAction.TabIndex = 3;
             this.gridAction.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridAction_CellContentDoubleClick);
@@ -725,7 +725,7 @@
             this.tabPageGotoAction.Location = new System.Drawing.Point(8, 39);
             this.tabPageGotoAction.Name = "tabPageGotoAction";
             this.tabPageGotoAction.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageGotoAction.Size = new System.Drawing.Size(1428, 557);
+            this.tabPageGotoAction.Size = new System.Drawing.Size(1408, 557);
             this.tabPageGotoAction.TabIndex = 1;
             this.tabPageGotoAction.Text = "GOTO";
             this.tabPageGotoAction.UseVisualStyleBackColor = true;
@@ -766,7 +766,7 @@
             this.gridGoto.RowsDefaultCellStyle = dataGridViewCellStyle9;
             this.gridGoto.RowTemplate.Height = 33;
             this.gridGoto.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.gridGoto.Size = new System.Drawing.Size(1422, 551);
+            this.gridGoto.Size = new System.Drawing.Size(1402, 551);
             this.gridGoto.StandardTab = true;
             this.gridGoto.TabIndex = 2;
             // 
@@ -776,13 +776,13 @@
             this.stateContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.copyCToolStripMenuItem});
             this.stateContextMenu.Name = "stateContextMenu";
-            this.stateContextMenu.Size = new System.Drawing.Size(189, 40);
+            this.stateContextMenu.Size = new System.Drawing.Size(214, 42);
             // 
             // copyCToolStripMenuItem
             // 
             this.copyCToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.copyCToolStripMenuItem.Name = "copyCToolStripMenuItem";
-            this.copyCToolStripMenuItem.Size = new System.Drawing.Size(188, 36);
+            this.copyCToolStripMenuItem.Size = new System.Drawing.Size(213, 38);
             this.copyCToolStripMenuItem.Text = "Copy (&C)";
             this.copyCToolStripMenuItem.Click += new System.EventHandler(this.copyCToolStripMenuItem_Click);
             // 
@@ -792,13 +792,13 @@
             this.actionContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.solveSToolStripMenuItem});
             this.actionContextMenu.Name = "actionContextMenu";
-            this.actionContextMenu.Size = new System.Drawing.Size(307, 40);
+            this.actionContextMenu.Size = new System.Drawing.Size(332, 42);
             // 
             // solveSToolStripMenuItem
             // 
             this.solveSToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.solveSToolStripMenuItem.Name = "solveSToolStripMenuItem";
-            this.solveSToolStripMenuItem.Size = new System.Drawing.Size(306, 36);
+            this.solveSToolStripMenuItem.Size = new System.Drawing.Size(331, 38);
             this.solveSToolStripMenuItem.Text = "Solve Conflict... (&S)";
             this.solveSToolStripMenuItem.Click += new System.EventHandler(this.solveSToolStripMenuItem_Click);
             // 
@@ -811,7 +811,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(2380, 1114);
+            this.ClientSize = new System.Drawing.Size(2352, 1114);
             this.Controls.Add(this.tableLayout);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
