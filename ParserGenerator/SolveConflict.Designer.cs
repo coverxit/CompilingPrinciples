@@ -130,6 +130,7 @@
             this.gridSelect.TabIndex = 5;
             this.gridSelect.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSelect_CellValueChanged);
             this.gridSelect.CurrentCellDirtyStateChanged += new System.EventHandler(this.gridSelect_CurrentCellDirtyStateChanged);
+            this.gridSelect.SelectionChanged += new System.EventHandler(this.gridSelect_SelectionChanged);
             // 
             // ColumnSelect
             // 

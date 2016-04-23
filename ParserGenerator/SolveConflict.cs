@@ -95,6 +95,11 @@ namespace CompilingPrinciples.ParserGenerator
             if (gridSelect.IsCurrentCellDirty)
                 gridSelect.CommitEdit(DataGridViewDataErrorContexts.Commit);
         }
+
+        private void gridSelect_SelectionChanged(object sender, EventArgs e)
+        {
+            gridSelect.ClearSelection();
+        }
     }
 
     public class SolveConflictParams

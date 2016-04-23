@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 
+using Microsoft.CSharp;
+using System.CodeDom;
+using System.CodeDom.Compiler;
+
 using CompilingPrinciples.LexicalAnalyzer;
 using CompilingPrinciples.SyntaxAnalyzer;
 using CompilingPrinciples.SymbolEnvironment;
@@ -77,8 +81,6 @@ namespace CompilingPrinciples.ParserGenerator
             listView.EndUpdate();
         }
 
-        
-
         private void btnAnalyse_Click(object sender, EventArgs e)
         {
             listNonTerminals.Items.Clear();
@@ -90,7 +92,7 @@ namespace CompilingPrinciples.ParserGenerator
             gridAction.Columns.Clear();
             gridGoto.Rows.Clear();
             gridGoto.Columns.Clear();
-
+            
             var inputArray = Encoding.ASCII.GetBytes(textGrammar.Text);
             useSLR = !rbLR1.Checked;
 
@@ -99,15 +101,33 @@ namespace CompilingPrinciples.ParserGenerator
             if (useSLR) waitingForm.DisableLR1();
             else waitingForm.DisableSLR();
 
-            var showFormTask = Task.Run(() => { this.Invoke((MethodInvoker)delegate { waitingForm.ShowDialog(this); }); });
-
             // Generate
             var reporter = new ProgressReporter(this, useSLR ? waitingForm.lblSLRProcess : waitingForm.lblLR1Process);
             grammar = new Grammar(new SymbolTable(), reporter);
-            
-            var analyseTask = new Task(() =>
+
+            var analyseTask = new Task<bool>(() =>
             {
                 grammar.Parse(new MemoryStream(inputArray));
+
+                // Check if augmented
+                if (grammar.FirstProduction.IsRightEpsilon() || grammar.FirstProduction.Right.Count != 1 ||
+                    (grammar.FirstProduction.Right.Count == 1 && grammar.FirstProduction.Right[0].Type != ProductionSymbol.SymbolType.NonTerminal))
+                {
+                    MessageBox.Show("The grammar is NOT augmented!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return false;
+                }
+
+                return true;
+            });
+
+            analyseTask.ContinueWith((lastTask) =>
+            {
+                // failed in grammar parse
+                if (!lastTask.Result)
+                    return;
+
+                var showFormTask = Task.Run(() => { this.Invoke((MethodInvoker)delegate { waitingForm.ShowDialog(this); }); });
+
                 this.Invoke((MethodInvoker)delegate
                 {
                     UpdateListSymbol(grammar.NonTerminals, listNonTerminals);
@@ -126,7 +146,7 @@ namespace CompilingPrinciples.ParserGenerator
                     parseTable = SLRParseTable.Create(collection, reporter);
                     this.Invoke((MethodInvoker)delegate
                     {
-                        waitingForm.lblSLRProcess.Text = "Done";
+                        waitingForm.lblSLRProcess.Text = "Refreshing UI...";
                         waitingForm.lblSLRProcess.ForeColor = Color.Green;
                     });
                 }
@@ -143,18 +163,11 @@ namespace CompilingPrinciples.ParserGenerator
 
                     this.Invoke((MethodInvoker)delegate
                     {
-                        waitingForm.lblLR1Process.Text = "Done";
+                        waitingForm.lblLR1Process.Text = "Refreshing UI...";
                         waitingForm.lblLR1Process.ForeColor = Color.Green;
                     });
                 }
 
-                // Close waiting form
-                this.Invoke((MethodInvoker)delegate
-                {
-                    waitingForm.PermitClose = true;
-                    waitingForm.Close();
-                });
-                
                 // State Grid
                 var stateTable = new DataTable();
                 stateTable.Columns.Add("State", typeof(int));
@@ -262,18 +275,61 @@ namespace CompilingPrinciples.ParserGenerator
                         gridGoto.Rows.Add(row);
                     }
                 });
-            });
-
-            analyseTask.ContinueWith((lastTask) => {
+            }).ContinueWith((lastTask) => {
                 // Cleanup
                 this.Invoke((MethodInvoker)delegate
                 {
+                    // Close waiting form
+                    waitingForm.PermitClose = true;
+                    waitingForm.Close();
+
                     btnGenerate.Enabled = true;
                     btnGenerate.Focus();
                 });
             });
 
             analyseTask.Start();
+        }
+
+        private CodeCompileUnit GenerateParserCode(string sourceFilePath)
+        {
+            // var symbolTable = new SymbolTable();
+            var declSymTable = new CodeVariableDeclarationStatement(
+                new CodeTypeReference(typeof(SymbolTable)), "symbolTable",
+                new CodeObjectCreateExpression(typeof(SymbolTable))
+            );
+
+            // Parser parser = null;
+            var declParser = new CodeVariableDeclarationStatement(
+                new CodeTypeReference(typeof(Parser)), "parser"
+            );
+
+            // public static void Main(string[] args)
+            var entryPoint = new CodeEntryPointMethod();
+            entryPoint.Statements.Add(declSymTable);
+            entryPoint.Statements.Add(declParser);
+
+            // class Parser
+            var parserClass = new CodeTypeDeclaration("Parser");
+            parserClass.Attributes = MemberAttributes.Public;
+            parserClass.Members.Add(entryPoint);
+
+            // namespace 
+            var ns = new CodeNamespace(Path.GetFileNameWithoutExtension(sourceFilePath));
+            ns.Imports.Add(new CodeNamespaceImport("System"));
+            ns.Imports.Add(new CodeNamespaceImport("System.Collections.Generic"));
+            ns.Imports.Add(new CodeNamespaceImport("System.Linq"));
+            ns.Imports.Add(new CodeNamespaceImport("System.Text"));
+            ns.Imports.Add(new CodeNamespaceImport("System.Threading.Tasks"));
+            ns.Imports.Add(new CodeNamespaceImport("System.IO"));
+            ns.Imports.Add(new CodeNamespaceImport("CompilingPrinciples.LexicalAnalyzer"));
+            ns.Imports.Add(new CodeNamespaceImport("CompilingPrinciples.SymbolEnvironment"));
+            ns.Imports.Add(new CodeNamespaceImport("CompilingPrinciples.SyntaxAnalyzer"));
+            ns.Types.Add(parserClass);
+
+            var unit = new CodeCompileUnit();
+            unit.Namespaces.Add(ns);
+            return unit;
         }
 
         private void btnGenerate_Click(object sender, EventArgs e)
@@ -285,18 +341,31 @@ namespace CompilingPrinciples.ParserGenerator
 
             if (unsolvedConflicts > 0)
             {
-                MessageBox.Show("There are " + unsolvedConflicts.ToString() + " shift/shift or shift/reduce conflicts unsolved!",
+                MessageBox.Show("There are " + unsolvedConflicts.ToString() + " shift/shift or shift/reduce conflicts in ACTION table unsolved!",
                                 "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
-            var parser = useSLR ? new Parser<LR0Item>(new SymbolTable(), grammar, parseTable as ParseTable<LR0Item>) as Parser :
+            if (DialogResult.OK == saveFileDialog.ShowDialog())
+            {
+                var fileName = saveFileDialog.FileName;
+                var outputWriter = new StreamWriter(new FileStream(fileName, FileMode.Create));
+
+                var parser = useSLR ? new Parser<LR0Item>(new SymbolTable(), grammar, parseTable as ParseTable<LR0Item>) as Parser :
                                    new Parser<LR1Item>(new SymbolTable(), grammar, parseTable as ParseTable<LR1Item>) as Parser;
 
-            var stream = new MemoryStream();
-            parser.SaveContext(stream);
-            stream.Position = 0;
-            
+                using (var ctxStream = new FileStream(Path.ChangeExtension(fileName, ".ctx"), FileMode.Create))
+                    parser.SaveContext(ctxStream);
+                
+                outputWriter.WriteLine(CompilerHelper.CompileParser(fileName));
+                outputWriter.Close();
+                
+                MessageBox.Show("Three files are generated:\r\n\r\n" + 
+                                Path.GetFileName(fileName) + " - Source code of the parser.\r\n" +
+                                Path.GetFileNameWithoutExtension(fileName) + ".ctx - Parser's context.\r\n" +
+                                Path.GetFileNameWithoutExtension(fileName) + ".exe - Executable parser.", 
+                                "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void gridAction_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
