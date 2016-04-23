@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 using CompilingPrinciples.LexerModule;
 using CompilingPrinciples.SymbolEnvironment;
-using CompilingPrinciples.SyntaxAnalyzer;
+using CompilingPrinciples.ParserModule;
 
 namespace CompilingPrinciples.TestCase
 {

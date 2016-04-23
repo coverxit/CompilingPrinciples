@@ -12,7 +12,7 @@ using System.CodeDom.Compiler;
 
 using CompilingPrinciples.LexerModule;
 using CompilingPrinciples.SymbolEnvironment;
-using CompilingPrinciples.SyntaxAnalyzer;
+using CompilingPrinciples.ParserModule;
 using CompilingPrinciples.Utility;
 
 namespace CompilingPrinciples.TestCase

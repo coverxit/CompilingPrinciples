@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using CompilingPrinciples.LexerModule;
 using CompilingPrinciples.SymbolEnvironment;
-using CompilingPrinciples.SyntaxAnalyzer;
+using CompilingPrinciples.ParserModule;
 
 namespace CompilingPrinciples.UnitTest
 {

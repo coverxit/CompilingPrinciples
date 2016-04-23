@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using CompilingPrinciples.LexerModule;
-using CompilingPrinciples.SyntaxAnalyzer;
+using CompilingPrinciples.ParserModule;
 using CompilingPrinciples.SymbolEnvironment;
 using CompilingPrinciples.Utility;
 

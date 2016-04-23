@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CompilingPrinciples.SyntaxAnalyzer
+namespace CompilingPrinciples.ParserModule
 {
     public class FirstFollowGenerator
     {

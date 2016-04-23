@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 
 using CompilingPrinciples.LexerModule;
 
-namespace CompilingPrinciples.SyntaxAnalyzer
+namespace CompilingPrinciples.ParserModule
 {
     [Serializable]
     public class ProductionSymbol

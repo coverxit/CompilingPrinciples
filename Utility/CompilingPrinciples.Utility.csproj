@@ -63,9 +63,9 @@
       <Project>{48a30c7a-21a5-459b-8cb9-3ebbb921aaf8}</Project>
       <Name>CompilingPrinciples.LexerModule</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SyntaxAnalyzer\CompilingPrinciples.SyntaxAnalyzer.csproj">
+    <ProjectReference Include="..\ParserModule\CompilingPrinciples.ParserModule.csproj">
       <Project>{ec6f8cbf-8e6d-4273-ac42-b4b484b7422b}</Project>
-      <Name>CompilingPrinciples.SyntaxAnalyzer</Name>
+      <Name>CompilingPrinciples.ParserModule</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

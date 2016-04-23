@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using CompilingPrinciples.LexerModule;
 
-namespace CompilingPrinciples.SyntaxAnalyzer
+namespace CompilingPrinciples.ParserModule
 {
     public interface IParserErrorRoutine
     {

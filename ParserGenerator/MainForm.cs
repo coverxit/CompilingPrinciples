@@ -14,7 +14,7 @@ using System.CodeDom;
 using System.CodeDom.Compiler;
 
 using CompilingPrinciples.LexerModule;
-using CompilingPrinciples.SyntaxAnalyzer;
+using CompilingPrinciples.ParserModule;
 using CompilingPrinciples.SymbolEnvironment;
 using CompilingPrinciples.Utility;
 

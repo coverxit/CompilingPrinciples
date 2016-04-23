@@ -11,7 +11,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using CompilingPrinciples.LexerModule;
 using CompilingPrinciples.SymbolEnvironment;
 
-namespace CompilingPrinciples.SyntaxAnalyzer
+namespace CompilingPrinciples.ParserModule
 {
     public abstract class Parser
     {

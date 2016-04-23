@@ -9,7 +9,7 @@ using System.Runtime.Serialization;
 using CompilingPrinciples.LexerModule;
 using CompilingPrinciples.SymbolEnvironment;
 
-namespace CompilingPrinciples.SyntaxAnalyzer
+namespace CompilingPrinciples.ParserModule
 {
     [Serializable]
     public class Grammar
