@@ -136,7 +136,7 @@
             this.tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
             this.tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
-            this.tableLayout.Size = new System.Drawing.Size(2328, 1114);
+            this.tableLayout.Size = new System.Drawing.Size(2380, 1114);
             this.tableLayout.TabIndex = 0;
             // 
             // tablePanelControls
@@ -157,7 +157,7 @@
             this.tablePanelControls.RowCount = 2;
             this.tablePanelControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
             this.tablePanelControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60F));
-            this.tablePanelControls.Size = new System.Drawing.Size(2282, 1093);
+            this.tablePanelControls.Size = new System.Drawing.Size(2334, 1093);
             this.tablePanelControls.TabIndex = 0;
             // 
             // groupBoxGrammar
@@ -322,7 +322,7 @@
             this.groupBoxSymbols.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBoxSymbols.Location = new System.Drawing.Point(813, 3);
             this.groupBoxSymbols.Name = "groupBoxSymbols";
-            this.groupBoxSymbols.Size = new System.Drawing.Size(578, 431);
+            this.groupBoxSymbols.Size = new System.Drawing.Size(599, 431);
             this.groupBoxSymbols.TabIndex = 1;
             this.groupBoxSymbols.TabStop = false;
             this.groupBoxSymbols.Text = "Symbols";
@@ -341,7 +341,7 @@
             this.tablePanelSymbols.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
             this.tablePanelSymbols.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tablePanelSymbols.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
-            this.tablePanelSymbols.Size = new System.Drawing.Size(572, 401);
+            this.tablePanelSymbols.Size = new System.Drawing.Size(593, 401);
             this.tablePanelSymbols.TabIndex = 1;
             // 
             // tabSymbol
@@ -352,7 +352,7 @@
             this.tabSymbol.Location = new System.Drawing.Point(8, 8);
             this.tabSymbol.Name = "tabSymbol";
             this.tabSymbol.SelectedIndex = 0;
-            this.tabSymbol.Size = new System.Drawing.Size(556, 385);
+            this.tabSymbol.Size = new System.Drawing.Size(577, 385);
             this.tabSymbol.TabIndex = 0;
             // 
             // tabPageNonTerminals
@@ -361,7 +361,7 @@
             this.tabPageNonTerminals.Location = new System.Drawing.Point(8, 39);
             this.tabPageNonTerminals.Name = "tabPageNonTerminals";
             this.tabPageNonTerminals.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageNonTerminals.Size = new System.Drawing.Size(540, 338);
+            this.tabPageNonTerminals.Size = new System.Drawing.Size(561, 338);
             this.tabPageNonTerminals.TabIndex = 0;
             this.tabPageNonTerminals.Text = "Non Terminals";
             this.tabPageNonTerminals.UseVisualStyleBackColor = true;
@@ -378,7 +378,7 @@
             this.listNonTerminals.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.listNonTerminals.MultiSelect = false;
             this.listNonTerminals.Name = "listNonTerminals";
-            this.listNonTerminals.Size = new System.Drawing.Size(534, 332);
+            this.listNonTerminals.Size = new System.Drawing.Size(555, 332);
             this.listNonTerminals.TabIndex = 0;
             this.listNonTerminals.UseCompatibleStateImageBehavior = false;
             this.listNonTerminals.View = System.Windows.Forms.View.Details;
@@ -435,9 +435,9 @@
             // 
             this.groupBoxFirstFollow.Controls.Add(this.tablePanelFirstFollow);
             this.groupBoxFirstFollow.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBoxFirstFollow.Location = new System.Drawing.Point(1407, 3);
+            this.groupBoxFirstFollow.Location = new System.Drawing.Point(1428, 3);
             this.groupBoxFirstFollow.Name = "groupBoxFirstFollow";
-            this.groupBoxFirstFollow.Size = new System.Drawing.Size(872, 431);
+            this.groupBoxFirstFollow.Size = new System.Drawing.Size(903, 431);
             this.groupBoxFirstFollow.TabIndex = 2;
             this.groupBoxFirstFollow.TabStop = false;
             this.groupBoxFirstFollow.Text = "FIRST / FOLLOW Set";
@@ -456,7 +456,7 @@
             this.tablePanelFirstFollow.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
             this.tablePanelFirstFollow.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tablePanelFirstFollow.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
-            this.tablePanelFirstFollow.Size = new System.Drawing.Size(866, 401);
+            this.tablePanelFirstFollow.Size = new System.Drawing.Size(897, 401);
             this.tablePanelFirstFollow.TabIndex = 2;
             // 
             // tabFirstFollow
@@ -467,7 +467,7 @@
             this.tabFirstFollow.Location = new System.Drawing.Point(8, 8);
             this.tabFirstFollow.Name = "tabFirstFollow";
             this.tabFirstFollow.SelectedIndex = 0;
-            this.tabFirstFollow.Size = new System.Drawing.Size(850, 385);
+            this.tabFirstFollow.Size = new System.Drawing.Size(881, 385);
             this.tabFirstFollow.TabIndex = 0;
             // 
             // tabPageFirst
@@ -476,7 +476,7 @@
             this.tabPageFirst.Location = new System.Drawing.Point(8, 39);
             this.tabPageFirst.Name = "tabPageFirst";
             this.tabPageFirst.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageFirst.Size = new System.Drawing.Size(834, 338);
+            this.tabPageFirst.Size = new System.Drawing.Size(865, 338);
             this.tabPageFirst.TabIndex = 0;
             this.tabPageFirst.Text = "FIRST Set";
             this.tabPageFirst.UseVisualStyleBackColor = true;
@@ -494,7 +494,7 @@
             this.listFirst.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.listFirst.MultiSelect = false;
             this.listFirst.Name = "listFirst";
-            this.listFirst.Size = new System.Drawing.Size(828, 332);
+            this.listFirst.Size = new System.Drawing.Size(859, 332);
             this.listFirst.TabIndex = 0;
             this.listFirst.UseCompatibleStateImageBehavior = false;
             this.listFirst.View = System.Windows.Forms.View.Details;
@@ -555,7 +555,7 @@
             this.groupBoxParseTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBoxParseTable.Location = new System.Drawing.Point(813, 440);
             this.groupBoxParseTable.Name = "groupBoxParseTable";
-            this.groupBoxParseTable.Size = new System.Drawing.Size(1466, 650);
+            this.groupBoxParseTable.Size = new System.Drawing.Size(1518, 650);
             this.groupBoxParseTable.TabIndex = 3;
             this.groupBoxParseTable.TabStop = false;
             this.groupBoxParseTable.Text = "Parsing Table";
@@ -574,7 +574,7 @@
             this.tablePanelParsingTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
             this.tablePanelParsingTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tablePanelParsingTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
-            this.tablePanelParsingTable.Size = new System.Drawing.Size(1460, 620);
+            this.tablePanelParsingTable.Size = new System.Drawing.Size(1512, 620);
             this.tablePanelParsingTable.TabIndex = 2;
             // 
             // tabParsingTable
@@ -586,7 +586,7 @@
             this.tabParsingTable.Location = new System.Drawing.Point(8, 8);
             this.tabParsingTable.Name = "tabParsingTable";
             this.tabParsingTable.SelectedIndex = 0;
-            this.tabParsingTable.Size = new System.Drawing.Size(1444, 604);
+            this.tabParsingTable.Size = new System.Drawing.Size(1496, 604);
             this.tabParsingTable.TabIndex = 0;
             // 
             // tabPageStates
@@ -595,7 +595,7 @@
             this.tabPageStates.Location = new System.Drawing.Point(8, 39);
             this.tabPageStates.Name = "tabPageStates";
             this.tabPageStates.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageStates.Size = new System.Drawing.Size(1428, 557);
+            this.tabPageStates.Size = new System.Drawing.Size(1480, 557);
             this.tabPageStates.TabIndex = 2;
             this.tabPageStates.Text = "States";
             this.tabPageStates.UseVisualStyleBackColor = true;
@@ -637,7 +637,7 @@
             this.gridStates.RowHeadersVisible = false;
             this.gridStates.RowTemplate.Height = 33;
             this.gridStates.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridStates.Size = new System.Drawing.Size(1422, 551);
+            this.gridStates.Size = new System.Drawing.Size(1474, 551);
             this.gridStates.StandardTab = true;
             this.gridStates.TabIndex = 1;
             this.gridStates.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridStates_CellMouseDown);
@@ -811,7 +811,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(2328, 1114);
+            this.ClientSize = new System.Drawing.Size(2380, 1114);
             this.Controls.Add(this.tableLayout);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";

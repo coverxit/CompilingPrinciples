@@ -185,7 +185,7 @@ namespace CompilingPrinciples.ParserGenerator
                 // Action Grid
                 this.Invoke((MethodInvoker)delegate
                 {
-                    foreach (var s in grammar.Terminals)
+                    foreach (var s in grammar.TerminalsWithEndMarker)
                     {
                         var col = new DataGridViewTextBoxColumn();
                         col.HeaderText = s.ToString();
@@ -199,7 +199,7 @@ namespace CompilingPrinciples.ParserGenerator
                         var row = new DataGridViewRow();
                         row.HeaderCell.Value = r.Key.ToString();
 
-                        foreach (var s in grammar.Terminals)
+                        foreach (var s in grammar.TerminalsWithEndMarker)
                         {
                             var cell = new DataGridViewTextBoxCell();
 
@@ -221,7 +221,7 @@ namespace CompilingPrinciples.ParserGenerator
                                         break;
 
                                     case ActionTableEntry.ActionType.Reduce:
-                                        cell.Style.ForeColor = Color.Green;
+                                        cell.Style.ForeColor = Color.MediumPurple;
                                         break;
                                 }
                             }

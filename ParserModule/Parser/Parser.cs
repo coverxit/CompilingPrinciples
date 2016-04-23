@@ -176,12 +176,26 @@ namespace CompilingPrinciples.ParserModule
                         if (errRoutine == null)
                             throw new ApplicationException("Syntax Error near Line " + token.Line);
 
-                        var ret = errRoutine.ErrorRoutine(top, symbol, prevToken, parseStack, symbolStack);
+                        var ret = errRoutine.ErrorRoutine(top, symbol, token, prevToken, parseStack, symbolStack);
+                        switch (ret.Type)
+                        {
+                            case SolveOperation.OpType.PushState:
+                                parseStack.Push(ret.StateToPush);
+                                break;
+
+                            case SolveOperation.OpType.SkipToken:
+                                prevToken = token;
+                                token = lexer.ScanNextToken();
+                                break;
+                        }
+
                         var sym = symbolStack.ToString();
                         var state = parseStack.ToString();
+                        var diagnostic = "line " + token.Line + ": \"" + ret.Diagnostic + "\"";
 
-                        ops.Add(new Tuple<string, string>(ret, sym));
-                        if (reporter != null) reporter.ReportStep(ret, sym, state);
+                        ops.Add(new Tuple<string, string>(diagnostic, sym));
+                        if (reporter != null) reporter.ReportStep(diagnostic, sym, state);
+                        invalidRegions.Add(new Tuple<int, int>(token.Position, token.Length));
                         break;
                 }
             }

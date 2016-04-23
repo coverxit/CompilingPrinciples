@@ -11,7 +11,7 @@ namespace CompilingPrinciples.Utility
 {
     public class LR1ParserErrorRoutine : IParserErrorRoutine
     {
-        public string ErrorRoutine(int topState, ProductionSymbol symbol, Token previousToken, PrintableStack<int> parseStack, PrintableStack<ProductionSymbol> symbolStack)
+        public SolveOperation ErrorRoutine(int topState, ProductionSymbol symbol, Token currentToken, Token previousToken, PrintableStack<int> parseStack, PrintableStack<ProductionSymbol> symbolStack)
         {
             throw new NotImplementedException();
         }
