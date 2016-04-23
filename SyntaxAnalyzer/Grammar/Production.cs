@@ -16,6 +16,14 @@ namespace CompilingPrinciples.SyntaxAnalyzer
         private int leftNonTerminalId;
         private List<ProductionSymbol> rightExpression;
 
+        [NonSerialized]
+        private int line; // used for showing short string
+        
+        public int LineInGrammar
+        {
+            get { return line; }
+        }
+
         public ProductionSymbol Left
         {
             get { return new ProductionSymbol(grammar, ProductionSymbol.SymbolType.NonTerminal, leftNonTerminalId); }
@@ -26,14 +34,16 @@ namespace CompilingPrinciples.SyntaxAnalyzer
             get { return new List<ProductionSymbol>(rightExpression); }
         }
 
-        public Production(Grammar grammar)
+        public Production(Grammar grammar, int line = -1)
         {
+            this.line = line;
             this.grammar = grammar;
             rightExpression = new List<ProductionSymbol>();
         }
 
         public Production(Production rhs)
         {
+            this.line = rhs.line;
             this.grammar = rhs.grammar;
             this.leftNonTerminalId = rhs.leftNonTerminalId;
             this.rightExpression = new List<ProductionSymbol>(rhs.rightExpression);
@@ -79,15 +89,12 @@ namespace CompilingPrinciples.SyntaxAnalyzer
             sb.Append(Left);
             sb.Append(" ->");
 
-            if (IsRightEpsilon())
-                sb.Append(" ε");
-            else
-                foreach (var e in rightExpression)
-                {
-                    sb.Append(" ");
-                    sb.Append(e);
-                }
-            
+            foreach (var e in rightExpression)
+            {
+                sb.Append(" ");
+                sb.Append(e.ToString());
+            }
+
             return sb.ToString();
         }
 

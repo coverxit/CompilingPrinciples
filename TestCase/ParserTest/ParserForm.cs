@@ -12,6 +12,7 @@ using System.IO;
 using CompilingPrinciples.LexicalAnalyzer;
 using CompilingPrinciples.SymbolEnvironment;
 using CompilingPrinciples.SyntaxAnalyzer;
+using CompilingPrinciples.Utility;
 
 namespace CompilingPrinciples.TestCase
 {
@@ -83,12 +84,6 @@ namespace CompilingPrinciples.TestCase
             listParse.Items.Clear();
             listSymbolTable.Items.Clear();
 
-            btnAnalyze.Enabled = false;
-            btnOpen.Enabled = false;
-            rbSLR.Enabled = false;
-            rbLR1.Enabled = false;
-            textCode.Enabled = false;
-
             textCode.IndicatorCurrent = ErrorIndicatorIndex;
             textCode.IndicatorClearRange(0, textCode.Text.Length);
 
@@ -136,13 +131,6 @@ namespace CompilingPrinciples.TestCase
                         listSymbolTable.Items.Add(item);
                     }
                     listSymbolTable.EndUpdate();
-
-                    btnAnalyze.Enabled = true;
-                    btnOpen.Enabled = true;
-                    rbSLR.Enabled = true;
-                    rbLR1.Enabled = true;
-                    textCode.Enabled = true;
-                    textCode.Focus();
                 });
             });
 

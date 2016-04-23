@@ -10,9 +10,8 @@ using System.Windows.Forms;
 using CompilingPrinciples.LexicalAnalyzer;
 using CompilingPrinciples.SymbolEnvironment;
 using CompilingPrinciples.SyntaxAnalyzer;
-using CompilingPrinciples.Utility;
 
-namespace CompilingPrinciples.TestCase
+namespace CompilingPrinciples.Utility
 {
     public class ProgressReporter : IReportProgress
     {
@@ -249,7 +248,7 @@ namespace CompilingPrinciples.TestCase
                         //    writer.WriteLine(e);
                         // writer.WriteLine("=== Pending for ACTION[" + pendAction.Key + ", " + term + "] ===");
                         // foreach (var e in pendAction.Value[term].Entries)
-                        //    writer.WriteLine(e + (e.Equals(pendAction.Value[term].PreferEntry) ? " [selected]" : ""));
+                        //    writer.WriteLine(e + (e.Equals(pendAction.Value[term].PreferredEntry) ? " [selected]" : ""));
                     }
 
              // writer.Flush();

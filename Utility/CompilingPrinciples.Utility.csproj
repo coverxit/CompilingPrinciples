@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -41,10 +42,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GenerateWaitingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GenerateWaitingForm.Designer.cs">
+      <DependentUpon>GenerateWaitingForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="LR1ParserErrorRoutine.cs" />
+    <Compile Include="ParserHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SLRParserErrorRoutine.cs" />
-    <Compile Include="WindowThemeListView.cs">
+    <Compile Include="EnhancedControls.cs">
       <SubType>Component</SubType>
     </Compile>
   </ItemGroup>
@@ -57,6 +65,11 @@
       <Project>{ec6f8cbf-8e6d-4273-ac42-b4b484b7422b}</Project>
       <Name>CompilingPrinciples.SyntaxAnalyzer</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="GenerateWaitingForm.resx">
+      <DependentUpon>GenerateWaitingForm.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Keyword", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Identifier", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("Keyword", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("Identifier", System.Windows.Forms.HorizontalAlignment.Left);
             this.tableLayout = new System.Windows.Forms.TableLayoutPanel();
             this.tablePanelControls = new System.Windows.Forms.TableLayoutPanel();
             this.panelToken = new System.Windows.Forms.Panel();
@@ -248,13 +248,13 @@
             this.symbolHeaderSymbol});
             this.listSymbolTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listSymbolTable.FullRowSelect = true;
-            listViewGroup1.Header = "Keyword";
-            listViewGroup1.Name = "lvGroupKeyword";
-            listViewGroup2.Header = "Identifier";
-            listViewGroup2.Name = "lvGroupIdentifier";
+            listViewGroup3.Header = "Keyword";
+            listViewGroup3.Name = "lvGroupKeyword";
+            listViewGroup4.Header = "Identifier";
+            listViewGroup4.Name = "lvGroupIdentifier";
             this.listSymbolTable.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup1,
-            listViewGroup2});
+            listViewGroup3,
+            listViewGroup4});
             this.listSymbolTable.Location = new System.Drawing.Point(0, 0);
             this.listSymbolTable.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.listSymbolTable.MultiSelect = false;
@@ -338,8 +338,8 @@
             // tablePanelFunctions
             // 
             this.tablePanelFunctions.ColumnCount = 2;
-            this.tablePanelFunctions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tablePanelFunctions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tablePanelFunctions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this.tablePanelFunctions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
             this.tablePanelFunctions.Controls.Add(this.flowPanelButtons, 1, 0);
             this.tablePanelFunctions.Controls.Add(this.tablePanelParser, 0, 0);
             this.tablePanelFunctions.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -347,7 +347,6 @@
             this.tablePanelFunctions.Name = "tablePanelFunctions";
             this.tablePanelFunctions.RowCount = 1;
             this.tablePanelFunctions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tablePanelFunctions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tablePanelFunctions.Size = new System.Drawing.Size(627, 61);
             this.tablePanelFunctions.TabIndex = 1;
             // 
@@ -357,15 +356,15 @@
             this.flowPanelButtons.Controls.Add(this.btnOpen);
             this.flowPanelButtons.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowPanelButtons.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flowPanelButtons.Location = new System.Drawing.Point(316, 3);
+            this.flowPanelButtons.Location = new System.Drawing.Point(253, 3);
             this.flowPanelButtons.Name = "flowPanelButtons";
-            this.flowPanelButtons.Size = new System.Drawing.Size(308, 55);
+            this.flowPanelButtons.Size = new System.Drawing.Size(371, 55);
             this.flowPanelButtons.TabIndex = 2;
             // 
             // btnAnalyze
             // 
             this.btnAnalyze.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAnalyze.Location = new System.Drawing.Point(172, 2);
+            this.btnAnalyze.Location = new System.Drawing.Point(235, 2);
             this.btnAnalyze.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.btnAnalyze.Name = "btnAnalyze";
             this.btnAnalyze.Size = new System.Drawing.Size(132, 52);
@@ -377,7 +376,7 @@
             // btnOpen
             // 
             this.btnOpen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOpen.Location = new System.Drawing.Point(32, 2);
+            this.btnOpen.Location = new System.Drawing.Point(95, 2);
             this.btnOpen.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.btnOpen.Name = "btnOpen";
             this.btnOpen.Size = new System.Drawing.Size(132, 52);
@@ -398,15 +397,15 @@
             this.tablePanelParser.Name = "tablePanelParser";
             this.tablePanelParser.RowCount = 1;
             this.tablePanelParser.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tablePanelParser.Size = new System.Drawing.Size(307, 55);
+            this.tablePanelParser.Size = new System.Drawing.Size(244, 55);
             this.tablePanelParser.TabIndex = 3;
             // 
             // rbLR1
             // 
             this.rbLR1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rbLR1.Location = new System.Drawing.Point(156, 3);
+            this.rbLR1.Location = new System.Drawing.Point(125, 3);
             this.rbLR1.Name = "rbLR1";
-            this.rbLR1.Size = new System.Drawing.Size(148, 49);
+            this.rbLR1.Size = new System.Drawing.Size(116, 49);
             this.rbLR1.TabIndex = 1;
             this.rbLR1.Text = "LR(1)";
             this.rbLR1.UseVisualStyleBackColor = true;
@@ -417,7 +416,7 @@
             this.rbSLR.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rbSLR.Location = new System.Drawing.Point(3, 3);
             this.rbSLR.Name = "rbSLR";
-            this.rbSLR.Size = new System.Drawing.Size(147, 49);
+            this.rbSLR.Size = new System.Drawing.Size(116, 49);
             this.rbSLR.TabIndex = 0;
             this.rbSLR.TabStop = true;
             this.rbSLR.Text = "SLR";

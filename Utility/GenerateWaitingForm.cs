@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace CompilingPrinciples.TestCase
+namespace CompilingPrinciples.Utility
 {
     public partial class GenerateWaitingForm : Form
     {
@@ -17,6 +17,18 @@ namespace CompilingPrinciples.TestCase
         {
             get { return permitClose; }
             set { permitClose = value; }
+        }
+
+        public void DisableSLR()
+        {
+            lblSLRProcess.Text = "N/A";
+            lblSLRProcess.ForeColor = Color.Black;
+        }
+
+        public void DisableLR1()
+        {
+            lblLR1Process.Text = "N/A";
+            lblLR1Process.ForeColor = Color.Black;
         }
 
         public GenerateWaitingForm()

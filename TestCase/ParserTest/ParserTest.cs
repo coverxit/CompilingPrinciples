@@ -255,7 +255,7 @@ namespace CompilingPrinciples.TestCase
                                 pend.value.Value[term].Entries.Where(e => e.Type == ActionTableEntry.ActionType.Shift).Single()
                             );
 
-                        Console.WriteLine("Choosed: " + pend.value.Value[term].PreferEntry);
+                        Console.WriteLine("Choosed: " + pend.value.Value[term].PreferredEntry);
 
                     }
         }

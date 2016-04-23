@@ -74,7 +74,7 @@ namespace CompilingPrinciples.SyntaxAnalyzer
             switch (type)
             {
                 case SymbolType.Terminal:
-                    return grammar.TerminalTable[id];
+                    return grammar.TerminalTable[id] == "@" ? "ε" : grammar.TerminalTable[id];
 
                 case SymbolType.NonTerminal:
                     return grammar.NonTerminalTable[id];

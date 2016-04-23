@@ -111,6 +111,27 @@ namespace CompilingPrinciples.SyntaxAnalyzer
                     throw new ApplicationException("Action Type Mismatch.");
             }
         }
+
+        public string ToShortString()
+        {
+            switch (type)
+            {
+                case ActionType.Shift:
+                    return "s" + shiftState;
+
+                case ActionType.Reduce:
+                    return "r" + reduceProd.LineInGrammar;
+
+                case ActionType.Accept:
+                    return "acc";
+
+                case ActionType.Error:
+                    return "err";
+
+                default:
+                    throw new ApplicationException("Action Type Mismatch.");
+            }
+        }
     }
 
     [Serializable]
@@ -139,7 +160,7 @@ namespace CompilingPrinciples.SyntaxAnalyzer
             this.entries = new HashSet<ActionTableEntry>();
         }
 
-        public ActionTableEntry PreferEntry
+        public ActionTableEntry PreferredEntry
         {
             get
             {
@@ -148,6 +169,11 @@ namespace CompilingPrinciples.SyntaxAnalyzer
     
                 return new ActionTableEntry(preferEntry);
             }
+        }
+
+        public ActionTableEntry FirstEntry
+        {
+            get { return new ActionTableEntry(entries.First()); }
         }
 
         public void Add(ActionTableEntry entry)
@@ -173,7 +199,7 @@ namespace CompilingPrinciples.SyntaxAnalyzer
 
         public override string ToString()
         {
-            return PreferEntry.ToString();
+            return PreferredEntry.ToString();
         }
     }
 }

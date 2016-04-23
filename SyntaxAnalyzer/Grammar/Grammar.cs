@@ -153,16 +153,17 @@ namespace CompilingPrinciples.SyntaxAnalyzer
         public void Parse(Stream stream)
         {
             StreamReader reader = new StreamReader(stream);
-            List<Tuple<int, string>> lines = new List<Tuple<int, string>>();
+            List<Tuple<int, int, string>> lines = new List<Tuple<int, int, string>>();
 
-            if (reporter != null) reporter.ReportProgress("Parser grammar...");
+            if (reporter != null) reporter.ReportProgress("Parsing grammar...");
 
             string line;
+            int lineCount = 1;
 
             // Read all lines first, split them into 2 parts and stored in lines
             while (reader.Peek() != -1) // Not EOF
             {
-                while (string.IsNullOrEmpty(line = reader.ReadLine().Trim())) ;
+                while (string.IsNullOrEmpty(line = reader.ReadLine().Trim())) lineCount++;
 
                 string[] split = line.Split(new string[] { "->" }, StringSplitOptions.RemoveEmptyEntries);
                 if (split.Length != 2)
@@ -180,15 +181,15 @@ namespace CompilingPrinciples.SyntaxAnalyzer
                     }
                 }
 
-                lines.Add(new Tuple<int, string>(leftNonTerminalId, right));
+                lines.Add(new Tuple<int, int, string>(lineCount++, leftNonTerminalId, right));
             }
 
-            foreach (var pair in lines)
+            foreach (var l in lines)
             {
-                Production prod = new Production(this);
-                prod.SetLeftNonTerminal(pair.Item1);
+                Production prod = new Production(this, l.Item1);
+                prod.SetLeftNonTerminal(l.Item2);
 
-                var rightExpr = pair.Item2.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                var rightExpr = l.Item3.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 if (rightExpr.Length == 0) continue;
 
                 dispatchRightExpression(rightExpr, ref prod);

@@ -25,4 +25,12 @@ namespace CompilingPrinciples.Utility
             base.OnHandleCreated(e);
         }
     }
+
+    public class DoubleBufferDataGridView : DataGridView
+    {
+        public DoubleBufferDataGridView()
+        {
+            DoubleBuffered = true;
+        }
+    }
 }

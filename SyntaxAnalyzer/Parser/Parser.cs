@@ -118,7 +118,7 @@ namespace CompilingPrinciples.SyntaxAnalyzer
                 // let s be the state on top of the stack
                 var top = parseStack.Peek();
                 var symbol = new ProductionSymbol(grammar, token);
-                var action = parseTable.Action[top][symbol].PreferEntry;
+                var action = parseTable.Action[top][symbol].PreferredEntry;
 
                 switch (action.Type)
                 {
