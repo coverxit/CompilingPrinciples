@@ -366,6 +366,7 @@
             this.Controls.Add(this.tableLayout);
             this.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.Name = "LexerForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Shindo\'s Lexical Analyzer";
             this.tablePanelControls.ResumeLayout(false);
             this.panelToken.ResumeLayout(false);

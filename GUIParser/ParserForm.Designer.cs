@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("Keyword", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("Identifier", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Keyword", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Identifier", System.Windows.Forms.HorizontalAlignment.Left);
             this.tableLayout = new System.Windows.Forms.TableLayoutPanel();
             this.tablePanelControls = new System.Windows.Forms.TableLayoutPanel();
             this.panelToken = new System.Windows.Forms.Panel();
@@ -248,13 +248,13 @@
             this.symbolHeaderSymbol});
             this.listSymbolTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listSymbolTable.FullRowSelect = true;
-            listViewGroup3.Header = "Keyword";
-            listViewGroup3.Name = "lvGroupKeyword";
-            listViewGroup4.Header = "Identifier";
-            listViewGroup4.Name = "lvGroupIdentifier";
+            listViewGroup1.Header = "Keyword";
+            listViewGroup1.Name = "lvGroupKeyword";
+            listViewGroup2.Header = "Identifier";
+            listViewGroup2.Name = "lvGroupIdentifier";
             this.listSymbolTable.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup3,
-            listViewGroup4});
+            listViewGroup1,
+            listViewGroup2});
             this.listSymbolTable.Location = new System.Drawing.Point(0, 0);
             this.listSymbolTable.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.listSymbolTable.MultiSelect = false;
@@ -429,6 +429,7 @@
             this.ClientSize = new System.Drawing.Size(2255, 1110);
             this.Controls.Add(this.tableLayout);
             this.Name = "ParserForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Shindo\'s Syntax Analyzer";
             this.Shown += new System.EventHandler(this.ParserForm_Shown);
             this.tableLayout.ResumeLayout(false);
