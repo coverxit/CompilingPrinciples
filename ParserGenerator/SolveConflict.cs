@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using CompilingPrinciples.LexicalAnalyzer;
+using CompilingPrinciples.LexerModule;
 using CompilingPrinciples.SyntaxAnalyzer;
 using CompilingPrinciples.SymbolEnvironment;
 using CompilingPrinciples.Utility;

@@ -7,7 +7,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
-using CompilingPrinciples.LexicalAnalyzer;
+using CompilingPrinciples.LexerModule;
 using CompilingPrinciples.SymbolEnvironment;
 using CompilingPrinciples.SyntaxAnalyzer;
 

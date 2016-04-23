@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 
-using CompilingPrinciples.LexicalAnalyzer;
+using CompilingPrinciples.LexerModule;
 using CompilingPrinciples.SymbolEnvironment;
 
-namespace CompilingPrinciples.TestCase
+namespace CompilingPrinciples.GUILexer
 {
     public partial class LexerForm : Form
     {
@@ -90,7 +90,7 @@ namespace CompilingPrinciples.TestCase
             byte[] array = Encoding.ASCII.GetBytes(textCode.Text);
             MemoryStream stream = new MemoryStream(array);
 
-            Lexer lexer = new Lexer(symbolTable, stream);
+            var lexer = new Lexer(symbolTable, stream);
             Token token = null;
 
             var analyseTask = new Task(() =>
@@ -135,7 +135,7 @@ namespace CompilingPrinciples.TestCase
                        // Set item style
                        if (token is Operator || token is Separator)
                            item.ForeColor = Color.Gray;
-                       else if (token is LexicalAnalyzer.Decimal)
+                       else if (token is LexerModule.Decimal)
                            item.ForeColor = Color.ForestGreen;
                        else if (token is InvalidToken)
                            item.ForeColor = Color.Red;
@@ -171,7 +171,7 @@ namespace CompilingPrinciples.TestCase
                         item.Text = s.index.ToString();
                         item.SubItems.Add(s.value.Lexeme);
 
-                        if (s.value.Tag != LexicalAnalyzer.Tag.Identifier)
+                        if (s.value.Tag != LexerModule.Tag.Identifier)
                             item.Group = listSymbolTable.Groups["lvGroupKeyword"];
                         else
                             item.Group = listSymbolTable.Groups["lvGroupIdentifier"];

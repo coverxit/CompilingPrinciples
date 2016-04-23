@@ -10,7 +10,7 @@ using Microsoft.CSharp;
 using System.CodeDom;
 using System.CodeDom.Compiler;
 
-using CompilingPrinciples.LexicalAnalyzer;
+using CompilingPrinciples.LexerModule;
 using CompilingPrinciples.SymbolEnvironment;
 using CompilingPrinciples.SyntaxAnalyzer;
 

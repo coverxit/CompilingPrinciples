@@ -10,7 +10,7 @@ using Microsoft.CSharp;
 using System.CodeDom;
 using System.CodeDom.Compiler;
 
-using CompilingPrinciples.LexicalAnalyzer;
+using CompilingPrinciples.LexerModule;
 using CompilingPrinciples.SymbolEnvironment;
 using CompilingPrinciples.SyntaxAnalyzer;
 using CompilingPrinciples.Utility;
@@ -23,20 +23,8 @@ namespace CompilingPrinciples.TestCase
         static void Main(string[] args)
         {
             // CLI Tests
-            //LexerTest.LaunchTest();
-            //ParserTest.LaunchTest();
-
-            // GUI Tests
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-
-            new LexerForm().Show();
-            new ParserForm().Show();
-
-            Application.Run();
-
-            //Application.Run(new LexerForm());
-            //Application.Run(new ParserForm());
+            LexerTest.LaunchTest();
+            ParserTest.LaunchTest();
         }
     }
 }

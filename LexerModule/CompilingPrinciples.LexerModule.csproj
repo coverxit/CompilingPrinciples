@@ -7,8 +7,8 @@
     <ProjectGuid>{48A30C7A-21A5-459B-8CB9-3EBBB921AAF8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CompilingPrinciples.LexicalAnalyzer</RootNamespace>
-    <AssemblyName>CompilingPrinciples.LexicalAnalyzer</AssemblyName>
+    <RootNamespace>CompilingPrinciples.LexModule</RootNamespace>
+    <AssemblyName>CompilingPrinciples.LexerModule</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>

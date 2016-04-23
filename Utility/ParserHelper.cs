@@ -7,7 +7,7 @@ using System.IO;
 using System.Drawing;
 using System.Windows.Forms;
 
-using CompilingPrinciples.LexicalAnalyzer;
+using CompilingPrinciples.LexerModule;
 using CompilingPrinciples.SymbolEnvironment;
 using CompilingPrinciples.SyntaxAnalyzer;
 

@@ -1,4 +1,4 @@
-﻿namespace CompilingPrinciples.TestCase
+﻿namespace CompilingPrinciples.GUIParser
 {
     partial class ParserForm
     {

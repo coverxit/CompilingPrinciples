@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CompilingPrinciples.LexicalAnalyzer
+namespace CompilingPrinciples.LexerModule
 {
     public abstract class Token
     {

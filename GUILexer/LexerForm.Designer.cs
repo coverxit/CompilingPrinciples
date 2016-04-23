@@ -1,4 +1,4 @@
-﻿namespace CompilingPrinciples.TestCase
+﻿namespace CompilingPrinciples.GUILexer
 {
     partial class LexerForm
     {

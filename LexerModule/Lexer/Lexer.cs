@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 using CompilingPrinciples.SymbolEnvironment;
 
-namespace CompilingPrinciples.LexicalAnalyzer
+namespace CompilingPrinciples.LexerModule
 {
     public class Lexer
     {

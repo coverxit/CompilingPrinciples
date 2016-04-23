@@ -9,12 +9,12 @@ using System.Windows.Forms;
 using System.Threading.Tasks;
 using System.IO;
 
-using CompilingPrinciples.LexicalAnalyzer;
+using CompilingPrinciples.LexerModule;
 using CompilingPrinciples.SymbolEnvironment;
 using CompilingPrinciples.SyntaxAnalyzer;
 using CompilingPrinciples.Utility;
 
-namespace CompilingPrinciples.TestCase
+namespace CompilingPrinciples.GUIParser
 {
     public partial class ParserForm : Form
     {
@@ -123,7 +123,7 @@ namespace CompilingPrinciples.TestCase
                         item.Text = s.index.ToString();
                         item.SubItems.Add(s.value.Lexeme);
 
-                        if (s.value.Tag != LexicalAnalyzer.Tag.Identifier)
+                        if (s.value.Tag != LexerModule.Tag.Identifier)
                             item.Group = listSymbolTable.Groups["lvGroupKeyword"];
                         else
                             item.Group = listSymbolTable.Groups["lvGroupIdentifier"];

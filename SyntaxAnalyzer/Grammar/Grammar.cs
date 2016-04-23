@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Runtime.Serialization;
 
-using CompilingPrinciples.LexicalAnalyzer;
+using CompilingPrinciples.LexerModule;
 using CompilingPrinciples.SymbolEnvironment;
 
 namespace CompilingPrinciples.SyntaxAnalyzer
@@ -231,7 +231,7 @@ namespace CompilingPrinciples.SyntaxAnalyzer
 
             if (token is EndMarker)
                 symbolToFind = "$";
-            else if (token is LexicalAnalyzer.Decimal)
+            else if (token is LexerModule.Decimal)
                 symbolToFind = "decimal";
             else if (token is Word)
             {
