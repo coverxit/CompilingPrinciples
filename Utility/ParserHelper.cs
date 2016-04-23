@@ -198,13 +198,10 @@ namespace CompilingPrinciples.Utility
                 });
             });
 
-            Task.Run(async () =>
+            Task.Run(() =>
             {
                 // Generally, slrTask is faster than lr1Task
                 Task.WaitAll(new Task[] { slrTask, lr1Task });
-
-                // Delay for 0.5s :P
-                await Task.Delay(500);
 
                 // Cleanup
                 grammarStream.Close();

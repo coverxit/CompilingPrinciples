@@ -26,6 +26,15 @@ namespace CompilingPrinciples.Utility
         }
     }
 
+    public class DoubleBufferedListBox : ListBox
+    {
+        public DoubleBufferedListBox()
+        {
+            SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer, true);
+            UpdateStyles();
+        }
+    }
+
     public class DoubleBufferDataGridView : DataGridView
     {
         public DoubleBufferDataGridView()

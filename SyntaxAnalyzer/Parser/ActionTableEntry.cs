@@ -162,6 +162,8 @@ namespace CompilingPrinciples.SyntaxAnalyzer
 
         public ActionTableEntry PreferredEntry
         {
+            get { return preferEntry == null ? null : new ActionTableEntry(preferEntry); }
+            /*
             get
             {
                 if (preferEntry == null)
@@ -169,6 +171,7 @@ namespace CompilingPrinciples.SyntaxAnalyzer
     
                 return new ActionTableEntry(preferEntry);
             }
+            */
         }
 
         public ActionTableEntry FirstEntry

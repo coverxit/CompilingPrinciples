@@ -55,6 +55,7 @@
     <Compile Include="EnhancedControls.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UsefulFunctions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LexcialAnalyzer\CompilingPrinciples.LexicalAnalyzer.csproj">

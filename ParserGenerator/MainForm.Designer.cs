@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -83,7 +84,11 @@
             this.gridAction = new CompilingPrinciples.Utility.DoubleBufferDataGridView();
             this.tabPageGotoAction = new System.Windows.Forms.TabPage();
             this.gridGoto = new CompilingPrinciples.Utility.DoubleBufferDataGridView();
+            this.stateContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.copyCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.actionContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.solveSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayout.SuspendLayout();
             this.tablePanelControls.SuspendLayout();
             this.groupBoxGrammar.SuspendLayout();
@@ -110,6 +115,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridAction)).BeginInit();
             this.tabPageGotoAction.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridGoto)).BeginInit();
+            this.stateContextMenu.SuspendLayout();
+            this.actionContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayout
@@ -618,6 +625,7 @@
             this.gridStates.Size = new System.Drawing.Size(1422, 551);
             this.gridStates.StandardTab = true;
             this.gridStates.TabIndex = 1;
+            this.gridStates.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridStates_CellMouseDown);
             // 
             // ColumnId
             // 
@@ -694,6 +702,7 @@
             this.gridAction.StandardTab = true;
             this.gridAction.TabIndex = 3;
             this.gridAction.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridAction_CellContentDoubleClick);
+            this.gridAction.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridAction_CellMouseDown);
             // 
             // tabPageGotoAction
             // 
@@ -710,7 +719,7 @@
             // 
             this.gridGoto.AllowUserToAddRows = false;
             this.gridGoto.AllowUserToDeleteRows = false;
-            this.gridGoto.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.gridGoto.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.gridGoto.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.gridGoto.BackgroundColor = System.Drawing.SystemColors.Window;
             this.gridGoto.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
@@ -745,6 +754,38 @@
             this.gridGoto.Size = new System.Drawing.Size(1422, 551);
             this.gridGoto.StandardTab = true;
             this.gridGoto.TabIndex = 2;
+            // 
+            // stateContextMenu
+            // 
+            this.stateContextMenu.ImageScalingSize = new System.Drawing.Size(32, 32);
+            this.stateContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.copyCToolStripMenuItem});
+            this.stateContextMenu.Name = "stateContextMenu";
+            this.stateContextMenu.Size = new System.Drawing.Size(214, 42);
+            // 
+            // copyCToolStripMenuItem
+            // 
+            this.copyCToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.copyCToolStripMenuItem.Name = "copyCToolStripMenuItem";
+            this.copyCToolStripMenuItem.Size = new System.Drawing.Size(213, 38);
+            this.copyCToolStripMenuItem.Text = "Copy (&C)";
+            this.copyCToolStripMenuItem.Click += new System.EventHandler(this.copyCToolStripMenuItem_Click);
+            // 
+            // actionContextMenu
+            // 
+            this.actionContextMenu.ImageScalingSize = new System.Drawing.Size(32, 32);
+            this.actionContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.solveSToolStripMenuItem});
+            this.actionContextMenu.Name = "actionContextMenu";
+            this.actionContextMenu.Size = new System.Drawing.Size(332, 86);
+            // 
+            // solveSToolStripMenuItem
+            // 
+            this.solveSToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.solveSToolStripMenuItem.Name = "solveSToolStripMenuItem";
+            this.solveSToolStripMenuItem.Size = new System.Drawing.Size(331, 38);
+            this.solveSToolStripMenuItem.Text = "Solve Conflict... (&S)";
+            this.solveSToolStripMenuItem.Click += new System.EventHandler(this.solveSToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -781,6 +822,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridAction)).EndInit();
             this.tabPageGotoAction.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridGoto)).EndInit();
+            this.stateContextMenu.ResumeLayout(false);
+            this.actionContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -834,6 +877,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnItems;
         private Utility.DoubleBufferDataGridView gridAction;
         private System.Windows.Forms.Button btnGenerate;
+        private System.Windows.Forms.ContextMenuStrip stateContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem copyCToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip actionContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem solveSToolStripMenuItem;
     }
 }
 
