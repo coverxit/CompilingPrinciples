@@ -106,9 +106,14 @@ namespace CompilingPrinciples.GUIParser
 
                     listParse.EndUpdate();
 
-                    var invalidRegions = (useSLRParser ? parserHelper.SLRParser as Parser : parserHelper.LR1Parser as Parser).InvalidRegions;
-                    foreach (var r in invalidRegions)
-                        textCode.IndicatorFillRange(r.Item1, r.Item2);
+                    var newlinePos = new List<int>();
+                    newlinePos.Add(0);
+                    newlinePos.AddRange(inputArray.Select((value, index) => new { index, value }).Where(el => el.value == '\n').Select(el => el.index));
+                    newlinePos.Add(inputArray.Count());
+
+                    textCode.IndicatorCurrent = ErrorIndicatorIndex;
+                    foreach (var l in useSLRParser ? parserHelper.SLRParser.ErrorLines : parserHelper.LR1Parser.ErrorLines)
+                        textCode.IndicatorFillRange(newlinePos[l - 1], newlinePos[l] - newlinePos[l - 1]);
                 });
             });
 

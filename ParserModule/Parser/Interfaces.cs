@@ -8,12 +8,25 @@ using CompilingPrinciples.LexerModule;
 
 namespace CompilingPrinciples.ParserModule
 {
-    public class SolveOperation
+    public class PhaseLevelOperation
     {
         public enum OpType
         {
             PushState = 0,
             SkipToken = 1,
+            ReduceBy = 2,
+        }
+
+        public struct ReduceContext
+        {
+            public int State;
+            public string Symbol;
+
+            public ReduceContext(int state, string symbol)
+            {
+                this.State = state;
+                this.Symbol = symbol;
+            }
         }
 
         private OpType opType;
@@ -32,31 +45,58 @@ namespace CompilingPrinciples.ParserModule
         public string Diagnostic
         {
             get { return diagnostic; }
+            set { diagnostic = value; }
         }
 
-        private SolveOperation(OpType type, string diagnostic)
+        private ReduceContext reduce;
+        public ReduceContext Reduce
+        {
+            get { return reduce; }
+        }
+
+        private PhaseLevelOperation(OpType type, string diagnostic)
         {
             this.opType = type;
             this.diagnostic = diagnostic;
         }
 
-        public static SolveOperation PushState(int state, string diagnostic = "")
+        public PhaseLevelOperation(PhaseLevelOperation rhs)
         {
-            var op = new SolveOperation(OpType.PushState, diagnostic);
+            this.opType = rhs.Type;
+            this.diagnostic = rhs.diagnostic;
+            this.state = rhs.state;
+            this.reduce = rhs.reduce;
+        }
+
+        public static PhaseLevelOperation PushState(int state, string diagnostic = "")
+        {
+            var op = new PhaseLevelOperation(OpType.PushState, diagnostic);
             op.state = state;
             return op;
         }
 
-        public static SolveOperation SkipToken(string diagnostic = "")
+        public static PhaseLevelOperation SkipToken(string diagnostic = "")
         {
-            var op = new SolveOperation(OpType.SkipToken, diagnostic);
+            var op = new PhaseLevelOperation(OpType.SkipToken, diagnostic);
+            return op;
+        }
+
+        public static PhaseLevelOperation ReduceBy(int state, string symbol, string diagnostic = "")
+        {
+            var op = new PhaseLevelOperation(OpType.ReduceBy, diagnostic);
+            op.reduce = new ReduceContext(state, symbol);
             return op;
         }
     }
 
-    public interface IParserErrorRoutine
+    public interface IPhaseLevelParserErrorRoutine
     {
-        SolveOperation ErrorRoutine(int topState, ProductionSymbol symbol, Token currentToken, Token previousToken, PrintableStack<int> parseStack, PrintableStack<ProductionSymbol> symbolStack);
+        PhaseLevelOperation ErrorRoutine(int topState, ProductionSymbol symbol, Token currentToken, Token previousToken, PrintableStack<int> parseStack, PrintableStack<ProductionSymbol> symbolStack);
+    }
+
+    public interface IPanicErrorRoutine
+    {
+        ProductionSymbol ParticularNonTerminal(Grammar grammar);
     }
 
     public interface IReportProgress

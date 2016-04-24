@@ -8,32 +8,37 @@ namespace CompilingPrinciples.ParserModule
 {
     public class PrintableStack<T>
     {
-        private Stack<T> symbolStack = new Stack<T>();
+        private Stack<T> stack = new Stack<T>();
+
+        public Stack<T> InnerStack
+        {
+            get { return new Stack<T>(stack); }
+        }
 
         public int Count
         {
-            get { return symbolStack.Count; }
+            get { return stack.Count; }
         }
 
         public void Push(T sym)
         {
-            symbolStack.Push(sym);
+            stack.Push(sym);
         }
 
         public T Pop()
         {
-            return symbolStack.Pop();
+            return stack.Pop();
         }
 
         public T Peek()
         {
-            return symbolStack.Peek();
+            return stack.Peek();
         }
 
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            foreach (var e in symbolStack.Reverse())
+            foreach (var e in stack.Reverse())
                 sb.Append(e.ToString() + " ");
             return sb.ToString(0, sb.Length - 1);
         }

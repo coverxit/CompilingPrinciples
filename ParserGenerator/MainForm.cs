@@ -351,8 +351,8 @@ namespace CompilingPrinciples.ParserGenerator
                 var fileName = saveFileDialog.FileName;
                 var outputWriter = new StreamWriter(new FileStream(fileName, FileMode.Create));
 
-                var parser = useSLR ? new Parser<LR0Item>(new SymbolTable(), grammar, parseTable as ParseTable<LR0Item>) as Parser :
-                                   new Parser<LR1Item>(new SymbolTable(), grammar, parseTable as ParseTable<LR1Item>) as Parser;
+                var parser = useSLR ? new Parser<LR0Item>(new SymbolTable(), grammar, parseTable as ParseTable<LR0Item>, null) as Parser :
+                                   new Parser<LR1Item>(new SymbolTable(), grammar, parseTable as ParseTable<LR1Item>, null) as Parser;
 
                 using (var ctxStream = new FileStream(Path.ChangeExtension(fileName, ".ctx"), FileMode.Create))
                     parser.SaveContext(ctxStream);
@@ -410,7 +410,7 @@ namespace CompilingPrinciples.ParserGenerator
                     switch (tag.Item3.PreferredEntry.Type)
                     {
                         case ActionTableEntry.ActionType.Reduce:
-                            cell.Style.ForeColor = Color.Green;
+                            cell.Style.ForeColor = Color.MediumPurple;
                             break;
 
                         case ActionTableEntry.ActionType.Shift:

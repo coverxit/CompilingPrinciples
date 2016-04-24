@@ -113,13 +113,13 @@ namespace CompilingPrinciples.Utility
             {
                 using (var stream = new FileStream(SLRParserContextFileName, FileMode.Open))
                 {
-                    slrParser = Parser.CreateFromContext(stream, symbolTable, new SLRParserErrorRoutine(), stepReporter) as Parser<LR0Item>;
+                    slrParser = Parser.CreateFromContext(stream, symbolTable, new ExperimentGrammarPanicErrorRoutine(), stepReporter) as Parser<LR0Item>;
                     stream.Close();
                 }
 
                 using (var stream = new FileStream(LR1ParserContextFileName, FileMode.Open))
                 {
-                    lr1Parser = Parser.CreateFromContext(stream, symbolTable, new LR1ParserErrorRoutine(), stepReporter) as Parser<LR1Item>;
+                    lr1Parser = Parser.CreateFromContext(stream, symbolTable, new ExperimentGrammarPanicErrorRoutine(), stepReporter) as Parser<LR1Item>;
                     stream.Close();
                 }
 
@@ -158,7 +158,7 @@ namespace CompilingPrinciples.Utility
                 var parseTable = SLRParseTable.Create(collection, reporter);
 
                 DetermineAmbiguousAction(grammar, parseTable, collection);
-                slrParser = new Parser<LR0Item>(symbolTable, grammar, parseTable, new SLRParserErrorRoutine(), stepReporter);
+                slrParser = new Parser<LR0Item>(symbolTable, grammar, parseTable, new ExperimentGrammarPanicErrorRoutine(), stepReporter);
 
                 using (var stream = new FileStream(SLRParserContextFileName, FileMode.Create))
                     slrParser.SaveContext(stream);
@@ -186,7 +186,7 @@ namespace CompilingPrinciples.Utility
                 var parseTable = LR1ParseTable.Create(collection, reporter);
 
                 DetermineAmbiguousAction(grammar, parseTable, collection);
-                lr1Parser = new Parser<LR1Item>(symbolTable, grammar, parseTable, new SLRParserErrorRoutine(), stepReporter);
+                lr1Parser = new Parser<LR1Item>(symbolTable, grammar, parseTable, new ExperimentGrammarPanicErrorRoutine(), stepReporter);
 
                 using (var stream = new FileStream(LR1ParserContextFileName, FileMode.Create))
                     lr1Parser.SaveContext(stream);

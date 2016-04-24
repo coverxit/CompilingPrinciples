@@ -48,6 +48,15 @@ namespace CompilingPrinciples.ParserModule
             this.id = grammar.GetIdInTerminalTable(token);
         }
 
+        public ProductionSymbol(Grammar grammar, SymbolType type, string symbol)
+        {
+            this.grammar = grammar;
+            this.type = type;
+            this.id = type == SymbolType.Terminal ? 
+                grammar.TerminalTable.IndexOf(symbol) : 
+                grammar.NonTerminalTable.IndexOf(symbol);
+        }
+
         public ProductionSymbol(ProductionSymbol rhs)
         {
             this.grammar = rhs.grammar;

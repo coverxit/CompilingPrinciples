@@ -120,7 +120,7 @@ namespace CompilingPrinciples.ParserModule
                     return "s" + shiftState;
 
                 case ActionType.Reduce:
-                    return "r" + reduceProd.Id + "(" + reduceProd.LineInGrammar + ")";
+                    return "r" + reduceProd.LineInGrammar;
 
                 case ActionType.Accept:
                     return "acc";

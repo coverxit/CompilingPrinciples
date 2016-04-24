@@ -50,6 +50,11 @@ namespace CompilingPrinciples.ParserModule
             get { return typeof(T); }
         }
 
+        public LRCollection<T> Collection
+        {
+            get { return collection; }
+        }
+
         public List<HashSet<T>> Items
         {
             get { return new List<HashSet<T>>(itemsList); }
