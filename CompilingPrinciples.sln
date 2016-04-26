@@ -9,13 +9,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParserGenerator", "ParserGe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utility", "Utility\Utility.csproj", "{31818B4E-CD83-4AB9-B486-04CEEAADCB3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LexerCore", "LexerModule\LexerCore.csproj", "{48A30C7A-21A5-459B-8CB9-3EBBB921AAF8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LexerCore", "LexerCore\LexerCore.csproj", "{48A30C7A-21A5-459B-8CB9-3EBBB921AAF8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUILexer", "GUILexer\GUILexer.csproj", "{92978FD2-14DD-4E9D-AC44-5AB15D1292C6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUIParser", "GUIParser\GUIParser.csproj", "{EACD0DA4-389D-435F-971C-C9CBE23B551E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParserCore", "ParserModule\ParserCore.csproj", "{EC6F8CBF-8E6D-4273-AC42-B4B484B7422B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParserCore", "ParserCore\ParserCore.csproj", "{EC6F8CBF-8E6D-4273-AC42-B4B484B7422B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

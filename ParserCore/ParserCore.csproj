@@ -75,7 +75,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LexerModule\LexerCore.csproj">
+    <ProjectReference Include="..\LexerCore\LexerCore.csproj">
       <Project>{48a30c7a-21a5-459b-8cb9-3ebbb921aaf8}</Project>
       <Name>LexerCore</Name>
     </ProjectReference>

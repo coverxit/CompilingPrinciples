@@ -60,7 +60,7 @@ namespace CompilingPrinciples.Utility
 
                 // var ops = parser.Parse(inputStream);
                 new CodeVariableDeclarationStatement(
-                    new CodeTypeReference(typeof(List<Tuple<string, string>>)), "ops",
+                    new CodeTypeReference(typeof(List<Tuple<string, string, string>>)), "ops",
                     new CodeMethodInvokeExpression(
                         new CodeVariableReferenceExpression("parser"), "Parse",
                         new CodeVariableReferenceExpression("inputStream")
