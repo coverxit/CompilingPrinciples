@@ -291,47 +291,6 @@ namespace CompilingPrinciples.ParserGenerator
             analyseTask.Start();
         }
 
-        private CodeCompileUnit GenerateParserCode(string sourceFilePath)
-        {
-            // var symbolTable = new SymbolTable();
-            var declSymTable = new CodeVariableDeclarationStatement(
-                new CodeTypeReference(typeof(SymbolTable)), "symbolTable",
-                new CodeObjectCreateExpression(typeof(SymbolTable))
-            );
-
-            // Parser parser = null;
-            var declParser = new CodeVariableDeclarationStatement(
-                new CodeTypeReference(typeof(Parser)), "parser"
-            );
-
-            // public static void Main(string[] args)
-            var entryPoint = new CodeEntryPointMethod();
-            entryPoint.Statements.Add(declSymTable);
-            entryPoint.Statements.Add(declParser);
-
-            // class Parser
-            var parserClass = new CodeTypeDeclaration("Parser");
-            parserClass.Attributes = MemberAttributes.Public;
-            parserClass.Members.Add(entryPoint);
-
-            // namespace 
-            var ns = new CodeNamespace(Path.GetFileNameWithoutExtension(sourceFilePath));
-            ns.Imports.Add(new CodeNamespaceImport("System"));
-            ns.Imports.Add(new CodeNamespaceImport("System.Collections.Generic"));
-            ns.Imports.Add(new CodeNamespaceImport("System.Linq"));
-            ns.Imports.Add(new CodeNamespaceImport("System.Text"));
-            ns.Imports.Add(new CodeNamespaceImport("System.Threading.Tasks"));
-            ns.Imports.Add(new CodeNamespaceImport("System.IO"));
-            ns.Imports.Add(new CodeNamespaceImport("CompilingPrinciples.LexicalAnalyzer"));
-            ns.Imports.Add(new CodeNamespaceImport("CompilingPrinciples.SymbolEnvironment"));
-            ns.Imports.Add(new CodeNamespaceImport("CompilingPrinciples.SyntaxAnalyzer"));
-            ns.Types.Add(parserClass);
-
-            var unit = new CodeCompileUnit();
-            unit.Namespaces.Add(ns);
-            return unit;
-        }
-
         private void btnGenerate_Click(object sender, EventArgs e)
         {
             int unsolvedConflicts = 0;

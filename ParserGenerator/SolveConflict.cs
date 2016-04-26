@@ -72,13 +72,7 @@ namespace CompilingPrinciples.ParserGenerator
                 if (gridSelect.Rows[i].Cells[0].EditedFormattedValue.ToString() == "True")
                     selectedIndex = i;
 
-            if (selectedIndex == -1)
-            {
-                MessageBox.Show("No entry is selected!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return;
-            }
-
-            param.Entry.SetPreferEntry(param.Entry.Entries.ToList()[selectedIndex]);
+            param.Entry.SetPreferEntry(selectedIndex == -1 ? null : param.Entry.Entries.ToList()[selectedIndex]);
             this.Close();
         }
 

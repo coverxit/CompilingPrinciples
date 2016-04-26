@@ -66,7 +66,7 @@ namespace CompilingPrinciples.ParserModule
     {
         private ParseTable<T> parseTable;
         private SymbolTable symbolTable;
-        private IPhaseLevelParserErrorRoutine phaseLevelRoutine;
+        //private IPhaseLevelParserErrorRoutine phaseLevelRoutine;
         private IPanicErrorRoutine panicRoutine;
         private IReportParseStep reporter;
         
@@ -223,15 +223,16 @@ namespace CompilingPrinciples.ParserModule
                         if (scanDownState == -1)
                             goto addOp;
 
-                        // wait for a token can legitimately follow S.
+                        // check for a token can legitimately follow S.
+                        // current token is considered as well.
                         while (!(token is EndMarker))
                         {
-                            prevToken = token;
-                            token = lexer.ScanNextToken();
-
                             if (!(token is InvalidToken) &&
                                 parseTable.Collection.Follow.Get(A).Contains(new ProductionSymbol(grammar, token)))
                                 break;
+
+                            prevToken = token;
+                            token = lexer.ScanNextToken();
                         }
 
                         // EOF?
