@@ -34,6 +34,8 @@ namespace CompilingPrinciples.ParserModule
         {
             get { return actionTable.Count; }
         }
+
+        public abstract List<string> StringItems();
     }
 
     [Serializable]
@@ -132,5 +134,23 @@ namespace CompilingPrinciples.ParserModule
         }
         
         protected abstract void GenerateActionTable();
+
+        public override List<string> StringItems()
+        {
+            var ret = new List<string>();
+
+            foreach (var item in itemsList)
+                ret.Add(ItemSetToString(item));
+
+            return ret;
+        }
+
+        public static string ItemSetToString(HashSet<T> set)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (var e in set)
+                sb.Append(e.ToString() + "\r\n");
+            return sb.ToString(0, sb.Length - 2);
+        }
     }
 }

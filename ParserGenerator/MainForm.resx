@@ -117,6 +117,41 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="textGrammar.Text" xml:space="preserve">
+    <value>P' -&gt; P
+P -&gt; D S
+
+D -&gt; L id ; D
+D -&gt; @
+
+L -&gt; int
+L -&gt; float
+
+S -&gt; id = E ;
+S -&gt; if ( C ) S
+S -&gt; if ( C ) S else S
+S -&gt; while ( C ) S do S
+S -&gt; S S
+
+C -&gt; E &gt; E
+C -&gt; E &lt; E
+C -&gt; E == E
+C -&gt; E &gt;= E
+C -&gt; E &lt;= E
+C -&gt; E != E
+
+E -&gt; E + T
+E -&gt; E - T
+E -&gt; T
+
+T -&gt; F
+T -&gt; T * F
+T -&gt; T / F
+
+F -&gt; ( E )
+F -&gt; id
+F -&gt; decimal</value>
+  </data>
   <metadata name="ColumnId.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>

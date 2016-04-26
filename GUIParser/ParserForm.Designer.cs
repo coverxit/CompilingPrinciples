@@ -59,8 +59,10 @@
             this.btnOpen = new System.Windows.Forms.Button();
             this.tablePanelParser = new System.Windows.Forms.TableLayoutPanel();
             this.rbLR1 = new System.Windows.Forms.RadioButton();
+            this.rbCustom = new System.Windows.Forms.RadioButton();
             this.rbSLR = new System.Windows.Forms.RadioButton();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.openCtxDialog = new System.Windows.Forms.OpenFileDialog();
             this.tableLayout.SuspendLayout();
             this.tablePanelControls.SuspendLayout();
             this.panelToken.SuspendLayout();
@@ -334,13 +336,14 @@
             this.textCode.ScrollWidth = 200;
             this.textCode.Size = new System.Drawing.Size(627, 970);
             this.textCode.TabIndex = 0;
+            this.textCode.Text = "int a;\r\nint b;\r\nint c;\r\n\r\na = 2;\r\nb = 1;\r\n\r\nif (a<b)\r\n\tc=a+b;\r\nelse\r\n\tc=a-b;";
             this.textCode.UseTabs = false;
             // 
             // tablePanelFunctions
             // 
             this.tablePanelFunctions.ColumnCount = 2;
-            this.tablePanelFunctions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
-            this.tablePanelFunctions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
+            this.tablePanelFunctions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 52.38095F));
+            this.tablePanelFunctions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 47.61905F));
             this.tablePanelFunctions.Controls.Add(this.flowPanelButtons, 1, 0);
             this.tablePanelFunctions.Controls.Add(this.tablePanelParser, 0, 0);
             this.tablePanelFunctions.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -357,15 +360,15 @@
             this.flowPanelButtons.Controls.Add(this.btnOpen);
             this.flowPanelButtons.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowPanelButtons.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flowPanelButtons.Location = new System.Drawing.Point(253, 3);
+            this.flowPanelButtons.Location = new System.Drawing.Point(331, 3);
             this.flowPanelButtons.Name = "flowPanelButtons";
-            this.flowPanelButtons.Size = new System.Drawing.Size(371, 55);
+            this.flowPanelButtons.Size = new System.Drawing.Size(293, 55);
             this.flowPanelButtons.TabIndex = 2;
             // 
             // btnAnalyze
             // 
             this.btnAnalyze.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAnalyze.Location = new System.Drawing.Point(235, 2);
+            this.btnAnalyze.Location = new System.Drawing.Point(157, 2);
             this.btnAnalyze.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.btnAnalyze.Name = "btnAnalyze";
             this.btnAnalyze.Size = new System.Drawing.Size(132, 52);
@@ -377,7 +380,7 @@
             // btnOpen
             // 
             this.btnOpen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOpen.Location = new System.Drawing.Point(95, 2);
+            this.btnOpen.Location = new System.Drawing.Point(17, 2);
             this.btnOpen.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.btnOpen.Name = "btnOpen";
             this.btnOpen.Size = new System.Drawing.Size(132, 52);
@@ -388,28 +391,41 @@
             // 
             // tablePanelParser
             // 
-            this.tablePanelParser.ColumnCount = 2;
-            this.tablePanelParser.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tablePanelParser.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tablePanelParser.Controls.Add(this.rbLR1, 1, 0);
+            this.tablePanelParser.ColumnCount = 3;
+            this.tablePanelParser.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tablePanelParser.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tablePanelParser.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tablePanelParser.Controls.Add(this.rbLR1, 0, 0);
+            this.tablePanelParser.Controls.Add(this.rbCustom, 1, 0);
             this.tablePanelParser.Controls.Add(this.rbSLR, 0, 0);
             this.tablePanelParser.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tablePanelParser.Location = new System.Drawing.Point(3, 3);
             this.tablePanelParser.Name = "tablePanelParser";
             this.tablePanelParser.RowCount = 1;
-            this.tablePanelParser.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tablePanelParser.Size = new System.Drawing.Size(244, 55);
+            this.tablePanelParser.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tablePanelParser.Size = new System.Drawing.Size(322, 55);
             this.tablePanelParser.TabIndex = 3;
             // 
             // rbLR1
             // 
             this.rbLR1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rbLR1.Location = new System.Drawing.Point(125, 3);
+            this.rbLR1.Location = new System.Drawing.Point(110, 3);
             this.rbLR1.Name = "rbLR1";
-            this.rbLR1.Size = new System.Drawing.Size(116, 49);
-            this.rbLR1.TabIndex = 1;
+            this.rbLR1.Size = new System.Drawing.Size(101, 49);
+            this.rbLR1.TabIndex = 2;
             this.rbLR1.Text = "LR(1)";
             this.rbLR1.UseVisualStyleBackColor = true;
+            // 
+            // rbCustom
+            // 
+            this.rbCustom.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rbCustom.Location = new System.Drawing.Point(217, 3);
+            this.rbCustom.Name = "rbCustom";
+            this.rbCustom.Size = new System.Drawing.Size(102, 49);
+            this.rbCustom.TabIndex = 1;
+            this.rbCustom.Text = "Cus.";
+            this.rbCustom.UseVisualStyleBackColor = true;
+            this.rbCustom.Click += new System.EventHandler(this.rbCustom_Click);
             // 
             // rbSLR
             // 
@@ -417,11 +433,16 @@
             this.rbSLR.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rbSLR.Location = new System.Drawing.Point(3, 3);
             this.rbSLR.Name = "rbSLR";
-            this.rbSLR.Size = new System.Drawing.Size(116, 49);
+            this.rbSLR.Size = new System.Drawing.Size(101, 49);
             this.rbSLR.TabIndex = 0;
             this.rbSLR.TabStop = true;
             this.rbSLR.Text = "SLR";
             this.rbSLR.UseVisualStyleBackColor = true;
+            // 
+            // openCtxDialog
+            // 
+            this.openCtxDialog.Filter = "Shindo\'s Parser Context|*.ctx";
+            this.openCtxDialog.Title = "Open context...";
             // 
             // ParserForm
             // 
@@ -486,6 +507,8 @@
         private System.Windows.Forms.Button btnOpen;
         private System.Windows.Forms.TableLayoutPanel tablePanelParser;
         private System.Windows.Forms.RadioButton rbSLR;
+        private System.Windows.Forms.RadioButton rbCustom;
         private System.Windows.Forms.RadioButton rbLR1;
+        private System.Windows.Forms.OpenFileDialog openCtxDialog;
     }
 }

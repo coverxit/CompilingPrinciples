@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Threading.Tasks;
 using System.IO;
+using System.Runtime.Serialization;
 
 using CompilingPrinciples.LexerModule;
 using CompilingPrinciples.SymbolEnvironment;
@@ -21,6 +22,9 @@ namespace CompilingPrinciples.GUIParser
         private const int ErrorIndicatorIndex = 8;
 
         private ParserHelper parserHelper;
+
+        private Parser customParser = null;
+        private SymbolTable customSymbolTable = new SymbolTable();
 
         public ParserForm()
         {
@@ -88,7 +92,21 @@ namespace CompilingPrinciples.GUIParser
             textCode.IndicatorClearRange(0, textCode.Text.Length);
 
             var inputArray = Encoding.ASCII.GetBytes(textCode.Text);
-            var useSLRParser = !rbLR1.Checked;
+            Parser parser = null;
+
+            if (rbLR1.Checked)
+                parser = parserHelper.LR1Parser;
+            else if (rbCustom.Checked)
+                parser = customParser;
+            else
+                parser = parserHelper.SLRParser;
+
+            // failsafe
+            if (parser == null)
+            {
+                rbSLR.Checked = true;
+                parser = parserHelper.SLRParser;
+            }
 
             var analyseTask = new Task(() =>
             {
@@ -96,10 +114,7 @@ namespace CompilingPrinciples.GUIParser
                 {
                     listParse.BeginUpdate();
 
-                    if (useSLRParser)
-                        parserHelper.SLRParser.Parse(new MemoryStream(inputArray));
-                    else
-                        parserHelper.LR1Parser.Parse(new MemoryStream(inputArray));
+                    parser.Parse(new MemoryStream(inputArray));
 
                     if (listParse.Items.Count > 0)
                         listParse.EnsureVisible(listParse.Items.Count - 1);
@@ -112,7 +127,7 @@ namespace CompilingPrinciples.GUIParser
                     newlinePos.Add(inputArray.Count());
 
                     textCode.IndicatorCurrent = ErrorIndicatorIndex;
-                    foreach (var l in useSLRParser ? parserHelper.SLRParser.ErrorLines : parserHelper.LR1Parser.ErrorLines)
+                    foreach (var l in parser.ErrorLines)
                         textCode.IndicatorFillRange(newlinePos[l - 1], newlinePos[l] - newlinePos[l - 1]);
                 });
             });
@@ -122,7 +137,7 @@ namespace CompilingPrinciples.GUIParser
                 this.Invoke((MethodInvoker)delegate
                 {
                     listSymbolTable.BeginUpdate();
-                    foreach (var s in parserHelper.SymbolTable.ToList().Select((value, index) => new { index, value }))
+                    foreach (var s in (rbCustom.Checked ? customSymbolTable : parserHelper.SymbolTable).ToList().Select((value, index) => new { index, value }))
                     {
                         ListViewItem item = new ListViewItem();
                         item.Text = s.index.ToString();
@@ -142,12 +157,24 @@ namespace CompilingPrinciples.GUIParser
             analyseTask.Start();
         }
 
-        /*
-        private void textCode_KeyUp(object sender, KeyEventArgs e)
+        private void rbCustom_CheckedChanged(object sender, EventArgs e)
         {
-            btnAnalyze_Click(sender, e);
+           
         }
-        */
+
+        private void rbCustom_Click(object sender, EventArgs e)
+        {
+            if (DialogResult.OK == openCtxDialog.ShowDialog())
+                try
+                {
+                    customParser = Parser.CreateFromContext(openCtxDialog.OpenFile(), customSymbolTable, null, new ParseStepReporter(this, listParse));
+                }
+                catch (Exception ex) when (ex is SerializationException || ex.ToString() == "Invalid Magic Number!")
+                {
+                    MessageBox.Show("Invalid Magic Number!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    rbCustom_Click(sender, e);
+                }
+        }
     }
 
     public class ParseStepReporter : IReportParseStep

@@ -339,6 +339,7 @@
             this.textCode.ScrollWidth = 200;
             this.textCode.Size = new System.Drawing.Size(632, 630);
             this.textCode.TabIndex = 0;
+            this.textCode.Text = "int a;\r\nint b;\r\nint c;\r\n\r\na = 2;\r\nb = 1;\r\n\r\nif (a<b)\r\n\tc=a+b;\r\nelse\r\n\tc=a-b;";
             this.textCode.UseTabs = false;
             this.textCode.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textCode_KeyUp);
             // 

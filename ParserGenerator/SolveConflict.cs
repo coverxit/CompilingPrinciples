@@ -54,8 +54,8 @@ namespace CompilingPrinciples.ParserGenerator
                 var itemCell = new DataGridViewTextBoxCell();
                 itemCell.Value =
                     el.Type == ActionTableEntry.ActionType.Shift ?
-                        param.IsSLR ? UsefulFunctions.HashSetToMultilineString(param.SLRShiftItems[el.ShiftState])
-                                    : UsefulFunctions.HashSetToMultilineString(param.LR1ShiftItems[el.ShiftState])
+                        param.IsSLR ? ParseTable<LR0Item>.ItemSetToString(param.SLRShiftItems[el.ShiftState])
+                                    : ParseTable<LR1Item>.ItemSetToString(param.LR1ShiftItems[el.ShiftState])
                         : string.Empty;
                 row.Cells.Add(itemCell);
                 itemCell.ReadOnly = true;

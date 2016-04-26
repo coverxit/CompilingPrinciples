@@ -173,12 +173,8 @@ namespace CompilingPrinciples.ParserGenerator
                 stateTable.Columns.Add("State", typeof(int));
                 stateTable.Columns.Add("Items", typeof(string));
 
-                if (useSLR)
-                    foreach (var s in (parseTable as SLRParseTable).Items.Select((value, index) => new { index, value }))
-                        stateTable.Rows.Add(s.index, UsefulFunctions.HashSetToMultilineString(s.value));
-                else
-                    foreach (var s in (parseTable as LR1ParseTable).Items.Select((value, index) => new { index, value }))
-                        stateTable.Rows.Add(s.index, UsefulFunctions.HashSetToMultilineString(s.value));
+                foreach (var s in parseTable.StringItems().Select((value, index) => new { index, value }))
+                    stateTable.Rows.Add(s.index, s.value);
 
                 this.Invoke((MethodInvoker)delegate { gridStates.DataSource = stateTable; });
 
