@@ -10,9 +10,9 @@ using Microsoft.CSharp;
 using System.CodeDom;
 using System.CodeDom.Compiler;
 
-using CompilingPrinciples.LexerModule;
+using CompilingPrinciples.LexerCore;
 using CompilingPrinciples.SymbolEnvironment;
-using CompilingPrinciples.ParserModule;
+using CompilingPrinciples.ParserCore;
 
 namespace CompilingPrinciples.Utility
 {
@@ -184,8 +184,8 @@ namespace CompilingPrinciples.Utility
             param.GenerateExecutable = true;
             param.OutputAssembly = Path.ChangeExtension(sourceFilePath, "exe");
             param.ReferencedAssemblies.Add("System.Xml.Linq.dll");
-            param.ReferencedAssemblies.Add(appPath + "CompilingPrinciples.LexicalAnalyzer.dll");
-            param.ReferencedAssemblies.Add(appPath + "CompilingPrinciples.SyntaxAnalyzer.dll");
+            param.ReferencedAssemblies.Add(appPath + "LexerCore.dll");
+            param.ReferencedAssemblies.Add(appPath + "ParserCore.dll");
             codeProvider.CompileAssemblyFromDom(param, cu);
 
             // Copy dlls
@@ -195,8 +195,8 @@ namespace CompilingPrinciples.Utility
 
                 try
                 {
-                    File.Copy(appPath + "CompilingPrinciples.LexicalAnalyzer.dll", destPath + "CompilingPrinciples.LexicalAnalyzer.dll");
-                    File.Copy(appPath + "CompilingPrinciples.SyntaxAnalyzer.dll", destPath + "CompilingPrinciples.SyntaxAnalyzer.dll");
+                    File.Copy(appPath + "LexerCore.dll", destPath + "LexerCore.dll");
+                    File.Copy(appPath + "ParserCore.dll", destPath + "ParserCore.dll");
                 }
                 catch (Exception)
                 { }

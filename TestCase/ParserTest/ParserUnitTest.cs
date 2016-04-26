@@ -3,9 +3,9 @@ using System.IO;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using CompilingPrinciples.LexerModule;
+using CompilingPrinciples.LexerCore;
 using CompilingPrinciples.SymbolEnvironment;
-using CompilingPrinciples.ParserModule;
+using CompilingPrinciples.ParserCore;
 
 namespace CompilingPrinciples.UnitTest
 {

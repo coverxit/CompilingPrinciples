@@ -4,13 +4,28 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5B5DC27B-F361-4054-AFDA-6AC30D9D8ECE}</ProjectGuid>
+    <ProjectGuid>{EACD0DA4-389D-435F-971C-C9CBE23B551E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CompilingPrinciples.ParserGenerator</RootNamespace>
-    <AssemblyName>CompilingPrinciples.ParserGenerator</AssemblyName>
+    <RootNamespace>CompilingPrinciples.GUIParser</RootNamespace>
+    <AssemblyName>GUIParser</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,7 +50,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>gen.ico</ApplicationIcon>
+    <ApplicationIcon>parser.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ScintillaNET">
@@ -54,22 +69,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MainForm.cs">
+    <Compile Include="ParserForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <Compile Include="ParserForm.Designer.cs">
+      <DependentUpon>ParserForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SolveConflict.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SolveConflict.Designer.cs">
-      <DependentUpon>SolveConflict.cs</DependentUpon>
-    </Compile>
-    <EmbeddedResource Include="MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <EmbeddedResource Include="ParserForm.resx">
+      <DependentUpon>ParserForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -80,9 +89,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="SolveConflict.resx">
-      <DependentUpon>SolveConflict.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="app.manifest" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -99,21 +105,33 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LexerModule\CompilingPrinciples.LexerModule.csproj">
+    <ProjectReference Include="..\LexerModule\LexerCore.csproj">
       <Project>{48a30c7a-21a5-459b-8cb9-3ebbb921aaf8}</Project>
-      <Name>CompilingPrinciples.LexerModule</Name>
+      <Name>LexerCore</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ParserModule\CompilingPrinciples.ParserModule.csproj">
+    <ProjectReference Include="..\ParserModule\ParserCore.csproj">
       <Project>{ec6f8cbf-8e6d-4273-ac42-b4b484b7422b}</Project>
-      <Name>CompilingPrinciples.ParserModule</Name>
+      <Name>ParserCore</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Utility\CompilingPrinciples.Utility.csproj">
+    <ProjectReference Include="..\Utility\Utility.csproj">
       <Project>{31818b4e-cd83-4ab9-b486-04ceeaadcb3f}</Project>
-      <Name>CompilingPrinciples.Utility</Name>
+      <Name>Utility</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="gen.ico" />
+    <Content Include="parser.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

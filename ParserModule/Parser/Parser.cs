@@ -8,10 +8,10 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
-using CompilingPrinciples.LexerModule;
+using CompilingPrinciples.LexerCore;
 using CompilingPrinciples.SymbolEnvironment;
 
-namespace CompilingPrinciples.ParserModule
+namespace CompilingPrinciples.ParserCore
 {
     public abstract class Parser
     {

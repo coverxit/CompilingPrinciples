@@ -8,8 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using CompilingPrinciples.LexerModule;
-using CompilingPrinciples.ParserModule;
+using CompilingPrinciples.LexerCore;
+using CompilingPrinciples.ParserCore;
 using CompilingPrinciples.SymbolEnvironment;
 using CompilingPrinciples.Utility;
 

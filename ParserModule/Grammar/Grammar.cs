@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Runtime.Serialization;
 
-using CompilingPrinciples.LexerModule;
+using CompilingPrinciples.LexerCore;
 using CompilingPrinciples.SymbolEnvironment;
 
-namespace CompilingPrinciples.ParserModule
+namespace CompilingPrinciples.ParserCore
 {
     [Serializable]
     public class Grammar
@@ -229,7 +229,7 @@ namespace CompilingPrinciples.ParserModule
 
             if (token is EndMarker)
                 symbolToFind = "$";
-            else if (token is LexerModule.Decimal)
+            else if (token is LexerCore.Decimal)
                 symbolToFind = "decimal";
             else if (token is Word)
             {

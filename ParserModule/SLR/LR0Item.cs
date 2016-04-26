@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
 
-namespace CompilingPrinciples.ParserModule
+namespace CompilingPrinciples.ParserCore
 {
     [Serializable]
     public class LR0Item

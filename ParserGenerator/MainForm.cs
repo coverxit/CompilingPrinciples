@@ -13,8 +13,8 @@ using Microsoft.CSharp;
 using System.CodeDom;
 using System.CodeDom.Compiler;
 
-using CompilingPrinciples.LexerModule;
-using CompilingPrinciples.ParserModule;
+using CompilingPrinciples.LexerCore;
+using CompilingPrinciples.ParserCore;
 using CompilingPrinciples.SymbolEnvironment;
 using CompilingPrinciples.Utility;
 

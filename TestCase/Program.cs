@@ -10,9 +10,9 @@ using Microsoft.CSharp;
 using System.CodeDom;
 using System.CodeDom.Compiler;
 
-using CompilingPrinciples.LexerModule;
+using CompilingPrinciples.LexerCore;
 using CompilingPrinciples.SymbolEnvironment;
-using CompilingPrinciples.ParserModule;
+using CompilingPrinciples.ParserCore;
 using CompilingPrinciples.Utility;
 
 namespace CompilingPrinciples.TestCase

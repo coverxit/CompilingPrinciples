@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Runtime.Serialization;
 
-using CompilingPrinciples.LexerModule;
+using CompilingPrinciples.LexerCore;
 using CompilingPrinciples.SymbolEnvironment;
-using CompilingPrinciples.ParserModule;
+using CompilingPrinciples.ParserCore;
 using CompilingPrinciples.Utility;
 
 namespace CompilingPrinciples.GUIParser
@@ -143,7 +143,7 @@ namespace CompilingPrinciples.GUIParser
                         item.Text = s.index.ToString();
                         item.SubItems.Add(s.value.Lexeme);
 
-                        if (s.value.Tag != LexerModule.Tag.Identifier)
+                        if (s.value.Tag != LexerCore.Tag.Identifier)
                             item.Group = listSymbolTable.Groups["lvGroupKeyword"];
                         else
                             item.Group = listSymbolTable.Groups["lvGroupIdentifier"];

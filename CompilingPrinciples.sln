@@ -3,19 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompilingPrinciples.TestCase", "TestCase\CompilingPrinciples.TestCase.csproj", "{780613F8-69C3-4BAB-9203-168F83481529}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCase", "TestCase\TestCase.csproj", "{780613F8-69C3-4BAB-9203-168F83481529}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompilingPrinciples.ParserGenerator", "ParserGenerator\CompilingPrinciples.ParserGenerator.csproj", "{5B5DC27B-F361-4054-AFDA-6AC30D9D8ECE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParserGenerator", "ParserGenerator\ParserGenerator.csproj", "{5B5DC27B-F361-4054-AFDA-6AC30D9D8ECE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompilingPrinciples.Utility", "Utility\CompilingPrinciples.Utility.csproj", "{31818B4E-CD83-4AB9-B486-04CEEAADCB3F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utility", "Utility\Utility.csproj", "{31818B4E-CD83-4AB9-B486-04CEEAADCB3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompilingPrinciples.LexerModule", "LexerModule\CompilingPrinciples.LexerModule.csproj", "{48A30C7A-21A5-459B-8CB9-3EBBB921AAF8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LexerCore", "LexerModule\LexerCore.csproj", "{48A30C7A-21A5-459B-8CB9-3EBBB921AAF8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompilingPrinciples.GUILexer", "GUILexer\CompilingPrinciples.GUILexer.csproj", "{92978FD2-14DD-4E9D-AC44-5AB15D1292C6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUILexer", "GUILexer\GUILexer.csproj", "{92978FD2-14DD-4E9D-AC44-5AB15D1292C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompilingPrinciples.GUIParser", "GUIParser\CompilingPrinciples.GUIParser.csproj", "{EACD0DA4-389D-435F-971C-C9CBE23B551E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUIParser", "GUIParser\GUIParser.csproj", "{EACD0DA4-389D-435F-971C-C9CBE23B551E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompilingPrinciples.ParserModule", "ParserModule\CompilingPrinciples.ParserModule.csproj", "{EC6F8CBF-8E6D-4273-AC42-B4B484B7422B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParserCore", "ParserModule\ParserCore.csproj", "{EC6F8CBF-8E6D-4273-AC42-B4B484B7422B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

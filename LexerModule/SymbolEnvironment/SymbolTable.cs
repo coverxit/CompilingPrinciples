@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using CompilingPrinciples.LexerModule;
+using CompilingPrinciples.LexerCore;
 
 namespace CompilingPrinciples.SymbolEnvironment
 {

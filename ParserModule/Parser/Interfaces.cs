@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using CompilingPrinciples.LexerModule;
+using CompilingPrinciples.LexerCore;
 
-namespace CompilingPrinciples.ParserModule
+namespace CompilingPrinciples.ParserCore
 {
     public class PhaseLevelOperation
     {

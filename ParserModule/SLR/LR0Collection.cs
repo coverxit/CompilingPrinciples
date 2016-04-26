@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CompilingPrinciples.ParserModule
+namespace CompilingPrinciples.ParserCore
 {
     [Serializable]
     public class LR0Collection : LRCollection<LR0Item>

@@ -7,9 +7,9 @@ using System.IO;
 using System.Drawing;
 using System.Windows.Forms;
 
-using CompilingPrinciples.LexerModule;
+using CompilingPrinciples.LexerCore;
 using CompilingPrinciples.SymbolEnvironment;
-using CompilingPrinciples.ParserModule;
+using CompilingPrinciples.ParserCore;
 
 namespace CompilingPrinciples.Utility
 {

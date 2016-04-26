@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 
-using CompilingPrinciples.LexerModule;
+using CompilingPrinciples.LexerCore;
 using CompilingPrinciples.SymbolEnvironment;
 
 namespace CompilingPrinciples.GUILexer
@@ -135,7 +135,7 @@ namespace CompilingPrinciples.GUILexer
                        // Set item style
                        if (token is Operator || token is Separator)
                            item.ForeColor = Color.Gray;
-                       else if (token is LexerModule.Decimal)
+                       else if (token is LexerCore.Decimal)
                            item.ForeColor = Color.ForestGreen;
                        else if (token is InvalidToken)
                            item.ForeColor = Color.Red;
@@ -171,7 +171,7 @@ namespace CompilingPrinciples.GUILexer
                         item.Text = s.index.ToString();
                         item.SubItems.Add(s.value.Lexeme);
 
-                        if (s.value.Tag != LexerModule.Tag.Identifier)
+                        if (s.value.Tag != LexerCore.Tag.Identifier)
                             item.Group = listSymbolTable.Groups["lvGroupKeyword"];
                         else
                             item.Group = listSymbolTable.Groups["lvGroupIdentifier"];

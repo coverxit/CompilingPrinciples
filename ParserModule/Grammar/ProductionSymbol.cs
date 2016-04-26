@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
 
-using CompilingPrinciples.LexerModule;
+using CompilingPrinciples.LexerCore;
 
-namespace CompilingPrinciples.ParserModule
+namespace CompilingPrinciples.ParserCore
 {
     [Serializable]
     public class ProductionSymbol
