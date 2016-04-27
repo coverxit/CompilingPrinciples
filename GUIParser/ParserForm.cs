@@ -114,7 +114,23 @@ namespace CompilingPrinciples.GUIParser
                 {
                     listParse.BeginUpdate();
 
-                    parser.Parse(new MemoryStream(inputArray));
+                    try
+                    {
+                        parser.Parse(new MemoryStream(inputArray));
+                    }
+                    catch (ApplicationException ex)
+                    {
+                        ListViewItem lvItem = new ListViewItem();
+                        lvItem.Text = string.Empty;
+                        lvItem.UseItemStyleForSubItems = false;
+
+                        lvItem.SubItems.Add(string.Empty);
+                        lvItem.SubItems.Add(ex.Message);
+                        lvItem.SubItems[2].ForeColor = Color.Red;
+
+                        listParse.Items.Add(lvItem);
+                    }
+                    
 
                     if (listParse.Items.Count > 0)
                         listParse.EnsureVisible(listParse.Items.Count - 1);
@@ -155,11 +171,6 @@ namespace CompilingPrinciples.GUIParser
             });
 
             analyseTask.Start();
-        }
-
-        private void rbCustom_CheckedChanged(object sender, EventArgs e)
-        {
-           
         }
 
         private void rbCustom_Click(object sender, EventArgs e)
