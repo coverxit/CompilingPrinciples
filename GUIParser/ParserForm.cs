@@ -130,7 +130,6 @@ namespace CompilingPrinciples.GUIParser
 
                         listParse.Items.Add(lvItem);
                     }
-                    
 
                     if (listParse.Items.Count > 0)
                         listParse.EnsureVisible(listParse.Items.Count - 1);

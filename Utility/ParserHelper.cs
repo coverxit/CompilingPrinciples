@@ -46,7 +46,7 @@ namespace CompilingPrinciples.Utility
             "S -> id = E ;",
             "S -> if ( C ) S",
             "S -> if ( C ) S else S",
-            "S -> while ( C ) S do S",
+            "S -> while ( C ) S",
             "S -> S S",
 
             "C -> E > E",
@@ -229,7 +229,7 @@ namespace CompilingPrinciples.Utility
                         if (pendAction.Value[term].Entries.Count > 2)
                             throw new ApplicationException("Pending Action Entries Count Exceeded.");
 
-                        // Try reduce, but no ACTION[i, a] = reduce by "S -> if ( C ) S"
+                        // Try reduce, except ACTION[i, a] = reduce by "S -> if ( C ) S"
                         var reduce = pendAction.Value[term].Entries.Where(e => e.Type == ActionTableEntry.ActionType.Reduce).Single();
                         if (reduce.ReduceProduction.ToString() != "S -> if ( C ) S")
                             pendAction.Value[term].SetPreferEntry(reduce);

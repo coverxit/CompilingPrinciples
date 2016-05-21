@@ -130,7 +130,7 @@ L -&gt; float
 S -&gt; id = E ;
 S -&gt; if ( C ) S
 S -&gt; if ( C ) S else S
-S -&gt; while ( C ) S do S
+S -&gt; while ( C ) S
 S -&gt; S S
 
 C -&gt; E &gt; E
