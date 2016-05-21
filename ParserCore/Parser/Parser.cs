@@ -68,7 +68,8 @@ namespace CompilingPrinciples.ParserCore
         private SymbolTable symbolTable;
         //private IPhaseLevelParserErrorRoutine phaseLevelRoutine;
         private IPanicErrorRoutine panicRoutine;
-        private IReportParseStep reporter;
+        private IReportParseStep stepReporter;
+        private IParserReduceCallback reduceCb;
         
         /*
         // Leave Phase Level away!
@@ -82,13 +83,14 @@ namespace CompilingPrinciples.ParserCore
         }
         */
 
-        public Parser(SymbolTable st, Grammar grammar, ParseTable<T> pt, IPanicErrorRoutine routine, IReportParseStep reporter = null)
+        public Parser(SymbolTable st, Grammar grammar, ParseTable<T> pt, IPanicErrorRoutine routine, IReportParseStep reporter = null, IParserReduceCallback reduceCb = null)
         {
             this.symbolTable = st;
             this.grammar = grammar;
             this.parseTable = pt;
             this.panicRoutine = routine;
-            this.reporter = reporter;
+            this.stepReporter = reporter;
+            this.reduceCb = reduceCb;
         }
 
         private void Reduce(ref int top, ActionTableEntry action, PrintableStack<int> parseStack, PrintableStack<ProductionSymbol> symbolStack)
@@ -168,7 +170,7 @@ namespace CompilingPrinciples.ParserCore
                         token = lexer.ScanNextToken();
 
                         ops.Add(new Tuple<string, string, string>(action.ToString(), parseStack.ToString(), symbolStack.ToString()));
-                        if (reporter != null) reporter.ReportStep(false, action.ToString(), symbolStack.ToString(), parseStack.ToString());
+                        if (stepReporter != null) stepReporter.ReportStep(false, action.ToString(), parseStack.ToString(), symbolStack.ToString());
                         break;
 
                     // ACTION[s, a] = reduce A -> β
@@ -177,7 +179,8 @@ namespace CompilingPrinciples.ParserCore
 
                         // output the production
                         ops.Add(new Tuple<string, string, string>(action.ToString(), parseStack.ToString(), symbolStack.ToString()));
-                        if (reporter != null) reporter.ReportStep(false, action.ToString(), symbolStack.ToString(), parseStack.ToString());
+                        if (stepReporter != null) stepReporter.ReportStep(false, action.ToString(), parseStack.ToString(), symbolStack.ToString());
+                        if (reduceCb != null) reduceCb.ReduceBy(action.ReduceProduction.ToString());
                         break;
 
                     // ACTION[s, a] = accept
@@ -185,7 +188,7 @@ namespace CompilingPrinciples.ParserCore
                         accept = true;
 
                         ops.Add(new Tuple<string, string, string>(action.ToString(), parseStack.ToString(), symbolStack.ToString()));
-                        if (reporter != null) reporter.ReportStep(false, action.ToString(), symbolStack.ToString(), parseStack.ToString());
+                        if (stepReporter != null) stepReporter.ReportStep(false, action.ToString(), parseStack.ToString(), symbolStack.ToString());
                         break;
 
                     // ACTION[s, a] = error
@@ -245,8 +248,8 @@ namespace CompilingPrinciples.ParserCore
 
                     addOp:
                         ops.Add(new Tuple<string, string, string>("syntax error near line " + line, parseStack.ToString(), symbolStack.ToString()));
-                        if (reporter != null)
-                            reporter.ReportStep(true, "syntax error near line " + line, symbolStack.ToString(), parseStack.ToString());
+                        if (stepReporter != null)
+                            stepReporter.ReportStep(true, "syntax error near line " + line, parseStack.ToString(), symbolStack.ToString());
                         errLines.Add(line);
 
                         if (isReturn) return ops;

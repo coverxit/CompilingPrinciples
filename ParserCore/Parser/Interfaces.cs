@@ -107,6 +107,11 @@ namespace CompilingPrinciples.ParserCore
 
     public interface IReportParseStep
     {
-        void ReportStep(bool error, string action, string symbol, string state);
+        void ReportStep(bool error, string action, string stack, string symbol);
+    }
+
+    public interface IParserReduceCallback
+    {
+        void ReduceBy(string production);
     }
 }

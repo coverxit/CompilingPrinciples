@@ -198,10 +198,10 @@ namespace CompilingPrinciples.GUIParser
             this.lvParseStep = lvParseStep;
         }
 
-        public void ReportStep(bool error, string action, string symbol, string state)
+        public void ReportStep(bool error, string action, string stack, string symbol)
         {
             ListViewItem lvItem = new ListViewItem();
-            lvItem.Text = state;
+            lvItem.Text = stack;
             lvItem.UseItemStyleForSubItems = false;
 
             lvItem.SubItems.Add(symbol);
