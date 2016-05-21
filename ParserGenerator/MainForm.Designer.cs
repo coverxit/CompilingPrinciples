@@ -57,41 +57,41 @@
             this.tablePanelSymbols = new System.Windows.Forms.TableLayoutPanel();
             this.tabSymbol = new System.Windows.Forms.TabControl();
             this.tabPageNonTerminals = new System.Windows.Forms.TabPage();
-            this.listNonTerminals = new CompilingPrinciples.Utility.WindowThemeListView();
-            this.nonTerminalsHeaderId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.nonTerminalsHeaderSymbol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPageTerminals = new System.Windows.Forms.TabPage();
-            this.listTerminals = new CompilingPrinciples.Utility.WindowThemeListView();
-            this.terminalsHeaderId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.terminalsHeaderSymbol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBoxFirstFollow = new System.Windows.Forms.GroupBox();
             this.tablePanelFirstFollow = new System.Windows.Forms.TableLayoutPanel();
             this.tabFirstFollow = new System.Windows.Forms.TabControl();
             this.tabPageFirst = new System.Windows.Forms.TabPage();
-            this.listFirst = new CompilingPrinciples.Utility.WindowThemeListView();
-            this.firstHeaderSymbol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.firstHeaderElement = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPageFollow = new System.Windows.Forms.TabPage();
-            this.listFollow = new CompilingPrinciples.Utility.WindowThemeListView();
-            this.followHeaderSymbol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.followHeaderElements = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBoxParseTable = new System.Windows.Forms.GroupBox();
             this.tablePanelParsingTable = new System.Windows.Forms.TableLayoutPanel();
             this.tabParsingTable = new System.Windows.Forms.TabControl();
             this.tabPageStates = new System.Windows.Forms.TabPage();
-            this.gridStates = new CompilingPrinciples.Utility.DoubleBufferDataGridView();
-            this.ColumnId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnItems = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPageActionTable = new System.Windows.Forms.TabPage();
-            this.gridAction = new CompilingPrinciples.Utility.DoubleBufferDataGridView();
             this.tabPageGotoAction = new System.Windows.Forms.TabPage();
-            this.gridGoto = new CompilingPrinciples.Utility.DoubleBufferDataGridView();
             this.stateContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.actionContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.solveSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.listNonTerminals = new CompilingPrinciples.Utility.WindowThemeListView();
+            this.nonTerminalsHeaderId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.nonTerminalsHeaderSymbol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.listTerminals = new CompilingPrinciples.Utility.WindowThemeListView();
+            this.terminalsHeaderId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.terminalsHeaderSymbol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.listFirst = new CompilingPrinciples.Utility.WindowThemeListView();
+            this.firstHeaderSymbol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.firstHeaderElement = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.listFollow = new CompilingPrinciples.Utility.WindowThemeListView();
+            this.followHeaderSymbol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.followHeaderElements = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.gridStates = new CompilingPrinciples.Utility.DoubleBufferDataGridView();
+            this.ColumnId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnItems = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.gridAction = new CompilingPrinciples.Utility.DoubleBufferDataGridView();
+            this.gridGoto = new CompilingPrinciples.Utility.DoubleBufferDataGridView();
             this.tableLayout.SuspendLayout();
             this.tablePanelControls.SuspendLayout();
             this.groupBoxGrammar.SuspendLayout();
@@ -113,13 +113,13 @@
             this.tablePanelParsingTable.SuspendLayout();
             this.tabParsingTable.SuspendLayout();
             this.tabPageStates.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gridStates)).BeginInit();
             this.tabPageActionTable.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gridAction)).BeginInit();
             this.tabPageGotoAction.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gridGoto)).BeginInit();
             this.stateContextMenu.SuspendLayout();
             this.actionContextMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridStates)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridAction)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridGoto)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayout
@@ -197,11 +197,11 @@
             // 
             this.textGrammar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textGrammar.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textGrammar.Location = new System.Drawing.Point(14, 32);
+            this.textGrammar.Location = new System.Drawing.Point(14, 57);
             this.textGrammar.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.textGrammar.Name = "textGrammar";
             this.textGrammar.ScrollWidth = 241;
-            this.textGrammar.Size = new System.Drawing.Size(760, 951);
+            this.textGrammar.Size = new System.Drawing.Size(760, 926);
             this.textGrammar.TabIndex = 0;
             this.textGrammar.Text = resources.GetString("textGrammar.Text");
             this.textGrammar.UseTabs = false;
@@ -313,9 +313,10 @@
             this.lblGrammarNote.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGrammarNote.Location = new System.Drawing.Point(13, 5);
             this.lblGrammarNote.Name = "lblGrammarNote";
-            this.lblGrammarNote.Size = new System.Drawing.Size(644, 25);
+            this.lblGrammarNote.Size = new System.Drawing.Size(581, 50);
             this.lblGrammarNote.TabIndex = 4;
-            this.lblGrammarNote.Text = "Note: Grammar should be augmented, use @ to represent ε.";
+            this.lblGrammarNote.Text = "Grammar should be augmented, use @ to represent ε.\r\nEach production should only c" +
+    "onsist of one body.";
             // 
             // groupBoxSymbols
             // 
@@ -367,33 +368,6 @@
             this.tabPageNonTerminals.Text = "Non Terminals";
             this.tabPageNonTerminals.UseVisualStyleBackColor = true;
             // 
-            // listNonTerminals
-            // 
-            this.listNonTerminals.CausesValidation = false;
-            this.listNonTerminals.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.nonTerminalsHeaderId,
-            this.nonTerminalsHeaderSymbol});
-            this.listNonTerminals.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listNonTerminals.FullRowSelect = true;
-            this.listNonTerminals.Location = new System.Drawing.Point(3, 3);
-            this.listNonTerminals.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.listNonTerminals.MultiSelect = false;
-            this.listNonTerminals.Name = "listNonTerminals";
-            this.listNonTerminals.Size = new System.Drawing.Size(544, 332);
-            this.listNonTerminals.TabIndex = 0;
-            this.listNonTerminals.UseCompatibleStateImageBehavior = false;
-            this.listNonTerminals.View = System.Windows.Forms.View.Details;
-            // 
-            // nonTerminalsHeaderId
-            // 
-            this.nonTerminalsHeaderId.Text = "Id";
-            this.nonTerminalsHeaderId.Width = 65;
-            // 
-            // nonTerminalsHeaderSymbol
-            // 
-            this.nonTerminalsHeaderSymbol.Text = "Symbol";
-            this.nonTerminalsHeaderSymbol.Width = 220;
-            // 
             // tabPageTerminals
             // 
             this.tabPageTerminals.Controls.Add(this.listTerminals);
@@ -404,33 +378,6 @@
             this.tabPageTerminals.TabIndex = 1;
             this.tabPageTerminals.Text = "Terminals";
             this.tabPageTerminals.UseVisualStyleBackColor = true;
-            // 
-            // listTerminals
-            // 
-            this.listTerminals.CausesValidation = false;
-            this.listTerminals.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.terminalsHeaderId,
-            this.terminalsHeaderSymbol});
-            this.listTerminals.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listTerminals.FullRowSelect = true;
-            this.listTerminals.Location = new System.Drawing.Point(3, 3);
-            this.listTerminals.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.listTerminals.MultiSelect = false;
-            this.listTerminals.Name = "listTerminals";
-            this.listTerminals.Size = new System.Drawing.Size(544, 332);
-            this.listTerminals.TabIndex = 2;
-            this.listTerminals.UseCompatibleStateImageBehavior = false;
-            this.listTerminals.View = System.Windows.Forms.View.Details;
-            // 
-            // terminalsHeaderId
-            // 
-            this.terminalsHeaderId.Text = "Id";
-            this.terminalsHeaderId.Width = 65;
-            // 
-            // terminalsHeaderSymbol
-            // 
-            this.terminalsHeaderSymbol.Text = "Symbol";
-            this.terminalsHeaderSymbol.Width = 220;
             // 
             // groupBoxFirstFollow
             // 
@@ -482,34 +429,6 @@
             this.tabPageFirst.Text = "FIRST Set";
             this.tabPageFirst.UseVisualStyleBackColor = true;
             // 
-            // listFirst
-            // 
-            this.listFirst.CausesValidation = false;
-            this.listFirst.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.firstHeaderSymbol,
-            this.firstHeaderElement});
-            this.listFirst.Cursor = System.Windows.Forms.Cursors.Default;
-            this.listFirst.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listFirst.FullRowSelect = true;
-            this.listFirst.Location = new System.Drawing.Point(3, 3);
-            this.listFirst.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.listFirst.MultiSelect = false;
-            this.listFirst.Name = "listFirst";
-            this.listFirst.Size = new System.Drawing.Size(842, 332);
-            this.listFirst.TabIndex = 0;
-            this.listFirst.UseCompatibleStateImageBehavior = false;
-            this.listFirst.View = System.Windows.Forms.View.Details;
-            // 
-            // firstHeaderSymbol
-            // 
-            this.firstHeaderSymbol.Text = "Symbol";
-            this.firstHeaderSymbol.Width = 150;
-            // 
-            // firstHeaderElement
-            // 
-            this.firstHeaderElement.Text = "Elements";
-            this.firstHeaderElement.Width = 425;
-            // 
             // tabPageFollow
             // 
             this.tabPageFollow.Controls.Add(this.listFollow);
@@ -520,34 +439,6 @@
             this.tabPageFollow.TabIndex = 1;
             this.tabPageFollow.Text = "FOLLOW Set";
             this.tabPageFollow.UseVisualStyleBackColor = true;
-            // 
-            // listFollow
-            // 
-            this.listFollow.CausesValidation = false;
-            this.listFollow.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.followHeaderSymbol,
-            this.followHeaderElements});
-            this.listFollow.Cursor = System.Windows.Forms.Cursors.Default;
-            this.listFollow.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listFollow.FullRowSelect = true;
-            this.listFollow.Location = new System.Drawing.Point(3, 3);
-            this.listFollow.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.listFollow.MultiSelect = false;
-            this.listFollow.Name = "listFollow";
-            this.listFollow.Size = new System.Drawing.Size(842, 332);
-            this.listFollow.TabIndex = 3;
-            this.listFollow.UseCompatibleStateImageBehavior = false;
-            this.listFollow.View = System.Windows.Forms.View.Details;
-            // 
-            // followHeaderSymbol
-            // 
-            this.followHeaderSymbol.Text = "Symbol";
-            this.followHeaderSymbol.Width = 150;
-            // 
-            // followHeaderElements
-            // 
-            this.followHeaderElements.Text = "Elements";
-            this.followHeaderElements.Width = 425;
             // 
             // groupBoxParseTable
             // 
@@ -600,6 +491,175 @@
             this.tabPageStates.TabIndex = 2;
             this.tabPageStates.Text = "States";
             this.tabPageStates.UseVisualStyleBackColor = true;
+            // 
+            // tabPageActionTable
+            // 
+            this.tabPageActionTable.Controls.Add(this.gridAction);
+            this.tabPageActionTable.Location = new System.Drawing.Point(8, 39);
+            this.tabPageActionTable.Name = "tabPageActionTable";
+            this.tabPageActionTable.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageActionTable.Size = new System.Drawing.Size(1452, 557);
+            this.tabPageActionTable.TabIndex = 0;
+            this.tabPageActionTable.Text = "ACTION";
+            this.tabPageActionTable.UseVisualStyleBackColor = true;
+            // 
+            // tabPageGotoAction
+            // 
+            this.tabPageGotoAction.Controls.Add(this.gridGoto);
+            this.tabPageGotoAction.Location = new System.Drawing.Point(8, 39);
+            this.tabPageGotoAction.Name = "tabPageGotoAction";
+            this.tabPageGotoAction.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageGotoAction.Size = new System.Drawing.Size(1452, 557);
+            this.tabPageGotoAction.TabIndex = 1;
+            this.tabPageGotoAction.Text = "GOTO";
+            this.tabPageGotoAction.UseVisualStyleBackColor = true;
+            // 
+            // stateContextMenu
+            // 
+            this.stateContextMenu.ImageScalingSize = new System.Drawing.Size(32, 32);
+            this.stateContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.copyCToolStripMenuItem});
+            this.stateContextMenu.Name = "stateContextMenu";
+            this.stateContextMenu.Size = new System.Drawing.Size(214, 42);
+            // 
+            // copyCToolStripMenuItem
+            // 
+            this.copyCToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.copyCToolStripMenuItem.Name = "copyCToolStripMenuItem";
+            this.copyCToolStripMenuItem.Size = new System.Drawing.Size(213, 38);
+            this.copyCToolStripMenuItem.Text = "Copy (&C)";
+            this.copyCToolStripMenuItem.Click += new System.EventHandler(this.copyCToolStripMenuItem_Click);
+            // 
+            // actionContextMenu
+            // 
+            this.actionContextMenu.ImageScalingSize = new System.Drawing.Size(32, 32);
+            this.actionContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.solveSToolStripMenuItem});
+            this.actionContextMenu.Name = "actionContextMenu";
+            this.actionContextMenu.Size = new System.Drawing.Size(332, 42);
+            // 
+            // solveSToolStripMenuItem
+            // 
+            this.solveSToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.solveSToolStripMenuItem.Name = "solveSToolStripMenuItem";
+            this.solveSToolStripMenuItem.Size = new System.Drawing.Size(331, 38);
+            this.solveSToolStripMenuItem.Text = "Solve Conflict... (&S)";
+            this.solveSToolStripMenuItem.Click += new System.EventHandler(this.solveSToolStripMenuItem_Click);
+            // 
+            // saveFileDialog
+            // 
+            this.saveFileDialog.DefaultExt = "cs";
+            this.saveFileDialog.Filter = "C# files|*.cs|VB files|*.vb";
+            // 
+            // listNonTerminals
+            // 
+            this.listNonTerminals.CausesValidation = false;
+            this.listNonTerminals.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.nonTerminalsHeaderId,
+            this.nonTerminalsHeaderSymbol});
+            this.listNonTerminals.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listNonTerminals.FullRowSelect = true;
+            this.listNonTerminals.Location = new System.Drawing.Point(3, 3);
+            this.listNonTerminals.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.listNonTerminals.MultiSelect = false;
+            this.listNonTerminals.Name = "listNonTerminals";
+            this.listNonTerminals.Size = new System.Drawing.Size(544, 332);
+            this.listNonTerminals.TabIndex = 0;
+            this.listNonTerminals.UseCompatibleStateImageBehavior = false;
+            this.listNonTerminals.View = System.Windows.Forms.View.Details;
+            // 
+            // nonTerminalsHeaderId
+            // 
+            this.nonTerminalsHeaderId.Text = "Id";
+            this.nonTerminalsHeaderId.Width = 65;
+            // 
+            // nonTerminalsHeaderSymbol
+            // 
+            this.nonTerminalsHeaderSymbol.Text = "Symbol";
+            this.nonTerminalsHeaderSymbol.Width = 220;
+            // 
+            // listTerminals
+            // 
+            this.listTerminals.CausesValidation = false;
+            this.listTerminals.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.terminalsHeaderId,
+            this.terminalsHeaderSymbol});
+            this.listTerminals.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listTerminals.FullRowSelect = true;
+            this.listTerminals.Location = new System.Drawing.Point(3, 3);
+            this.listTerminals.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.listTerminals.MultiSelect = false;
+            this.listTerminals.Name = "listTerminals";
+            this.listTerminals.Size = new System.Drawing.Size(544, 332);
+            this.listTerminals.TabIndex = 2;
+            this.listTerminals.UseCompatibleStateImageBehavior = false;
+            this.listTerminals.View = System.Windows.Forms.View.Details;
+            // 
+            // terminalsHeaderId
+            // 
+            this.terminalsHeaderId.Text = "Id";
+            this.terminalsHeaderId.Width = 65;
+            // 
+            // terminalsHeaderSymbol
+            // 
+            this.terminalsHeaderSymbol.Text = "Symbol";
+            this.terminalsHeaderSymbol.Width = 220;
+            // 
+            // listFirst
+            // 
+            this.listFirst.CausesValidation = false;
+            this.listFirst.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.firstHeaderSymbol,
+            this.firstHeaderElement});
+            this.listFirst.Cursor = System.Windows.Forms.Cursors.Default;
+            this.listFirst.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listFirst.FullRowSelect = true;
+            this.listFirst.Location = new System.Drawing.Point(3, 3);
+            this.listFirst.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.listFirst.MultiSelect = false;
+            this.listFirst.Name = "listFirst";
+            this.listFirst.Size = new System.Drawing.Size(842, 332);
+            this.listFirst.TabIndex = 0;
+            this.listFirst.UseCompatibleStateImageBehavior = false;
+            this.listFirst.View = System.Windows.Forms.View.Details;
+            // 
+            // firstHeaderSymbol
+            // 
+            this.firstHeaderSymbol.Text = "Symbol";
+            this.firstHeaderSymbol.Width = 150;
+            // 
+            // firstHeaderElement
+            // 
+            this.firstHeaderElement.Text = "Elements";
+            this.firstHeaderElement.Width = 425;
+            // 
+            // listFollow
+            // 
+            this.listFollow.CausesValidation = false;
+            this.listFollow.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.followHeaderSymbol,
+            this.followHeaderElements});
+            this.listFollow.Cursor = System.Windows.Forms.Cursors.Default;
+            this.listFollow.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listFollow.FullRowSelect = true;
+            this.listFollow.Location = new System.Drawing.Point(3, 3);
+            this.listFollow.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.listFollow.MultiSelect = false;
+            this.listFollow.Name = "listFollow";
+            this.listFollow.Size = new System.Drawing.Size(842, 332);
+            this.listFollow.TabIndex = 3;
+            this.listFollow.UseCompatibleStateImageBehavior = false;
+            this.listFollow.View = System.Windows.Forms.View.Details;
+            // 
+            // followHeaderSymbol
+            // 
+            this.followHeaderSymbol.Text = "Symbol";
+            this.followHeaderSymbol.Width = 150;
+            // 
+            // followHeaderElements
+            // 
+            this.followHeaderElements.Text = "Elements";
+            this.followHeaderElements.Width = 425;
             // 
             // gridStates
             // 
@@ -667,17 +727,6 @@
             this.ColumnItems.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.ColumnItems.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
-            // tabPageActionTable
-            // 
-            this.tabPageActionTable.Controls.Add(this.gridAction);
-            this.tabPageActionTable.Location = new System.Drawing.Point(8, 39);
-            this.tabPageActionTable.Name = "tabPageActionTable";
-            this.tabPageActionTable.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageActionTable.Size = new System.Drawing.Size(1452, 557);
-            this.tabPageActionTable.TabIndex = 0;
-            this.tabPageActionTable.Text = "ACTION";
-            this.tabPageActionTable.UseVisualStyleBackColor = true;
-            // 
             // gridAction
             // 
             this.gridAction.AllowUserToAddRows = false;
@@ -720,17 +769,6 @@
             this.gridAction.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridAction_CellContentDoubleClick);
             this.gridAction.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridAction_CellMouseDown);
             // 
-            // tabPageGotoAction
-            // 
-            this.tabPageGotoAction.Controls.Add(this.gridGoto);
-            this.tabPageGotoAction.Location = new System.Drawing.Point(8, 39);
-            this.tabPageGotoAction.Name = "tabPageGotoAction";
-            this.tabPageGotoAction.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageGotoAction.Size = new System.Drawing.Size(1452, 557);
-            this.tabPageGotoAction.TabIndex = 1;
-            this.tabPageGotoAction.Text = "GOTO";
-            this.tabPageGotoAction.UseVisualStyleBackColor = true;
-            // 
             // gridGoto
             // 
             this.gridGoto.AllowUserToAddRows = false;
@@ -771,43 +809,6 @@
             this.gridGoto.StandardTab = true;
             this.gridGoto.TabIndex = 2;
             // 
-            // stateContextMenu
-            // 
-            this.stateContextMenu.ImageScalingSize = new System.Drawing.Size(32, 32);
-            this.stateContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.copyCToolStripMenuItem});
-            this.stateContextMenu.Name = "stateContextMenu";
-            this.stateContextMenu.Size = new System.Drawing.Size(189, 40);
-            // 
-            // copyCToolStripMenuItem
-            // 
-            this.copyCToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.copyCToolStripMenuItem.Name = "copyCToolStripMenuItem";
-            this.copyCToolStripMenuItem.Size = new System.Drawing.Size(188, 36);
-            this.copyCToolStripMenuItem.Text = "Copy (&C)";
-            this.copyCToolStripMenuItem.Click += new System.EventHandler(this.copyCToolStripMenuItem_Click);
-            // 
-            // actionContextMenu
-            // 
-            this.actionContextMenu.ImageScalingSize = new System.Drawing.Size(32, 32);
-            this.actionContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.solveSToolStripMenuItem});
-            this.actionContextMenu.Name = "actionContextMenu";
-            this.actionContextMenu.Size = new System.Drawing.Size(307, 40);
-            // 
-            // solveSToolStripMenuItem
-            // 
-            this.solveSToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.solveSToolStripMenuItem.Name = "solveSToolStripMenuItem";
-            this.solveSToolStripMenuItem.Size = new System.Drawing.Size(306, 36);
-            this.solveSToolStripMenuItem.Text = "Solve Conflict... (&S)";
-            this.solveSToolStripMenuItem.Click += new System.EventHandler(this.solveSToolStripMenuItem_Click);
-            // 
-            // saveFileDialog
-            // 
-            this.saveFileDialog.DefaultExt = "cs";
-            this.saveFileDialog.Filter = "C# files|*.cs|VB files|*.vb";
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -840,13 +841,13 @@
             this.tablePanelParsingTable.ResumeLayout(false);
             this.tabParsingTable.ResumeLayout(false);
             this.tabPageStates.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.gridStates)).EndInit();
             this.tabPageActionTable.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.gridAction)).EndInit();
             this.tabPageGotoAction.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.gridGoto)).EndInit();
             this.stateContextMenu.ResumeLayout(false);
             this.actionContextMenu.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridStates)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridAction)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridGoto)).EndInit();
             this.ResumeLayout(false);
 
         }

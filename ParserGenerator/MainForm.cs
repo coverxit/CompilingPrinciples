@@ -217,7 +217,7 @@ namespace CompilingPrinciples.ParserGenerator
                                         break;
 
                                     case ActionTableEntry.ActionType.Reduce:
-                                        cell.Style.ForeColor = Color.MediumPurple;
+                                        cell.Style.ForeColor = Color.SaddleBrown;
                                         break;
                                 }
                             }
@@ -365,7 +365,7 @@ namespace CompilingPrinciples.ParserGenerator
                     switch (tag.Item3.PreferredEntry.Type)
                     {
                         case ActionTableEntry.ActionType.Reduce:
-                            cell.Style.ForeColor = Color.MediumPurple;
+                            cell.Style.ForeColor = Color.SaddleBrown;
                             break;
 
                         case ActionTableEntry.ActionType.Shift:
