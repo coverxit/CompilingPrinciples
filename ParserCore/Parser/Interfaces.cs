@@ -99,6 +99,7 @@ namespace CompilingPrinciples.ParserCore
         ProductionSymbol ParticularNonTerminal(Grammar grammar);
     }
 
+    // Used in waitingForm
     public interface IReportProgress
     {
         void ReportProgress(string progress);

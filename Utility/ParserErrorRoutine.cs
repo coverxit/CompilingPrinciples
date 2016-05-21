@@ -9,7 +9,7 @@ using CompilingPrinciples.ParserCore;
 
 namespace CompilingPrinciples.Utility
 {
-    public class SLRPhaseLevelParserErrorRoutine : IPhaseLevelParserErrorRoutine
+    public class ExperimentGrammarSLRPhaseLevelParserErrorRoutine : IPhaseLevelParserErrorRoutine
     {
         private const int StateCount = 58;
 
@@ -32,7 +32,7 @@ namespace CompilingPrinciples.Utility
             }
         }
 
-        public SLRPhaseLevelParserErrorRoutine()
+        public ExperimentGrammarSLRPhaseLevelParserErrorRoutine()
         {
             var terminals = new string[]
             {
@@ -108,7 +108,15 @@ namespace CompilingPrinciples.Utility
             // we haven't finish this yet.
             throw new NotImplementedException();
 
-            return procs[topState][symbol.ToString()];
+            // return procs[topState][symbol.ToString()];
+        }
+    }
+
+    public class ExperimentGrammarLR1PhaseLevelParserErrorRoutine : IPhaseLevelParserErrorRoutine
+    {
+        public PhaseLevelOperation ErrorRoutine(int topState, ProductionSymbol symbol, Token currentToken, Token previousToken, PrintableStack<int> parseStack, PrintableStack<ProductionSymbol> symbolStack)
+        {
+            throw new NotImplementedException();
         }
     }
 

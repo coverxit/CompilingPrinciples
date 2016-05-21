@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GenerateWaitingForm));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.lblLR1Process = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -43,7 +44,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 65F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 26F));
             this.tableLayoutPanel1.Controls.Add(this.lblLR1Process, 2, 4);
             this.tableLayoutPanel1.Controls.Add(this.label3, 1, 4);
             this.tableLayoutPanel1.Controls.Add(this.label2, 1, 3);
@@ -69,7 +70,7 @@
             this.lblLR1Process.ForeColor = System.Drawing.Color.Blue;
             this.lblLR1Process.Location = new System.Drawing.Point(233, 95);
             this.lblLR1Process.Name = "lblLR1Process";
-            this.lblLR1Process.Size = new System.Drawing.Size(385, 30);
+            this.lblLR1Process.Size = new System.Drawing.Size(384, 30);
             this.lblLR1Process.TabIndex = 5;
             this.lblLR1Process.Text = "Generating...";
             this.lblLR1Process.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -104,7 +105,7 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(23, 20);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(595, 35);
+            this.label1.Size = new System.Drawing.Size(594, 35);
             this.label1.TabIndex = 1;
             this.label1.Text = "Generating parser context, please wait...";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -116,7 +117,7 @@
             this.lblSLRProcess.ForeColor = System.Drawing.Color.Blue;
             this.lblSLRProcess.Location = new System.Drawing.Point(233, 65);
             this.lblSLRProcess.Name = "lblSLRProcess";
-            this.lblSLRProcess.Size = new System.Drawing.Size(385, 30);
+            this.lblSLRProcess.Size = new System.Drawing.Size(384, 30);
             this.lblSLRProcess.TabIndex = 4;
             this.lblSLRProcess.Text = "Generating...";
             this.lblSLRProcess.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -130,6 +131,7 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(673, 215);
             this.MinimizeBox = false;
