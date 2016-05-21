@@ -50,6 +50,30 @@ namespace CompilingPrinciples.ParserCore
             computeFollowSet();
         }
 
+        // For check LL grammar
+        public HashSet<ProductionSymbol> ComputeFirst(List<ProductionSymbol> alpha)
+        {
+            var ret = new HashSet<ProductionSymbol>();
+
+            firstSet = new FirstFollowSet(grammar);
+
+            // α = Y1Y2...Yk
+            foreach (var sym in alpha)
+            {
+                // If Yi not computed
+                if (!firstSet.Contains(sym))
+                    computeFirstSet(sym);
+
+                ret.UnionWith(firstSet.Get(sym));
+
+                // If ε not in First(Yi), break
+                if (!firstSet.Get(sym).Contains(grammar.Epsilon))
+                    break;
+            }
+
+            return ret;
+        }
+
         private void computeFirstSet()
         {
             if (reporter != null) reporter.ReportProgress("Computing FIRST set...");
@@ -66,7 +90,7 @@ namespace CompilingPrinciples.ParserCore
             // X is a terminal, First(X) = { X }
             if (curSymbol.Type == ProductionSymbol.SymbolType.Terminal)
                 firstSet.Put(curSymbol, curSymbol);
-            else
+            else // curSymbol.Type = ProductionSymbol.SymboLType.NonTerminal
             {
                 // Consider all X -> β productions
                 var prods = grammar.Productions.Where(prod => prod.Left.Equals(curSymbol));
@@ -89,7 +113,7 @@ namespace CompilingPrinciples.ParserCore
                             if (sym.Equals(curSymbol))
                             {
                                 var epsilonProds = prods.Where(e => e.IsRightEpsilon());
-                                if (epsilonProds.Count() == 0) // No CurSymbol -> Epsilon, just break
+                                if (epsilonProds.Count() == 0) // No CurSymbol -> ε, just break
                                     break;
                             }
 

@@ -74,6 +74,16 @@ namespace CompilingPrinciples.ParserCore
             }
         }
 
+        public List<ProductionSymbol> TerminalsWithoutEpsilon
+        {
+            // Exclude ε
+            get
+            {
+                return terminalTable.Select((sym, id) => new ProductionSymbol(this, ProductionSymbol.SymbolType.Terminal, id))
+                                    .Where(e => !e.Equals(epsilon) && !e.Equals(endMarker)).ToList();
+            }
+        }
+
         public List<ProductionSymbol> Terminals
         {
             // Exclude $

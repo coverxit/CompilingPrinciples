@@ -131,42 +131,78 @@ namespace CompilingPrinciples.ParserGenerator
                 this.Invoke((MethodInvoker)delegate
                 {
                     UpdateListSymbol(grammar.NonTerminals, listNonTerminals);
-                    UpdateListSymbol(grammar.Terminals, listTerminals);
+                    UpdateListSymbol(grammar.TerminalsWithoutEpsilon, listTerminals);
                 });
 
-                if (useSLR)
+                var collection = useSLR ? new LR0Collection(grammar, reporter) as LRCollection 
+                                        : new LR1Collection(grammar, reporter) as LRCollection;
+               
+                this.Invoke((MethodInvoker)delegate
                 {
-                    var collection = new LR0Collection(grammar, reporter);
-                    this.Invoke((MethodInvoker)delegate
-                    {
-                        UpdateListFirstFollow(grammar.NonTerminals, collection.First, listFirst);
-                        UpdateListFirstFollow(grammar.NonTerminals, collection.Follow, listFollow);
-                    });
+                    UpdateListFirstFollow(grammar.NonTerminals, collection.First, listFirst);
+                    UpdateListFirstFollow(grammar.NonTerminals, collection.Follow, listFollow);
+                });
 
-                    parseTable = SLRParseTable.Create(collection, reporter);
-                    this.Invoke((MethodInvoker)delegate
-                    {
-                        waitingForm.lblSLRProcess.Text = "Refreshing UI...";
-                        waitingForm.lblSLRProcess.ForeColor = Color.Green;
-                    });
-                }
-                else
+                parseTable = useSLR ? SLRParseTable.Create(collection as LR0Collection, reporter) as ParseTable
+                                    : LR1ParseTable.Create(collection as LR1Collection, reporter) as ParseTable;
+
+                this.Invoke((MethodInvoker)delegate
                 {
-                    var collection = new LR1Collection(grammar, reporter);
-                    this.Invoke((MethodInvoker)delegate
-                    {
-                        UpdateListFirstFollow(grammar.NonTerminals, collection.First, listFirst);
-                        UpdateListFirstFollow(grammar.NonTerminals, collection.Follow, listFollow);
-                    });
+                    waitingForm.lblSLRProcess.Text = "Refreshing UI...";
+                    waitingForm.lblSLRProcess.ForeColor = Color.Green;
+                });
 
-                    parseTable = LR1ParseTable.Create(collection, reporter);
+                // Check if LL Grammar
+                bool isLLGrammar = true;
 
-                    this.Invoke((MethodInvoker)delegate
+                foreach (var sym in grammar.NonTerminalsWithoutAugmentedS)
+                {
+                    var prods = grammar.Productions.Where(prod => prod.Left.Equals(sym)).ToList();
+                    // For each A -> α | β, we do the check
+                    if (prods.Count >= 2)
                     {
-                        waitingForm.lblLR1Process.Text = "Refreshing UI...";
-                        waitingForm.lblLR1Process.ForeColor = Color.Green;
-                    });
+                        var gen = new FirstFollowGenerator(grammar);
+
+                        // i for α, j for β
+                        int i = 0, j = i + 1;
+                        for (; i < j && j < prods.Count && isLLGrammar; i++, j++)
+                        {
+                            // First(α) and First(β) are disjoint sets
+                            var firstAlpha = gen.ComputeFirst(prods[i].Right);
+                            var firstBeta = gen.ComputeFirst(prods[j].Right);
+
+                            if (firstAlpha.Intersect(firstBeta).Count() > 0)
+                            {
+                                isLLGrammar = false;
+                                break;
+                            }
+
+                            // If ε in First(β), then First(α) and Follow(A) are disjoint sets
+                            if (firstBeta.Contains(grammar.Epsilon))
+                                if (firstAlpha.Intersect(collection.Follow.Get(sym)).Count() > 0)
+                                {
+                                    isLLGrammar = false;
+                                    break;
+                                }
+
+                            // If ε in First(α), then First(β) and Follow(A) are disjoint sets
+                            if (firstAlpha.Contains(grammar.Epsilon))
+                                if (firstBeta.Intersect(collection.Follow.Get(sym)).Count() > 0)
+                                {   
+                                    isLLGrammar = false;
+                                    break;
+                                }
+                        }
+                    }
+
+                    if (!isLLGrammar) break;
                 }
+
+                this.Invoke((MethodInvoker)delegate
+                {
+                    lblIsLLGrammar.Text = isLLGrammar ? "Yes" : "No";
+                    lblIsLLGrammar.ForeColor = isLLGrammar ? Color.Green : Color.Red;
+                });
 
                 // State Grid
                 var stateTable = new DataTable();
