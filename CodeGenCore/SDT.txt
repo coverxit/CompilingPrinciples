@@ -1,0 +1,50 @@
+P -> 				{ offset = 0; }
+     D 				{ S.next = newlabel(); }
+     S				{ gen(S.next ':'); }
+
+D -> L id;			{ top.set(id.lexeme, L.type, offset); 
+					  offset = offset + L.width; }
+	 D1
+
+D -> ε				  
+
+L -> int			{ L.type = integer; L.width = 4; }
+L -> float			{ L.type = float; L.width = 8; }
+
+S -> id = E;		{ gen(id.lexeme ':=' E.name); }
+
+S -> if (			{ C.true = newlabel(); C.false = S.next; }
+	 C )            { S1.next = S.next; gen(C.true ':'); }
+	 S1
+
+S -> if (			{ C.true = newlabel(); C.false = newlabel(); }
+	 C )			{ S1.next = S.next; gen(C.true ':'); }
+	 S1				{ gen('goto ' S.next); }
+	 else			{ S2.next = S.next; gen(C.false ':'); }
+	 S2
+
+S -> while (		{ begin = newlabel(); gen(begin ':');
+					  C.true = newlabel(); C.false = S.next; }
+	 C )			{ S1.next = begin; gen(C.true ':'); }
+	 S1				{ gen('goto ' begin); }
+
+S -> 				{ S1.next = newlabel(); }
+	 S1				{ S2.next = S.next; gen(S1.next ':'); }
+	 S2
+
+# When rel is '==', the rel in gen is '='
+C -> E1 rel E2		{ type = max(E1.type, E2.type);
+					  a1 = widen(E1.name, E1.type, type);
+					  a2 = widen(E2.name, E2.type, type);
+					  gen('if ' a1 ' rel ' a2 'goto ' C.true);
+					  gen('goto ' C.false); }
+
+E -> E1 +/- T 		{ E.name = newtemp(); gen(E.name ':=' E1.name '+'/'-' T.name); }
+E -> T 				{ E.name = T.name; }
+
+T -> F 				{ T.name = F.name; }
+T -> T1 */`/` F 	{ T.name = newtemp(); gen(T.name ':=' T1.name '*'/'/' F.name); }
+
+F -> ( E ) 			{ F.name = E.name; }
+F -> id				{ F.name = id.name; }
+F -> decimal 		{ F.name = decimal.value; }
