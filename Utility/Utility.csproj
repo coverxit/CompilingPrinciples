@@ -49,9 +49,9 @@
     <Compile Include="GenerateWaitingForm.Designer.cs">
       <DependentUpon>GenerateWaitingForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ParserGenerator.cs" />
+    <Compile Include="ExperimentParserHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ParserErrorRoutine.cs" />
+    <Compile Include="ExperimentParserErrorRoutine.cs" />
     <Compile Include="EnhancedControls.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -21,7 +21,7 @@ namespace CompilingPrinciples.GUIParser
     {
         private const int ErrorIndicatorIndex = 8;
 
-        private ParserGenerator parserHelper;
+        private ExperimentParserHelper parserGen;
 
         private Parser customParser = null;
         private SymbolTable customSymbolTable = new SymbolTable();
@@ -62,14 +62,14 @@ namespace CompilingPrinciples.GUIParser
             textCode.Indicators[ErrorIndicatorIndex].HoverStyle = ScintillaNET.IndicatorStyle.CompositionThick;
             textCode.Indicators[ErrorIndicatorIndex].ForeColor = Color.Red;
 
-            parserHelper = new ParserGenerator(this, new ParseStepReporter(this, listParse));
-            parserHelper.CreateParserFromContext();
+            parserGen = new ExperimentParserHelper(this, new ParseStepReporter(this, listParse));
+            parserGen.CreateParserFromContext();
         }
 
         private void ParserForm_Shown(object sender, EventArgs e)
         {
-            if (!parserHelper.CotextLoaded)
-                parserHelper.CreateParserFromGrammar();
+            if (!parserGen.CotextLoaded)
+                parserGen.CreateParserFromGrammar();
         }
 
         private void btnOpen_Click(object sender, EventArgs e)
@@ -95,17 +95,17 @@ namespace CompilingPrinciples.GUIParser
             Parser parser = null;
 
             if (rbLR1.Checked)
-                parser = parserHelper.LR1Parser;
+                parser = parserGen.LR1Parser;
             else if (rbCustom.Checked)
                 parser = customParser;
             else
-                parser = parserHelper.SLRParser;
+                parser = parserGen.SLRParser;
 
             // failsafe
             if (parser == null)
             {
                 rbSLR.Checked = true;
-                parser = parserHelper.SLRParser;
+                parser = parserGen.SLRParser;
             }
 
             var analyseTask = new Task(() =>
@@ -152,7 +152,7 @@ namespace CompilingPrinciples.GUIParser
                 this.Invoke((MethodInvoker)delegate
                 {
                     listSymbolTable.BeginUpdate();
-                    foreach (var s in (rbCustom.Checked ? customSymbolTable : parserHelper.SymbolTable).ToList().Select((value, index) => new { index, value }))
+                    foreach (var s in (rbCustom.Checked ? customSymbolTable : parserGen.SymbolTable).ToList().Select((value, index) => new { index, value }))
                     {
                         ListViewItem item = new ListViewItem();
                         item.Text = s.index.ToString();
