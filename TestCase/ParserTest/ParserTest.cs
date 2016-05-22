@@ -173,10 +173,7 @@ namespace CompilingPrinciples.TestCase
 
             byte[] array = Encoding.ASCII.GetBytes(sb.ToString());
             var parser = new Parser<LR0Item>(symbolTable, grammar, parseTable, null);
-            var ops = parser.Parse(new MemoryStream(array));
-
-            foreach (var op in ops)
-                Console.WriteLine(op);
+            parser.Parse(new MemoryStream(array));
 
             Console.ReadLine();
         }
@@ -295,11 +292,13 @@ namespace CompilingPrinciples.TestCase
         private static void ParseSampleCode(Parser parser)
         {
             var fs = new FileStream("ParserTest.lc", FileMode.Open);
-            var ops = parser.Parse(fs);
+            //var ops = parser.Parse(fs);
 
             Console.WriteLine("{0,-40} {1}", "SYMBOLS", "ACTION");
+            /*
             foreach (var op in ops)
                 Console.WriteLine("{0,-40} {1}", op.Item2, op.Item1);
+                */
 
             fs.Close();
         }
@@ -436,12 +435,12 @@ namespace CompilingPrinciples.TestCase
             Console.WriteLine("=============== Parse Sample Code ===================================");
 
             var fs = new FileStream("ParserTest.lc", FileMode.Open);
-            var newOps = parser.Parse(fs);
+            /*var newOps = parser.Parse(fs);
 
             Console.WriteLine("{0,-40} {1}", "SYMBOLS", "ACTION");
             foreach (var op in newOps)
                 Console.WriteLine("{0,-40} {1}", op.Item2, op.Item1);
-
+                */
             fs.Close();
             se_stream.Close();
 
@@ -459,12 +458,12 @@ namespace CompilingPrinciples.TestCase
             Console.WriteLine("=============== Parse Sample Code ===================================");
 
             var fs = new FileStream("ParserTest.lc", FileMode.Open);
-            var newOps = parser.Parse(fs);
+            /*var newOps = parser.Parse(fs);
 
             Console.WriteLine("{0,-40} {1}", "SYMBOLS", "ACTION");
             foreach (var op in newOps)
                 Console.WriteLine("{0,-40} {1}", op.Item2, op.Item1);
-
+                */
             fs.Close();
             se_stream.Close();
 

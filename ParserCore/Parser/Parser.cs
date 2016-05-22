@@ -31,7 +31,7 @@ namespace CompilingPrinciples.ParserCore
             get { return errLines; }
         }
 
-        public abstract List<Tuple<string, string, string>> Parse(Stream input);
+        public abstract void Parse(Stream input);
         public abstract void SaveContext(Stream stream);
 
         public static Parser CreateFromContext(Stream stream, SymbolTable symbolTable, IPanicErrorRoutine errRoutine = null, IReportParseStep reporter = null)
@@ -93,7 +93,7 @@ namespace CompilingPrinciples.ParserCore
             this.reduceCb = reduceCb;
         }
 
-        public override List<Tuple<string, string, string>> Parse(Stream input)
+        public override void Parse(Stream input)
         {
             // Clear symbol table
             // Note that clear symbol table
@@ -105,7 +105,6 @@ namespace CompilingPrinciples.ParserCore
             var lexer = new Lexer(symbolTable, input);
             var parseStack = new PrintableStack<int>();
             var symbolStack = new PrintableStack<ProductionSymbol>();
-            var ops = new List<Tuple<string, string, string>>();
             var accept = false;
             
             // Let a be the first symbol of w$
@@ -145,8 +144,7 @@ namespace CompilingPrinciples.ParserCore
                         // let a be the next input symbol
                         prevToken = token;
                         token = lexer.ScanNextToken();
-
-                        ops.Add(Tuple.Create(action.ToString(), parseStack.ToString(), symbolStack.ToString()));
+                        
                         if (stepReporter != null) stepReporter.ReportStep(false, action.ToString(), parseStack.ToString(), symbolStack.ToString());
                         break;
 
@@ -173,7 +171,6 @@ namespace CompilingPrinciples.ParserCore
                         symbolStack.Push(action.ReduceProduction.Left);
 
                         // output the production
-                        ops.Add(Tuple.Create(action.ToString(), parseStack.ToString(), symbolStack.ToString()));
                         if (stepReporter != null) stepReporter.ReportStep(false, action.ToString(), parseStack.ToString(), symbolStack.ToString());
                         if (reduceCb != null) reduceCb.ReduceBy(action.ReduceProduction.ToString());
                         break;
@@ -181,8 +178,7 @@ namespace CompilingPrinciples.ParserCore
                     // ACTION[s, a] = accept
                     case ActionTableEntry.ActionType.Accept:
                         accept = true;
-
-                        ops.Add(Tuple.Create(action.ToString(), parseStack.ToString(), symbolStack.ToString()));
+                        
                         if (stepReporter != null) stepReporter.ReportStep(false, action.ToString(), parseStack.ToString(), symbolStack.ToString());
                         break;
 
@@ -243,12 +239,11 @@ namespace CompilingPrinciples.ParserCore
                         }
 
                     addOp:
-                        ops.Add(Tuple.Create("syntax error near line " + line, parseStack.ToString(), symbolStack.ToString()));
                         if (stepReporter != null)
                             stepReporter.ReportStep(true, "syntax error near line " + line, parseStack.ToString(), symbolStack.ToString());
                         errLines.Add(line);
 
-                        if (isReturn) return ops;
+                        if (isReturn) return;
                         else break;
 
                         // Below is our phase level try...
@@ -286,8 +281,6 @@ namespace CompilingPrinciples.ParserCore
                         */
                 }
             }
-
-            return ops;
         }
 
         public override void SaveContext(Stream stream)

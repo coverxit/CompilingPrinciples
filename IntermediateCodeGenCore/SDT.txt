@@ -1,6 +1,6 @@
 P -> 				{ offset = 0; }
      D 				{ S.next = newlabel(); }
-     S				{ gen(S.next ':'); }
+     S				{ gen('L' S.next ':'); }
 
 D -> L id;			{ top.set(id.lexeme, L.type, offset); 
 					  offset = offset + L.width; }
@@ -14,22 +14,22 @@ L -> float			{ L.type = float; L.width = 8; }
 S -> id = E;		{ gen(id.lexeme ':=' E.name); }
 
 S -> if (			{ C.true = newlabel(); C.false = S.next; }
-	 C )            { S1.next = S.next; gen(C.true ':'); }
+	 C )            { S1.next = S.next; gen('L' C.true ':'); }
 	 S1
 
 S -> if (			{ C.true = newlabel(); C.false = newlabel(); }
-	 C )			{ S1.next = S.next; gen(C.true ':'); }
+	 C )			{ S1.next = S.next; gen('L' C.true ':'); }
 	 S1				{ gen('goto ' S.next); }
-	 else			{ S2.next = S.next; gen(C.false ':'); }
+	 else			{ S2.next = S.next; gen('L' C.false ':'); }
 	 S2
 
-S -> while (		{ begin = newlabel(); gen(begin ':');
+S -> while (		{ begin = newlabel(); gen('L' begin ':');
 					  C.true = newlabel(); C.false = S.next; }
-	 C )			{ S1.next = begin; gen(C.true ':'); }
+	 C )			{ S1.next = begin; gen('L' C.true ':'); }
 	 S1				{ gen('goto ' begin); }
 
 S -> 				{ S1.next = newlabel(); }
-	 S1				{ S2.next = S.next; gen(S1.next ':'); }
+	 S1				{ S2.next = S.next; gen('L' S1.next ':'); }
 	 S2
 
 # When rel is '==', the rel in gen is '='

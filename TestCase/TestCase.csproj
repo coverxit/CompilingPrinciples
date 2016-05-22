@@ -59,7 +59,6 @@
     <Compile Include="InterCodeGenTest\InterCodeGenTest.cs" />
     <Compile Include="LexerTest\LexerTest.cs" />
     <Compile Include="ParserTest\ParserTest.cs" />
-    <Compile Include="ParserTest\ParserUnitTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
