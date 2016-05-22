@@ -93,29 +93,6 @@ namespace CompilingPrinciples.ParserCore
             this.reduceCb = reduceCb;
         }
 
-        private void Reduce(ref int top, ActionTableEntry action, PrintableStack<int> parseStack, PrintableStack<ProductionSymbol> symbolStack)
-        {
-            // Check if β = ε, if so, |β| = 0
-            var betaLength = action.ReduceProduction.IsRightEpsilon() ? 0 : action.ReduceProduction.Right.Count;
-
-            // pop |β| symbols off the stack
-            for (int i = 0; i < betaLength; i++)
-                parseStack.Pop();
-
-            // For symbol stack, we pop it until its count equals to parseStack's
-            // Because the error routine may push new state into parseStack,
-            // without new symbol pushed into symbolStack
-            while (symbolStack.Count > parseStack.Count)
-                symbolStack.Pop();
-
-            // let state t now be on top the stack
-            top = parseStack.Peek();
-
-            // push GOTO[t, A] onto stack
-            parseStack.Push(parseTable.Goto[top][action.ReduceProduction.Left]);
-            symbolStack.Push(action.ReduceProduction.Left);
-        }
-
         public override List<Tuple<string, string, string>> Parse(Stream input)
         {
             // Clear symbol table
@@ -175,7 +152,25 @@ namespace CompilingPrinciples.ParserCore
 
                     // ACTION[s, a] = reduce A -> β
                     case ActionTableEntry.ActionType.Reduce:
-                        Reduce(ref top, action, parseStack, symbolStack);
+                        // Check if β = ε, if so, |β| = 0
+                        var betaLength = action.ReduceProduction.IsRightEpsilon() ? 0 : action.ReduceProduction.Right.Count;
+
+                        // pop |β| symbols off the stack
+                        for (int i = 0; i < betaLength; i++)
+                            parseStack.Pop();
+
+                        // For symbol stack, we pop it until its count equals to parseStack's
+                        // Because the error routine may push new state into parseStack,
+                        // without new symbol pushed into symbolStack
+                        while (symbolStack.Count > parseStack.Count)
+                            symbolStack.Pop();
+
+                        // let state t now be on top the stack
+                        top = parseStack.Peek();
+
+                        // push GOTO[t, A] onto stack
+                        parseStack.Push(parseTable.Goto[top][action.ReduceProduction.Left]);
+                        symbolStack.Push(action.ReduceProduction.Left);
 
                         // output the production
                         ops.Add(Tuple.Create(action.ToString(), parseStack.ToString(), symbolStack.ToString()));
@@ -201,9 +196,6 @@ namespace CompilingPrinciples.ParserCore
                         var isReturn = true;
                         var line = token.Line;
                         var A = panicRoutine.ParticularNonTerminal(grammar);
-
-                        // Though token is unexpected, we still push it into symbol stack
-                        symbolStack.Push(symbol);
 
                         // Scan down the parse tack, until a GOTO(s, A) exist.
                         // A is a particular nonterminal carefully choosed.
