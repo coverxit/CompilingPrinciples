@@ -40,9 +40,25 @@ namespace CompilingPrinciples.ParserCore
             return node;
         }
 
+        public void AddChild(TreeNode<T> node)
+        {
+            children.Add(node);
+        }
+
         public TreeNode<T>[] AddChildren(params T[] values)
         {
             return values.Select(AddChild).ToArray();
+        }
+
+        public void AddChildren(params TreeNode<T>[] nodes)
+        {
+            foreach (var node in nodes)
+                AddChild(node);
+        }
+
+        public void InsertFirst(TreeNode<T> node)
+        {
+            children.Insert(0, node);
         }
 
         public bool RemoveChild(TreeNode<T> node)

@@ -13,6 +13,33 @@ using CompilingPrinciples.SymbolEnvironment;
 
 namespace CompilingPrinciples.ParserCore
 {
+    public class ParseTreeNodeEntry
+    {
+        private ProductionSymbol symbol;
+        private object data;
+
+        public ProductionSymbol Symbol
+        {
+            get { return symbol; }
+        }
+
+        public object Data
+        {
+            get { return data; }
+        }
+
+        public ParseTreeNodeEntry(ProductionSymbol sym, object data)
+        {
+            this.symbol = sym;
+            this.data = data;
+        }
+
+        public override string ToString()
+        {
+            return symbol.ToString();
+        }
+    }
+
     public abstract class Parser
     {
         // (S)hindo's (P)arser (C)ontext (D)ata - 0x44435053
@@ -31,7 +58,7 @@ namespace CompilingPrinciples.ParserCore
             get { return errLines; }
         }
 
-        public abstract void Parse(Stream input);
+        public abstract TreeNode<ParseTreeNodeEntry> Parse(Stream input);
         public abstract void SaveContext(Stream stream);
 
         public static Parser CreateFromContext(Stream stream, SymbolTable symbolTable, IPanicErrorRoutine errRoutine = null, IReportParseStep reporter = null)
@@ -69,23 +96,6 @@ namespace CompilingPrinciples.ParserCore
         //private IPhaseLevelParserErrorRoutine phaseLevelRoutine;
         private IPanicErrorRoutine panicRoutine;
         private IReportParseStep stepReporter;
-
-        private struct SymbolStackEntry
-        {
-            ProductionSymbol Symbol;
-            Token CorrespondingToken; // only for terminals
-
-            public SymbolStackEntry(ProductionSymbol sym, Token token)
-            {
-                this.Symbol = sym;
-                this.CorrespondingToken = token;
-            }
-
-            public override string ToString()
-            {
-                return Symbol.ToString();
-            }
-        }
         
         /*
         // Leave Phase Level away!
@@ -108,7 +118,7 @@ namespace CompilingPrinciples.ParserCore
             this.stepReporter = reporter;
         }
 
-        public override void Parse(Stream input)
+        public override TreeNode<ParseTreeNodeEntry> Parse(Stream input)
         {
             // Clear symbol table
             // Note that clear symbol table
@@ -119,16 +129,18 @@ namespace CompilingPrinciples.ParserCore
 
             var lexer = new Lexer(symbolTable, input);
             var parseStack = new PrintableStack<int>();
-            var symbolStack = new PrintableStack<SymbolStackEntry>();
+            var symbolStack = new PrintableStack<ProductionSymbol>();
+            var treeNodeStack = new Stack<TreeNode<ParseTreeNodeEntry>>();
             var accept = false;
+            TreeNode<ParseTreeNodeEntry> rootNode = null;
             
             // Let a be the first symbol of w$
-            Token token = lexer.ScanNextToken(), prevToken = null;
+            @object token = lexer.ScanNextToken(), prevToken = null;
             accept = token is EndMarker; // EndMarker?
 
             // Push initial state
             parseStack.Push(parseTable.InitialState);
-            symbolStack.Push(new SymbolStackEntry(grammar.EndMarker, null));
+            symbolStack.Push(grammar.EndMarker);
 
             // Repeat forever
             while (!accept)
@@ -154,7 +166,8 @@ namespace CompilingPrinciples.ParserCore
                     case ActionTableEntry.ActionType.Shift:
                         // push t onto stack
                         parseStack.Push(action.ShiftState);
-                        symbolStack.Push(new SymbolStackEntry(symbol, token));
+                        symbolStack.Push(symbol);
+                        treeNodeStack.Push(new TreeNode<ParseTreeNodeEntry>(new ParseTreeNodeEntry(symbol, token)));
 
                         // let a be the next input symbol
                         prevToken = token;
@@ -172,18 +185,30 @@ namespace CompilingPrinciples.ParserCore
                         for (int i = 0; i < betaLength; i++)
                             parseStack.Pop();
 
+                        // Build tree
+                        var node = new TreeNode<ParseTreeNodeEntry>(new ParseTreeNodeEntry(action.ReduceProduction.Left, action.ReduceProduction.ToString()));
+                        
                         // For symbol stack, we pop it until its count equals to parseStack's
                         // Because the error routine may push new state into parseStack,
                         // without new symbol pushed into symbolStack
+                        // and the same as treeNodeStack
                         while (symbolStack.Count > parseStack.Count)
+                        {
                             symbolStack.Pop();
+                            node.InsertFirst(treeNodeStack.Pop());
+                        }
 
+                        // When betaLength equals 0, ε is insert to tree
+                        if (betaLength == 0)
+                            node.AddChild(new ParseTreeNodeEntry(grammar.Epsilon, null));
+                            
                         // let state t now be on top the stack
                         top = parseStack.Peek();
 
                         // push GOTO[t, A] onto stack
                         parseStack.Push(parseTable.Goto[top][action.ReduceProduction.Left]);
-                        symbolStack.Push(new SymbolStackEntry(action.ReduceProduction.Left, null));
+                        symbolStack.Push(action.ReduceProduction.Left);
+                        treeNodeStack.Push(node);
 
                         // output the production
                         if (stepReporter != null) stepReporter.ReportStep(false, action.ToString(), parseStack.ToString(), symbolStack.ToString());
@@ -192,7 +217,8 @@ namespace CompilingPrinciples.ParserCore
                     // ACTION[s, a] = accept
                     case ActionTableEntry.ActionType.Accept:
                         accept = true;
-                        
+                        rootNode = treeNodeStack.Pop();
+
                         if (stepReporter != null) stepReporter.ReportStep(false, action.ToString(), parseStack.ToString(), symbolStack.ToString());
                         break;
 
@@ -257,7 +283,7 @@ namespace CompilingPrinciples.ParserCore
                             stepReporter.ReportStep(true, "syntax error near line " + line, parseStack.ToString(), symbolStack.ToString());
                         errLines.Add(line);
 
-                        if (isReturn) return;
+                        if (isReturn) return null;
                         else break;
 
                         // Below is our phase level try...
@@ -295,6 +321,8 @@ namespace CompilingPrinciples.ParserCore
                         */
                 }
             }
+
+            return rootNode;
         }
 
         public override void SaveContext(Stream stream)

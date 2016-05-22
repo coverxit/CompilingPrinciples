@@ -103,7 +103,7 @@ namespace CompilingPrinciples.Utility
             SetDefaultOperation(57, PhaseLevelOperation.ReduceBy(57, "$"));
         }
 
-        public PhaseLevelOperation ErrorRoutine(int topState, ProductionSymbol symbol, Token currentToken, Token previousToken, PrintableStack<int> parseStack, PrintableStack<ProductionSymbol> symbolStack)
+        public PhaseLevelOperation ErrorRoutine(int topState, ProductionSymbol symbol, @object currentToken, @object previousToken, PrintableStack<int> parseStack, PrintableStack<ProductionSymbol> symbolStack)
         {
             // we haven't finish this yet.
             throw new NotImplementedException();
@@ -114,7 +114,7 @@ namespace CompilingPrinciples.Utility
 
     public class ExperimentGrammarLR1PhaseLevelParserErrorRoutine : IPhaseLevelParserErrorRoutine
     {
-        public PhaseLevelOperation ErrorRoutine(int topState, ProductionSymbol symbol, Token currentToken, Token previousToken, PrintableStack<int> parseStack, PrintableStack<ProductionSymbol> symbolStack)
+        public PhaseLevelOperation ErrorRoutine(int topState, ProductionSymbol symbol, @object currentToken, @object previousToken, PrintableStack<int> parseStack, PrintableStack<ProductionSymbol> symbolStack)
         {
             throw new NotImplementedException();
         }

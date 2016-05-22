@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CompilingPrinciples.LexerCore
 {
-    public abstract class Token
+    public abstract class @object
     {
         protected int line, col, pos, len;
 
@@ -35,7 +35,7 @@ namespace CompilingPrinciples.LexerCore
             get { return tag; }
         }
 
-        public Token(int line, int col, int pos, int len, Tag tag)
+        public @object(int line, int col, int pos, int len, Tag tag)
         {
             this.line = line;
             this.col = col;
@@ -53,7 +53,7 @@ namespace CompilingPrinciples.LexerCore
         }
     }
 
-    public class EndMarker : Token
+    public class EndMarker : @object
     {
         public EndMarker(int line, int col, int pos) : base(line, col, pos, 1, Tag.EndMarker) { }
 
@@ -64,7 +64,7 @@ namespace CompilingPrinciples.LexerCore
         public override string ToString() { return GetValue().ToString(); }
     }
 
-    public class InvalidToken : Token
+    public class InvalidToken : @object
     {
         private string token;
 
@@ -95,7 +95,7 @@ namespace CompilingPrinciples.LexerCore
         }
     }
 
-    public abstract class Word : Token
+    public abstract class Word : @object
     {
         protected int idInSymbolTable;
 
@@ -222,7 +222,7 @@ namespace CompilingPrinciples.LexerCore
         }
     }
 
-    public class Decimal : Token
+    public class Decimal : @object
     {
         private int value;
 
@@ -231,7 +231,7 @@ namespace CompilingPrinciples.LexerCore
         public override dynamic GetValue() { return value; }
     }
 
-    public class Operator : Token
+    public class Operator : @object
     {
         public enum TypeEnum
         {
@@ -307,7 +307,7 @@ namespace CompilingPrinciples.LexerCore
         }
     }
 
-    public class Separator : Token
+    public class Separator : @object
     {
         private char ch;
 
