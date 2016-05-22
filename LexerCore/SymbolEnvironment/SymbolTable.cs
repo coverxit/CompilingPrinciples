@@ -11,6 +11,7 @@ namespace CompilingPrinciples.SymbolEnvironment
     {
         private string lexeme;
         private Tag tag;
+        private VarType.TypeEnum type;
         private int offset;
 
         public string Lexeme
@@ -29,17 +30,26 @@ namespace CompilingPrinciples.SymbolEnvironment
             set { offset = value; }
         }
 
+        public VarType.TypeEnum Type
+        {
+            get { return type; }
+            set { type = value; }
+        }
+
         public SymbolTableEntry(string lexeme, Tag tag)
         {
             this.lexeme = lexeme;
             this.tag = tag;
-            this.offset = 0;
+            this.type = VarType.TypeEnum.Keyword;
+            this.offset = -1;
         }
 
         public SymbolTableEntry(SymbolTableEntry other)
         {
             this.lexeme = other.lexeme;
             this.tag = other.tag;
+            this.type = other.type;
+            this.offset = other.offset;
         }
 
         public override string ToString()

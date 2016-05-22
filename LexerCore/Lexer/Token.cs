@@ -173,6 +173,8 @@ namespace CompilingPrinciples.LexerCore
     {
         public enum TypeEnum
         {
+            Keyword = 0,
+
             Int,
             Float
         }
@@ -183,24 +185,17 @@ namespace CompilingPrinciples.LexerCore
             get { return type; }
         }
 
-        private int width;
-        public int Width
-        {
-            get { return width; }
-        }
-
-        public VarType(int id, TypeEnum type, int width, int line, int col, int pos, int len) : base(id, line, col, pos, len, Tag.VarType)
+        public VarType(int id, TypeEnum type, int line, int col, int pos, int len) : base(id, line, col, pos, len, Tag.VarType)
         {
             this.type = type;
-            this.width = width;
         }
 
         public VarType(int id, string str, int line, int col, int pos, int len) : base(id, line, col, pos, len, Tag.VarType)
         {
             switch (str)
             {
-                case "int": type = TypeEnum.Int; width = 4; break;
-                case "float": type = TypeEnum.Float; width = 8; break;
+                case "int": type = TypeEnum.Int; break;
+                case "float": type = TypeEnum.Float; break;
 
                 default: // Shall never be called
                     throw new ApplicationException("Variable Type Mismatch");
