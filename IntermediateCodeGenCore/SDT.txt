@@ -33,10 +33,7 @@ S -> 				{ S1.next = newlabel(); }
 	 S2
 
 # When rel is '==', the rel in gen is '='
-C -> E1 rel E2		{ type = max(E1.type, E2.type);
-					  a1 = widen(E1.name, E1.type, type);
-					  a2 = widen(E2.name, E2.type, type);
-					  gen('if ' a1 ' rel ' a2 'goto ' C.true);
+C -> E1 rel E2		{ gen('if ' E1.name ' rel ' E2.name ' goto ' C.true);
 					  gen('goto ' C.false); }
 
 E -> E1 +/- T 		{ E.name = newtemp(); gen(E.name ':=' E1.name '+'/'-' T.name); }

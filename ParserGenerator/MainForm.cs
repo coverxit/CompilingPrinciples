@@ -204,6 +204,19 @@ namespace CompilingPrinciples.ParserGenerator
                     lblIsLLGrammar.ForeColor = isLLGrammar ? Color.Green : Color.Red;
                 });
 
+                // Check If LR Grammar
+                int unsolvedConflicts = 0;
+                foreach (var a in parseTable.Action)
+                    foreach (var p in a.Value)
+                        unsolvedConflicts += p.Value.PreferedEntrySpecified ? 0 : 1;
+
+                this.Invoke((MethodInvoker)delegate
+                {
+                    lblIsLRGrammar.Text = unsolvedConflicts == 0 ? "Yes" : "No";
+                    lblLRGrammarText.Text = useSLR ? "Is SLR(1) Grammar?" : "Is LR(1) Grammar?";
+                    lblIsLRGrammar.ForeColor = unsolvedConflicts == 0 ? Color.Green : Color.Red;
+                });
+
                 // State Grid
                 var stateTable = new DataTable();
                 stateTable.Columns.Add("State", typeof(int));
