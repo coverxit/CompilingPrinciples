@@ -30,7 +30,7 @@ namespace CompilingPrinciples.Utility
         }
     }
 
-    public class ParserGenHelper
+    public class ParserGenerator
     {
         private static readonly string[] Grammar =
         {
@@ -101,7 +101,7 @@ namespace CompilingPrinciples.Utility
             get { return contextLoaded; }
         }
 
-        public ParserGenHelper(Form owner, IReportParseStep reporter = null)
+        public ParserGenerator(Form owner, IReportParseStep reporter = null)
         {
             this.owner = owner;
             this.stepReporter = reporter;

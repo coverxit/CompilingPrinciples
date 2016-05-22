@@ -21,7 +21,7 @@ namespace CompilingPrinciples.GUIParser
     {
         private const int ErrorIndicatorIndex = 8;
 
-        private ParserGenHelper parserHelper;
+        private ParserGenerator parserHelper;
 
         private Parser customParser = null;
         private SymbolTable customSymbolTable = new SymbolTable();
@@ -62,7 +62,7 @@ namespace CompilingPrinciples.GUIParser
             textCode.Indicators[ErrorIndicatorIndex].HoverStyle = ScintillaNET.IndicatorStyle.CompositionThick;
             textCode.Indicators[ErrorIndicatorIndex].ForeColor = Color.Red;
 
-            parserHelper = new ParserGenHelper(this, new ParseStepReporter(this, listParse));
+            parserHelper = new ParserGenerator(this, new ParseStepReporter(this, listParse));
             parserHelper.CreateParserFromContext();
         }
 
