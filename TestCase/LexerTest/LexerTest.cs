@@ -31,7 +31,7 @@ namespace CompilingPrinciples.TestCase
 
                     if (token is Identifier)
                         Console.WriteLine("<" + token.GetTokenType() + ", '" +
-                            lexer.SymbolTable.GetSymbol(token.GetValue()) + "'>");
+                            lexer.SymbolTable.Get(token.GetValue()) + "'>");
                     else
                         Console.WriteLine(token.ToString());
 

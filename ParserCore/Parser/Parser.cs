@@ -169,7 +169,7 @@ namespace CompilingPrinciples.ParserCore
                         prevToken = token;
                         token = lexer.ScanNextToken();
 
-                        ops.Add(new Tuple<string, string, string>(action.ToString(), parseStack.ToString(), symbolStack.ToString()));
+                        ops.Add(Tuple.Create(action.ToString(), parseStack.ToString(), symbolStack.ToString()));
                         if (stepReporter != null) stepReporter.ReportStep(false, action.ToString(), parseStack.ToString(), symbolStack.ToString());
                         break;
 
@@ -178,7 +178,7 @@ namespace CompilingPrinciples.ParserCore
                         Reduce(ref top, action, parseStack, symbolStack);
 
                         // output the production
-                        ops.Add(new Tuple<string, string, string>(action.ToString(), parseStack.ToString(), symbolStack.ToString()));
+                        ops.Add(Tuple.Create(action.ToString(), parseStack.ToString(), symbolStack.ToString()));
                         if (stepReporter != null) stepReporter.ReportStep(false, action.ToString(), parseStack.ToString(), symbolStack.ToString());
                         if (reduceCb != null) reduceCb.ReduceBy(action.ReduceProduction.ToString());
                         break;
@@ -187,7 +187,7 @@ namespace CompilingPrinciples.ParserCore
                     case ActionTableEntry.ActionType.Accept:
                         accept = true;
 
-                        ops.Add(new Tuple<string, string, string>(action.ToString(), parseStack.ToString(), symbolStack.ToString()));
+                        ops.Add(Tuple.Create(action.ToString(), parseStack.ToString(), symbolStack.ToString()));
                         if (stepReporter != null) stepReporter.ReportStep(false, action.ToString(), parseStack.ToString(), symbolStack.ToString());
                         break;
 
@@ -210,7 +210,7 @@ namespace CompilingPrinciples.ParserCore
                         var scanDownState = -1;
 
                         // Scan down the stack, but reserve the bottom of stack
-                        foreach (var e in parseStack.InnerStack.Reverse().Where(e => e > 0))
+                        foreach (var e in parseStack.Reverse().Where(e => e > 0))
                         {
                             if (parseTable.Goto[e][A] > 0)
                             {
@@ -243,11 +243,15 @@ namespace CompilingPrinciples.ParserCore
                             goto addOp;
 
                         // Push GOTO(s, A), then resumes parsing
-                        parseStack.Push(parseTable.Goto[scanDownState][A]);
-                        isReturn = false;
+                        // Check if GOTO(s, A) equals to top, avoid infinite loop here
+                        if (parseTable.Goto[scanDownState][A] != top)
+                        {
+                            parseStack.Push(parseTable.Goto[scanDownState][A]);
+                            isReturn = false;
+                        }
 
                     addOp:
-                        ops.Add(new Tuple<string, string, string>("syntax error near line " + line, parseStack.ToString(), symbolStack.ToString()));
+                        ops.Add(Tuple.Create("syntax error near line " + line, parseStack.ToString(), symbolStack.ToString()));
                         if (stepReporter != null)
                             stepReporter.ReportStep(true, "syntax error near line " + line, parseStack.ToString(), symbolStack.ToString());
                         errLines.Add(line);

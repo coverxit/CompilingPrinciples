@@ -90,13 +90,13 @@ namespace CompilingPrinciples.LexerCore
                 } while (char.IsLetterOrDigit((char)nextByte));
 
                 string lexeme = sb.ToString();
-                var ret = symbolTable.GetSymbolEntry(lexeme);
+                var ret = symbolTable.Get(lexeme);
 
                 if (ret != null)
                     return ret.Item1.Tag == Tag.Identifier ? (Word) new Identifier(id: ret.Item2, line: line, col: startCol, pos: startPos, len: bytes - startPos - 1) :
                                                              Keyword.Create(id: ret.Item2, lexeme: lexeme, line: line, col: startCol, pos: startPos, len: bytes - startPos - 1, tag: ret.Item1.Tag);
 
-                return new Identifier(id: symbolTable.AddSymbol(lexeme, Tag.Identifier), line: line, col: startCol, pos: startPos, len: bytes - startPos - 1);
+                return new Identifier(id: symbolTable.Put(lexeme, Tag.Identifier), line: line, col: startCol, pos: startPos, len: bytes - startPos - 1);
             }
 
             int curByte = nextByte;
@@ -160,7 +160,7 @@ namespace CompilingPrinciples.LexerCore
 
         private void reserveKeyword(string lexeme, Tag tag)
         {
-            symbolTable.AddSymbol(lexeme, tag);
+            symbolTable.Put(lexeme, tag);
         }
 
         /*

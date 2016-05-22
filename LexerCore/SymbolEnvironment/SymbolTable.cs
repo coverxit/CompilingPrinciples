@@ -49,7 +49,7 @@ namespace CompilingPrinciples.SymbolEnvironment
             symbols = new List<SymbolTableEntry>(rhs.symbols);
         }
 
-        public int AddSymbol(string symbol, Tag tag)
+        public int Put(string symbol, Tag tag)
         {
             lock (symbols)
             {
@@ -58,7 +58,7 @@ namespace CompilingPrinciples.SymbolEnvironment
             }
         }
 
-        public string GetSymbol(int index)
+        public string Get(int index)
         {
             // Debug.Assert(index >= 0 && index < symbols.Count, "Index Overflow");
             return symbols[index].Lexeme;
@@ -69,7 +69,7 @@ namespace CompilingPrinciples.SymbolEnvironment
             symbols.Clear();
         }
 
-        public Tuple<SymbolTableEntry, int> GetSymbolEntry(string symbol)
+        public Tuple<SymbolTableEntry, int> Get(string symbol)
         {
             for (int i = 0; i < symbols.Count; i++)
                 if (symbols[i].Lexeme == symbol)

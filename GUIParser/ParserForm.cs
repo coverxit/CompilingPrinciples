@@ -209,6 +209,8 @@ namespace CompilingPrinciples.GUIParser
 
             if (error)
                 lvItem.SubItems[2].ForeColor = Color.Red;
+            else if (action == "accept")
+                lvItem.SubItems[2].ForeColor = Color.Green;
 
             owner.Invoke((MethodInvoker)delegate { lvParseStep.Items.Add(lvItem); });
         }

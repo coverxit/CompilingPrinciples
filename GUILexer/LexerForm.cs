@@ -115,7 +115,7 @@ namespace CompilingPrinciples.GUILexer
 
                        // Set item text & error indicator if any
                        if (token is Identifier)
-                           item.SubItems.Add(lexer.SymbolTable.GetSymbol(token.GetValue()));
+                           item.SubItems.Add(lexer.SymbolTable.Get(token.GetValue()));
                        else if (token is InvalidToken)
                        {
                            textCode.IndicatorCurrent = ErrorIndicatorIndex;

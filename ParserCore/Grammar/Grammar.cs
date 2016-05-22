@@ -189,7 +189,7 @@ namespace CompilingPrinciples.ParserCore
                     }
                 }
 
-                lines.Add(new Tuple<int, int, int, string>(lineCount++, lines.Count, leftNonTerminalId, right));
+                lines.Add(Tuple.Create(lineCount++, lines.Count, leftNonTerminalId, right));
             }
 
             foreach (var l in lines)
@@ -244,7 +244,7 @@ namespace CompilingPrinciples.ParserCore
             else if (token is Word)
             {
                 var wordToken = token as Word;
-                symbolToFind = wordToken is Identifier ? "id" : symbolTable.GetSymbol(wordToken.IdInSymbolTable);
+                symbolToFind = wordToken is Identifier ? "id" : symbolTable.Get(wordToken.IdInSymbolTable);
             }
             else if (token is Operator)
             {
