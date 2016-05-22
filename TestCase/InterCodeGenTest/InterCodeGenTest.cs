@@ -4,9 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CompilingPrinciples.CodeGenCore
+namespace CompilingPrinciples.TestCase
 {
-    public class Class1
+    public class InterCodeGenTest
     {
+        public static void LaunchTest()
+        {
+
+        }
     }
 }

@@ -56,7 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeGenTest\CodeGenTest.cs" />
+    <Compile Include="InterCodeGenTest\InterCodeGenTest.cs" />
     <Compile Include="LexerTest\LexerTest.cs" />
     <Compile Include="ParserTest\ParserTest.cs" />
     <Compile Include="ParserTest\ParserUnitTest.cs" />
@@ -69,9 +69,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CodeGenCore\CodeGenCore.csproj">
+    <ProjectReference Include="..\IntermediateCodeGenCore\IntermediateCodeGenCore.csproj">
       <Project>{0577ff75-09c0-4674-afdf-efd96876a29f}</Project>
-      <Name>CodeGenCore</Name>
+      <Name>IntermediateCodeGenCore</Name>
     </ProjectReference>
     <ProjectReference Include="..\LexerCore\LexerCore.csproj">
       <Project>{48a30c7a-21a5-459b-8cb9-3ebbb921aaf8}</Project>

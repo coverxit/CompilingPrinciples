@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Shindo's CodeGen Module")]
+[assembly: AssemblyTitle("Shindo's Intermediate CodeGen Module")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Shindo's CodeGen Module")]
+[assembly: AssemblyProduct("Shindo's Intermediate CodeGen Module")]
 [assembly: AssemblyCopyright("Copyright © Shindo 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

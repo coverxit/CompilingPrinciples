@@ -25,7 +25,7 @@ namespace CompilingPrinciples.TestCase
             // CLI Tests
             //LexerTest.LaunchTest();
             //ParserTest.LaunchTest();
-            CodeGenTest.LaunchTest();
+            InterCodeGenTest.LaunchTest();
         }
     }
 }

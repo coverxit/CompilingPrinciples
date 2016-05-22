@@ -7,8 +7,8 @@
     <ProjectGuid>{0577FF75-09C0-4674-AFDF-EFD96876A29F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CompilingPrinciples.CodeGenCore</RootNamespace>
-    <AssemblyName>CodeGenCore</AssemblyName>
+    <RootNamespace>CompilingPrinciples.IntermediateCodeGenCore</RootNamespace>
+    <AssemblyName>IntermediateCodeGenCore</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

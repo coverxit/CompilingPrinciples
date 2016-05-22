@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUIParser", "GUIParser\GUIP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParserCore", "ParserCore\ParserCore.csproj", "{EC6F8CBF-8E6D-4273-AC42-B4B484B7422B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeGenCore", "CodeGenCore\CodeGenCore.csproj", "{0577FF75-09C0-4674-AFDF-EFD96876A29F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntermediateCodeGenCore", "IntermediateCodeGenCore\IntermediateCodeGenCore.csproj", "{0577FF75-09C0-4674-AFDF-EFD96876A29F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

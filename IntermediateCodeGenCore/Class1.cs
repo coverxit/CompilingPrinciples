@@ -4,13 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CompilingPrinciples.TestCase
+namespace CompilingPrinciples.IntermediateCodeGenCore
 {
-    public class CodeGenTest
+    public class Class1
     {
-        public static void LaunchTest()
-        {
-
-        }
     }
 }
