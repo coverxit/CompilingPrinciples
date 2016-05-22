@@ -30,15 +30,15 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle82 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle84 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle83 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle85 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle86 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle87 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle88 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle89 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle90 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tableLayout = new System.Windows.Forms.TableLayoutPanel();
             this.tablePanelControls = new System.Windows.Forms.TableLayoutPanel();
             this.groupBoxGrammar = new System.Windows.Forms.GroupBox();
@@ -57,12 +57,26 @@
             this.tablePanelSymbols = new System.Windows.Forms.TableLayoutPanel();
             this.tabSymbol = new System.Windows.Forms.TabControl();
             this.tabPageNonTerminals = new System.Windows.Forms.TabPage();
+            this.listNonTerminals = new CompilingPrinciples.Utility.WindowThemeListView();
+            this.nonTerminalsHeaderId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.nonTerminalsHeaderSymbol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPageTerminals = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.listTerminals = new CompilingPrinciples.Utility.WindowThemeListView();
+            this.terminalsHeaderId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.terminalsHeaderSymbol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBoxFirstFollow = new System.Windows.Forms.GroupBox();
             this.tablePanelFirstFollow = new System.Windows.Forms.TableLayoutPanel();
             this.tabFirstFollow = new System.Windows.Forms.TabControl();
             this.tabPageFirst = new System.Windows.Forms.TabPage();
+            this.listFirst = new CompilingPrinciples.Utility.WindowThemeListView();
+            this.firstHeaderSymbol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.firstHeaderElement = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPageFollow = new System.Windows.Forms.TabPage();
+            this.listFollow = new CompilingPrinciples.Utility.WindowThemeListView();
+            this.followHeaderSymbol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.followHeaderElements = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.flowPanelGrammarType = new System.Windows.Forms.FlowLayoutPanel();
             this.lblLLGrammarText = new System.Windows.Forms.Label();
             this.lblIsLLGrammar = new System.Windows.Forms.Label();
@@ -70,33 +84,19 @@
             this.tablePanelParsingTable = new System.Windows.Forms.TableLayoutPanel();
             this.tabParsingTable = new System.Windows.Forms.TabControl();
             this.tabPageStates = new System.Windows.Forms.TabPage();
+            this.gridStates = new CompilingPrinciples.Utility.DoubleBufferDataGridView();
+            this.ColumnId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnItems = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPageActionTable = new System.Windows.Forms.TabPage();
+            this.gridAction = new CompilingPrinciples.Utility.DoubleBufferDataGridView();
             this.tabPageGotoAction = new System.Windows.Forms.TabPage();
+            this.gridGoto = new CompilingPrinciples.Utility.DoubleBufferDataGridView();
             this.stateContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.actionContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.solveSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.listNonTerminals = new CompilingPrinciples.Utility.WindowThemeListView();
-            this.nonTerminalsHeaderId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.nonTerminalsHeaderSymbol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.listFirst = new CompilingPrinciples.Utility.WindowThemeListView();
-            this.firstHeaderSymbol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.firstHeaderElement = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.listFollow = new CompilingPrinciples.Utility.WindowThemeListView();
-            this.followHeaderSymbol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.followHeaderElements = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.gridStates = new CompilingPrinciples.Utility.DoubleBufferDataGridView();
-            this.ColumnId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnItems = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.gridAction = new CompilingPrinciples.Utility.DoubleBufferDataGridView();
-            this.gridGoto = new CompilingPrinciples.Utility.DoubleBufferDataGridView();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.listTerminals = new CompilingPrinciples.Utility.WindowThemeListView();
-            this.terminalsHeaderId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.terminalsHeaderSymbol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.label1 = new System.Windows.Forms.Label();
             this.tableLayout.SuspendLayout();
             this.tablePanelControls.SuspendLayout();
             this.groupBoxGrammar.SuspendLayout();
@@ -109,6 +109,7 @@
             this.tabSymbol.SuspendLayout();
             this.tabPageNonTerminals.SuspendLayout();
             this.tabPageTerminals.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.groupBoxFirstFollow.SuspendLayout();
             this.tablePanelFirstFollow.SuspendLayout();
             this.tabFirstFollow.SuspendLayout();
@@ -119,14 +120,13 @@
             this.tablePanelParsingTable.SuspendLayout();
             this.tabParsingTable.SuspendLayout();
             this.tabPageStates.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridStates)).BeginInit();
             this.tabPageActionTable.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridAction)).BeginInit();
             this.tabPageGotoAction.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridGoto)).BeginInit();
             this.stateContextMenu.SuspendLayout();
             this.actionContextMenu.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gridStates)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridAction)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridGoto)).BeginInit();
-            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayout
@@ -320,10 +320,10 @@
             this.lblGrammarNote.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGrammarNote.Location = new System.Drawing.Point(13, 5);
             this.lblGrammarNote.Name = "lblGrammarNote";
-            this.lblGrammarNote.Size = new System.Drawing.Size(581, 50);
+            this.lblGrammarNote.Size = new System.Drawing.Size(760, 50);
             this.lblGrammarNote.TabIndex = 4;
-            this.lblGrammarNote.Text = "Grammar should be augmented, use @ to represent ε.\r\nEach production should only c" +
-    "onsist of one body.";
+            this.lblGrammarNote.Text = "Grammar should be augmented, use @ to represent ε.\r\nFor productions like A -> α |" +
+    " β, separate them into multiple productions.\r\n";
             // 
             // groupBoxSymbols
             // 
@@ -375,6 +375,33 @@
             this.tabPageNonTerminals.Text = "Non Terminals";
             this.tabPageNonTerminals.UseVisualStyleBackColor = true;
             // 
+            // listNonTerminals
+            // 
+            this.listNonTerminals.CausesValidation = false;
+            this.listNonTerminals.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.nonTerminalsHeaderId,
+            this.nonTerminalsHeaderSymbol});
+            this.listNonTerminals.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listNonTerminals.FullRowSelect = true;
+            this.listNonTerminals.Location = new System.Drawing.Point(3, 3);
+            this.listNonTerminals.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.listNonTerminals.MultiSelect = false;
+            this.listNonTerminals.Name = "listNonTerminals";
+            this.listNonTerminals.Size = new System.Drawing.Size(544, 332);
+            this.listNonTerminals.TabIndex = 0;
+            this.listNonTerminals.UseCompatibleStateImageBehavior = false;
+            this.listNonTerminals.View = System.Windows.Forms.View.Details;
+            // 
+            // nonTerminalsHeaderId
+            // 
+            this.nonTerminalsHeaderId.Text = "Id";
+            this.nonTerminalsHeaderId.Width = 65;
+            // 
+            // nonTerminalsHeaderSymbol
+            // 
+            this.nonTerminalsHeaderSymbol.Text = "Symbol";
+            this.nonTerminalsHeaderSymbol.Width = 220;
+            // 
             // tabPageTerminals
             // 
             this.tabPageTerminals.Controls.Add(this.tableLayoutPanel1);
@@ -385,6 +412,58 @@
             this.tabPageTerminals.TabIndex = 1;
             this.tabPageTerminals.Text = "Terminals";
             this.tabPageTerminals.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.listTerminals, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 1);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(544, 332);
+            this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // listTerminals
+            // 
+            this.listTerminals.CausesValidation = false;
+            this.listTerminals.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.terminalsHeaderId,
+            this.terminalsHeaderSymbol});
+            this.listTerminals.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listTerminals.FullRowSelect = true;
+            this.listTerminals.Location = new System.Drawing.Point(4, 2);
+            this.listTerminals.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.listTerminals.MultiSelect = false;
+            this.listTerminals.Name = "listTerminals";
+            this.listTerminals.Size = new System.Drawing.Size(536, 303);
+            this.listTerminals.TabIndex = 3;
+            this.listTerminals.UseCompatibleStateImageBehavior = false;
+            this.listTerminals.View = System.Windows.Forms.View.Details;
+            // 
+            // terminalsHeaderId
+            // 
+            this.terminalsHeaderId.Text = "Id";
+            this.terminalsHeaderId.Width = 65;
+            // 
+            // terminalsHeaderSymbol
+            // 
+            this.terminalsHeaderSymbol.Text = "Symbol";
+            this.terminalsHeaderSymbol.Width = 220;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(3, 307);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(224, 25);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Note: 0 for ε, 1 for $";
             // 
             // groupBoxFirstFollow
             // 
@@ -438,6 +517,34 @@
             this.tabPageFirst.Text = "FIRST Set";
             this.tabPageFirst.UseVisualStyleBackColor = true;
             // 
+            // listFirst
+            // 
+            this.listFirst.CausesValidation = false;
+            this.listFirst.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.firstHeaderSymbol,
+            this.firstHeaderElement});
+            this.listFirst.Cursor = System.Windows.Forms.Cursors.Default;
+            this.listFirst.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listFirst.FullRowSelect = true;
+            this.listFirst.Location = new System.Drawing.Point(3, 3);
+            this.listFirst.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.listFirst.MultiSelect = false;
+            this.listFirst.Name = "listFirst";
+            this.listFirst.Size = new System.Drawing.Size(842, 300);
+            this.listFirst.TabIndex = 0;
+            this.listFirst.UseCompatibleStateImageBehavior = false;
+            this.listFirst.View = System.Windows.Forms.View.Details;
+            // 
+            // firstHeaderSymbol
+            // 
+            this.firstHeaderSymbol.Text = "Symbol";
+            this.firstHeaderSymbol.Width = 150;
+            // 
+            // firstHeaderElement
+            // 
+            this.firstHeaderElement.Text = "Elements";
+            this.firstHeaderElement.Width = 425;
+            // 
             // tabPageFollow
             // 
             this.tabPageFollow.Controls.Add(this.listFollow);
@@ -448,6 +555,34 @@
             this.tabPageFollow.TabIndex = 1;
             this.tabPageFollow.Text = "FOLLOW Set";
             this.tabPageFollow.UseVisualStyleBackColor = true;
+            // 
+            // listFollow
+            // 
+            this.listFollow.CausesValidation = false;
+            this.listFollow.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.followHeaderSymbol,
+            this.followHeaderElements});
+            this.listFollow.Cursor = System.Windows.Forms.Cursors.Default;
+            this.listFollow.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listFollow.FullRowSelect = true;
+            this.listFollow.Location = new System.Drawing.Point(3, 3);
+            this.listFollow.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.listFollow.MultiSelect = false;
+            this.listFollow.Name = "listFollow";
+            this.listFollow.Size = new System.Drawing.Size(842, 300);
+            this.listFollow.TabIndex = 3;
+            this.listFollow.UseCompatibleStateImageBehavior = false;
+            this.listFollow.View = System.Windows.Forms.View.Details;
+            // 
+            // followHeaderSymbol
+            // 
+            this.followHeaderSymbol.Text = "Symbol";
+            this.followHeaderSymbol.Width = 150;
+            // 
+            // followHeaderElements
+            // 
+            this.followHeaderElements.Text = "Elements";
+            this.followHeaderElements.Width = 425;
             // 
             // flowPanelGrammarType
             // 
@@ -531,6 +666,72 @@
             this.tabPageStates.Text = "States";
             this.tabPageStates.UseVisualStyleBackColor = true;
             // 
+            // gridStates
+            // 
+            this.gridStates.AllowUserToAddRows = false;
+            this.gridStates.AllowUserToDeleteRows = false;
+            this.gridStates.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.gridStates.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.gridStates.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.gridStates.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridStates.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            this.gridStates.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridStates.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ColumnId,
+            this.ColumnItems});
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridStates.DefaultCellStyle = dataGridViewCellStyle12;
+            this.gridStates.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridStates.Location = new System.Drawing.Point(3, 3);
+            this.gridStates.MultiSelect = false;
+            this.gridStates.Name = "gridStates";
+            this.gridStates.ReadOnly = true;
+            this.gridStates.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.gridStates.RowHeadersVisible = false;
+            this.gridStates.RowTemplate.Height = 33;
+            this.gridStates.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.gridStates.Size = new System.Drawing.Size(1446, 551);
+            this.gridStates.StandardTab = true;
+            this.gridStates.TabIndex = 1;
+            this.gridStates.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridStates_CellMouseDown);
+            // 
+            // ColumnId
+            // 
+            this.ColumnId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ColumnId.DataPropertyName = "State";
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ColumnId.DefaultCellStyle = dataGridViewCellStyle11;
+            this.ColumnId.Frozen = true;
+            this.ColumnId.HeaderText = "State";
+            this.ColumnId.Name = "ColumnId";
+            this.ColumnId.ReadOnly = true;
+            this.ColumnId.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.ColumnId.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.ColumnId.Width = 110;
+            // 
+            // ColumnItems
+            // 
+            this.ColumnItems.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColumnItems.DataPropertyName = "Items";
+            this.ColumnItems.HeaderText = "Items";
+            this.ColumnItems.Name = "ColumnItems";
+            this.ColumnItems.ReadOnly = true;
+            this.ColumnItems.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.ColumnItems.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
             // tabPageActionTable
             // 
             this.tabPageActionTable.Controls.Add(this.gridAction);
@@ -542,6 +743,48 @@
             this.tabPageActionTable.Text = "ACTION";
             this.tabPageActionTable.UseVisualStyleBackColor = true;
             // 
+            // gridAction
+            // 
+            this.gridAction.AllowUserToAddRows = false;
+            this.gridAction.AllowUserToDeleteRows = false;
+            this.gridAction.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.gridAction.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.gridAction.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.gridAction.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle13.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridAction.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
+            this.gridAction.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle14.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridAction.DefaultCellStyle = dataGridViewCellStyle14;
+            this.gridAction.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridAction.Location = new System.Drawing.Point(3, 3);
+            this.gridAction.MultiSelect = false;
+            this.gridAction.Name = "gridAction";
+            this.gridAction.ReadOnly = true;
+            this.gridAction.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.gridAction.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.gridAction.RowsDefaultCellStyle = dataGridViewCellStyle15;
+            this.gridAction.RowTemplate.Height = 33;
+            this.gridAction.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.gridAction.Size = new System.Drawing.Size(1446, 551);
+            this.gridAction.StandardTab = true;
+            this.gridAction.TabIndex = 3;
+            this.gridAction.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridAction_CellContentDoubleClick);
+            this.gridAction.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridAction_CellMouseDown);
+            // 
             // tabPageGotoAction
             // 
             this.tabPageGotoAction.Controls.Add(this.gridGoto);
@@ -552,6 +795,46 @@
             this.tabPageGotoAction.TabIndex = 1;
             this.tabPageGotoAction.Text = "GOTO";
             this.tabPageGotoAction.UseVisualStyleBackColor = true;
+            // 
+            // gridGoto
+            // 
+            this.gridGoto.AllowUserToAddRows = false;
+            this.gridGoto.AllowUserToDeleteRows = false;
+            this.gridGoto.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.gridGoto.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.gridGoto.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.gridGoto.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle16.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle16.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridGoto.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle16;
+            this.gridGoto.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle17.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle17.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle17.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridGoto.DefaultCellStyle = dataGridViewCellStyle17;
+            this.gridGoto.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridGoto.Location = new System.Drawing.Point(3, 3);
+            this.gridGoto.MultiSelect = false;
+            this.gridGoto.Name = "gridGoto";
+            this.gridGoto.ReadOnly = true;
+            this.gridGoto.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.gridGoto.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.gridGoto.RowsDefaultCellStyle = dataGridViewCellStyle18;
+            this.gridGoto.RowTemplate.Height = 33;
+            this.gridGoto.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.gridGoto.Size = new System.Drawing.Size(1446, 551);
+            this.gridGoto.StandardTab = true;
+            this.gridGoto.TabIndex = 2;
             // 
             // stateContextMenu
             // 
@@ -590,289 +873,6 @@
             this.saveFileDialog.DefaultExt = "cs";
             this.saveFileDialog.Filter = "C# files|*.cs|VB files|*.vb";
             // 
-            // listNonTerminals
-            // 
-            this.listNonTerminals.CausesValidation = false;
-            this.listNonTerminals.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.nonTerminalsHeaderId,
-            this.nonTerminalsHeaderSymbol});
-            this.listNonTerminals.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listNonTerminals.FullRowSelect = true;
-            this.listNonTerminals.Location = new System.Drawing.Point(3, 3);
-            this.listNonTerminals.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.listNonTerminals.MultiSelect = false;
-            this.listNonTerminals.Name = "listNonTerminals";
-            this.listNonTerminals.Size = new System.Drawing.Size(544, 332);
-            this.listNonTerminals.TabIndex = 0;
-            this.listNonTerminals.UseCompatibleStateImageBehavior = false;
-            this.listNonTerminals.View = System.Windows.Forms.View.Details;
-            // 
-            // nonTerminalsHeaderId
-            // 
-            this.nonTerminalsHeaderId.Text = "Id";
-            this.nonTerminalsHeaderId.Width = 65;
-            // 
-            // nonTerminalsHeaderSymbol
-            // 
-            this.nonTerminalsHeaderSymbol.Text = "Symbol";
-            this.nonTerminalsHeaderSymbol.Width = 220;
-            // 
-            // listFirst
-            // 
-            this.listFirst.CausesValidation = false;
-            this.listFirst.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.firstHeaderSymbol,
-            this.firstHeaderElement});
-            this.listFirst.Cursor = System.Windows.Forms.Cursors.Default;
-            this.listFirst.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listFirst.FullRowSelect = true;
-            this.listFirst.Location = new System.Drawing.Point(3, 3);
-            this.listFirst.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.listFirst.MultiSelect = false;
-            this.listFirst.Name = "listFirst";
-            this.listFirst.Size = new System.Drawing.Size(842, 300);
-            this.listFirst.TabIndex = 0;
-            this.listFirst.UseCompatibleStateImageBehavior = false;
-            this.listFirst.View = System.Windows.Forms.View.Details;
-            // 
-            // firstHeaderSymbol
-            // 
-            this.firstHeaderSymbol.Text = "Symbol";
-            this.firstHeaderSymbol.Width = 150;
-            // 
-            // firstHeaderElement
-            // 
-            this.firstHeaderElement.Text = "Elements";
-            this.firstHeaderElement.Width = 425;
-            // 
-            // listFollow
-            // 
-            this.listFollow.CausesValidation = false;
-            this.listFollow.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.followHeaderSymbol,
-            this.followHeaderElements});
-            this.listFollow.Cursor = System.Windows.Forms.Cursors.Default;
-            this.listFollow.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listFollow.FullRowSelect = true;
-            this.listFollow.Location = new System.Drawing.Point(3, 3);
-            this.listFollow.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.listFollow.MultiSelect = false;
-            this.listFollow.Name = "listFollow";
-            this.listFollow.Size = new System.Drawing.Size(842, 300);
-            this.listFollow.TabIndex = 3;
-            this.listFollow.UseCompatibleStateImageBehavior = false;
-            this.listFollow.View = System.Windows.Forms.View.Details;
-            // 
-            // followHeaderSymbol
-            // 
-            this.followHeaderSymbol.Text = "Symbol";
-            this.followHeaderSymbol.Width = 150;
-            // 
-            // followHeaderElements
-            // 
-            this.followHeaderElements.Text = "Elements";
-            this.followHeaderElements.Width = 425;
-            // 
-            // gridStates
-            // 
-            this.gridStates.AllowUserToAddRows = false;
-            this.gridStates.AllowUserToDeleteRows = false;
-            this.gridStates.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.gridStates.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.gridStates.BackgroundColor = System.Drawing.SystemColors.Window;
-            this.gridStates.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle82.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle82.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle82.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle82.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle82.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle82.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle82.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridStates.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle82;
-            this.gridStates.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridStates.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ColumnId,
-            this.ColumnItems});
-            dataGridViewCellStyle84.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle84.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle84.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle84.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle84.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle84.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle84.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridStates.DefaultCellStyle = dataGridViewCellStyle84;
-            this.gridStates.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridStates.Location = new System.Drawing.Point(3, 3);
-            this.gridStates.MultiSelect = false;
-            this.gridStates.Name = "gridStates";
-            this.gridStates.ReadOnly = true;
-            this.gridStates.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            this.gridStates.RowHeadersVisible = false;
-            this.gridStates.RowTemplate.Height = 33;
-            this.gridStates.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridStates.Size = new System.Drawing.Size(1446, 551);
-            this.gridStates.StandardTab = true;
-            this.gridStates.TabIndex = 1;
-            this.gridStates.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridStates_CellMouseDown);
-            // 
-            // ColumnId
-            // 
-            this.ColumnId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.ColumnId.DataPropertyName = "State";
-            dataGridViewCellStyle83.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ColumnId.DefaultCellStyle = dataGridViewCellStyle83;
-            this.ColumnId.Frozen = true;
-            this.ColumnId.HeaderText = "State";
-            this.ColumnId.Name = "ColumnId";
-            this.ColumnId.ReadOnly = true;
-            this.ColumnId.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.ColumnId.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ColumnId.Width = 110;
-            // 
-            // ColumnItems
-            // 
-            this.ColumnItems.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnItems.DataPropertyName = "Items";
-            this.ColumnItems.HeaderText = "Items";
-            this.ColumnItems.Name = "ColumnItems";
-            this.ColumnItems.ReadOnly = true;
-            this.ColumnItems.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.ColumnItems.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // gridAction
-            // 
-            this.gridAction.AllowUserToAddRows = false;
-            this.gridAction.AllowUserToDeleteRows = false;
-            this.gridAction.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.gridAction.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.gridAction.BackgroundColor = System.Drawing.SystemColors.Window;
-            this.gridAction.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle85.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle85.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle85.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle85.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle85.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle85.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle85.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridAction.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle85;
-            this.gridAction.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle86.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle86.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle86.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle86.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle86.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle86.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle86.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridAction.DefaultCellStyle = dataGridViewCellStyle86;
-            this.gridAction.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridAction.Location = new System.Drawing.Point(3, 3);
-            this.gridAction.MultiSelect = false;
-            this.gridAction.Name = "gridAction";
-            this.gridAction.ReadOnly = true;
-            this.gridAction.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            this.gridAction.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            dataGridViewCellStyle87.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.gridAction.RowsDefaultCellStyle = dataGridViewCellStyle87;
-            this.gridAction.RowTemplate.Height = 33;
-            this.gridAction.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.gridAction.Size = new System.Drawing.Size(1446, 551);
-            this.gridAction.StandardTab = true;
-            this.gridAction.TabIndex = 3;
-            this.gridAction.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridAction_CellContentDoubleClick);
-            this.gridAction.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridAction_CellMouseDown);
-            // 
-            // gridGoto
-            // 
-            this.gridGoto.AllowUserToAddRows = false;
-            this.gridGoto.AllowUserToDeleteRows = false;
-            this.gridGoto.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.gridGoto.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.gridGoto.BackgroundColor = System.Drawing.SystemColors.Window;
-            this.gridGoto.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle88.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle88.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle88.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle88.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle88.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle88.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle88.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridGoto.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle88;
-            this.gridGoto.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle89.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle89.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle89.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle89.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle89.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle89.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle89.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridGoto.DefaultCellStyle = dataGridViewCellStyle89;
-            this.gridGoto.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridGoto.Location = new System.Drawing.Point(3, 3);
-            this.gridGoto.MultiSelect = false;
-            this.gridGoto.Name = "gridGoto";
-            this.gridGoto.ReadOnly = true;
-            this.gridGoto.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            this.gridGoto.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            dataGridViewCellStyle90.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.gridGoto.RowsDefaultCellStyle = dataGridViewCellStyle90;
-            this.gridGoto.RowTemplate.Height = 33;
-            this.gridGoto.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.gridGoto.Size = new System.Drawing.Size(1446, 551);
-            this.gridGoto.StandardTab = true;
-            this.gridGoto.TabIndex = 2;
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.listTerminals, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 1);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(544, 332);
-            this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // listTerminals
-            // 
-            this.listTerminals.CausesValidation = false;
-            this.listTerminals.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.terminalsHeaderId,
-            this.terminalsHeaderSymbol});
-            this.listTerminals.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listTerminals.FullRowSelect = true;
-            this.listTerminals.Location = new System.Drawing.Point(4, 2);
-            this.listTerminals.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.listTerminals.MultiSelect = false;
-            this.listTerminals.Name = "listTerminals";
-            this.listTerminals.Size = new System.Drawing.Size(536, 303);
-            this.listTerminals.TabIndex = 3;
-            this.listTerminals.UseCompatibleStateImageBehavior = false;
-            this.listTerminals.View = System.Windows.Forms.View.Details;
-            // 
-            // terminalsHeaderId
-            // 
-            this.terminalsHeaderId.Text = "Id";
-            this.terminalsHeaderId.Width = 65;
-            // 
-            // terminalsHeaderSymbol
-            // 
-            this.terminalsHeaderSymbol.Text = "Symbol";
-            this.terminalsHeaderSymbol.Width = 220;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(3, 307);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(224, 25);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Note: 0 for ε, 1 for $";
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -896,6 +896,8 @@
             this.tabSymbol.ResumeLayout(false);
             this.tabPageNonTerminals.ResumeLayout(false);
             this.tabPageTerminals.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.groupBoxFirstFollow.ResumeLayout(false);
             this.tablePanelFirstFollow.ResumeLayout(false);
             this.tabFirstFollow.ResumeLayout(false);
@@ -907,15 +909,13 @@
             this.tablePanelParsingTable.ResumeLayout(false);
             this.tabParsingTable.ResumeLayout(false);
             this.tabPageStates.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridStates)).EndInit();
             this.tabPageActionTable.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridAction)).EndInit();
             this.tabPageGotoAction.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridGoto)).EndInit();
             this.stateContextMenu.ResumeLayout(false);
             this.actionContextMenu.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.gridStates)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridAction)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridGoto)).EndInit();
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
 
         }

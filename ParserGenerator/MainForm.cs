@@ -325,6 +325,13 @@ namespace CompilingPrinciples.ParserGenerator
 
         private void btnGenerate_Click(object sender, EventArgs e)
         {
+            if (useSLR != rbSLR.Checked)
+            {
+                MessageBox.Show("Mode has been changed! Re-analysing is required.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                btnAnalyse.Focus();
+                return;
+            }
+
             int unsolvedConflicts = 0;
             foreach (var a in parseTable.Action)
                 foreach (var p in a.Value)
