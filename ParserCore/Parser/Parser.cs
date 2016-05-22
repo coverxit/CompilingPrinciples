@@ -46,7 +46,6 @@ namespace CompilingPrinciples.ParserCore
         public const int ContextMagicNumber = 0x44435053;
 
         protected Grammar grammar;
-        
         public Grammar Grammar
         {
             get { return grammar; }
