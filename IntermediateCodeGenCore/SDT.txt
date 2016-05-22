@@ -13,28 +13,33 @@ L -> float			{ L.type = float; L.width = 8; }
 
 S -> id = E;		{ gen(id.lexeme ':=' E.name); }
 
-S -> if (			{ C.true = newlabel(); C.false = S.next; }
-	 C )            { S1.next = S.next; gen('L' C.true ':'); }
+S -> if (			{ C.true = fall; C.false = S.next; }
+	 C )            { S1.next = S.next; }
 	 S1
 
-S -> if (			{ C.true = newlabel(); C.false = newlabel(); }
-	 C )			{ S1.next = S.next; gen('L' C.true ':'); }
-	 S1				{ gen('goto ' S.next); }
+S -> if (			{ C.true = fall; C.false = newlabel(); }
+	 C )			{ S1.next = S.next; }
+	 S1				{ gen('goto L' S.next); }
 	 else			{ S2.next = S.next; gen('L' C.false ':'); }
 	 S2
 
 S -> while (		{ begin = newlabel(); gen('L' begin ':');
-					  C.true = newlabel(); C.false = S.next; }
-	 C )			{ S1.next = begin; gen('L' C.true ':'); }
-	 S1				{ gen('goto ' begin); }
+					  C.true = fall; C.false = S.next; }
+	 C )			{ S1.next = begin; }
+	 S1				{ gen('goto L' begin); }
 
 S -> 				{ S1.next = newlabel(); }
 	 S1				{ S2.next = S.next; gen('L' S1.next ':'); }
 	 S2
 
 # When rel is '==', the rel in gen is '='
-C -> E1 rel E2		{ gen('if ' E1.name ' rel ' E2.name ' goto ' C.true);
-					  gen('goto ' C.false); }
+# And for any operation, operands should be widen
+C -> E1 rel E2		{ condition = E1.name ' rel ' E2.name
+					  if C.true != fall and C.false != fall then
+					  	gen('if' condition 'goto' C.true); || gen ('goto' C.false);
+					  else if C.true != fall then gen('if' condition 'goto L' C.true);
+					  else if C.false != fall then gen('ifFalse' condition 'goto L' C.false);
+					  else ''; }
 
 E -> E1 +/- T 		{ E.name = newtemp(); gen(E.name ':=' E1.name '+'/'-' T.name); }
 E -> T 				{ E.name = T.name; }

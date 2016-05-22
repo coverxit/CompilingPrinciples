@@ -69,7 +69,23 @@ namespace CompilingPrinciples.ParserCore
         //private IPhaseLevelParserErrorRoutine phaseLevelRoutine;
         private IPanicErrorRoutine panicRoutine;
         private IReportParseStep stepReporter;
-        private IParserReduceCallback reduceCb;
+
+        private struct SymbolStackEntry
+        {
+            ProductionSymbol Symbol;
+            Token CorrespondingToken; // only for terminals
+
+            public SymbolStackEntry(ProductionSymbol sym, Token token)
+            {
+                this.Symbol = sym;
+                this.CorrespondingToken = token;
+            }
+
+            public override string ToString()
+            {
+                return Symbol.ToString();
+            }
+        }
         
         /*
         // Leave Phase Level away!
@@ -83,14 +99,13 @@ namespace CompilingPrinciples.ParserCore
         }
         */
 
-        public Parser(SymbolTable st, Grammar grammar, ParseTable<T> pt, IPanicErrorRoutine routine, IReportParseStep reporter = null, IParserReduceCallback reduceCb = null)
+        public Parser(SymbolTable st, Grammar grammar, ParseTable<T> pt, IPanicErrorRoutine routine, IReportParseStep reporter = null)
         {
             this.symbolTable = st;
             this.grammar = grammar;
             this.parseTable = pt;
             this.panicRoutine = routine;
             this.stepReporter = reporter;
-            this.reduceCb = reduceCb;
         }
 
         public override void Parse(Stream input)
@@ -104,7 +119,7 @@ namespace CompilingPrinciples.ParserCore
 
             var lexer = new Lexer(symbolTable, input);
             var parseStack = new PrintableStack<int>();
-            var symbolStack = new PrintableStack<ProductionSymbol>();
+            var symbolStack = new PrintableStack<SymbolStackEntry>();
             var accept = false;
             
             // Let a be the first symbol of w$
@@ -113,7 +128,7 @@ namespace CompilingPrinciples.ParserCore
 
             // Push initial state
             parseStack.Push(parseTable.InitialState);
-            symbolStack.Push(grammar.EndMarker);
+            symbolStack.Push(new SymbolStackEntry(grammar.EndMarker, null));
 
             // Repeat forever
             while (!accept)
@@ -139,7 +154,7 @@ namespace CompilingPrinciples.ParserCore
                     case ActionTableEntry.ActionType.Shift:
                         // push t onto stack
                         parseStack.Push(action.ShiftState);
-                        symbolStack.Push(new ProductionSymbol(grammar, token));
+                        symbolStack.Push(new SymbolStackEntry(symbol, token));
 
                         // let a be the next input symbol
                         prevToken = token;
@@ -168,11 +183,10 @@ namespace CompilingPrinciples.ParserCore
 
                         // push GOTO[t, A] onto stack
                         parseStack.Push(parseTable.Goto[top][action.ReduceProduction.Left]);
-                        symbolStack.Push(action.ReduceProduction.Left);
+                        symbolStack.Push(new SymbolStackEntry(action.ReduceProduction.Left, null));
 
                         // output the production
                         if (stepReporter != null) stepReporter.ReportStep(false, action.ToString(), parseStack.ToString(), symbolStack.ToString());
-                        if (reduceCb != null) reduceCb.ReduceBy(action.ReduceProduction.ToString());
                         break;
 
                     // ACTION[s, a] = accept

@@ -109,9 +109,4 @@ namespace CompilingPrinciples.ParserCore
     {
         void ReportStep(bool error, string action, string stack, string symbol);
     }
-
-    public interface IParserReduceCallback
-    {
-        void ReduceBy(string production);
-    }
 }
