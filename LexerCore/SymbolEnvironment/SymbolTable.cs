@@ -11,6 +11,7 @@ namespace CompilingPrinciples.SymbolEnvironment
     {
         private string lexeme;
         private Tag tag;
+        private int offset;
 
         public string Lexeme
         {
@@ -22,16 +23,28 @@ namespace CompilingPrinciples.SymbolEnvironment
             get { return tag; }
         }
 
+        public int Offset
+        {
+            get { return offset; }
+            set { offset = value; }
+        }
+
         public SymbolTableEntry(string lexeme, Tag tag)
         {
             this.lexeme = lexeme;
             this.tag = tag;
+            this.offset = 0;
         }
 
         public SymbolTableEntry(SymbolTableEntry other)
         {
             this.lexeme = other.lexeme;
             this.tag = other.tag;
+        }
+
+        public override string ToString()
+        {
+            return lexeme;
         }
     }
 
@@ -58,10 +71,10 @@ namespace CompilingPrinciples.SymbolEnvironment
             }
         }
 
-        public string Get(int index)
+        public SymbolTableEntry Get(int index)
         {
             // Debug.Assert(index >= 0 && index < symbols.Count, "Index Overflow");
-            return symbols[index].Lexeme;
+            return symbols[index];
         }
 
         public void Clear()
@@ -73,7 +86,7 @@ namespace CompilingPrinciples.SymbolEnvironment
         {
             for (int i = 0; i < symbols.Count; i++)
                 if (symbols[i].Lexeme == symbol)
-                    return Tuple.Create(new SymbolTableEntry(symbols[i]), i);
+                    return Tuple.Create(symbols[i], i);
 
             return null;
         }

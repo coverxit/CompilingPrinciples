@@ -244,7 +244,7 @@ namespace CompilingPrinciples.ParserCore
             else if (token is Word)
             {
                 var wordToken = token as Word;
-                symbolToFind = wordToken is Identifier ? "id" : symbolTable.Get(wordToken.IdInSymbolTable);
+                symbolToFind = wordToken is Identifier ? "id" : symbolTable.Get(wordToken.IdInSymbolTable).ToString();
             }
             else if (token is Operator)
             {
