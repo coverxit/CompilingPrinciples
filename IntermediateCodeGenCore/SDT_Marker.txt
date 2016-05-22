@@ -40,9 +40,9 @@ C -> E1 rel E2		{ type = max(E1.type, E2.type);
 					  gen('goto ' C.false); }
 
 E -> E1 +/- T 		{ E.name = newtemp(); gen(E.name ':=' E1.name '+'/'-' T.name); }
-E -> T 				{ E.name = T.name; }
+E -> T 				{ E.name = T.name; E.type = T.type }
 
-T -> F 				{ T.name = F.name; }
+T -> F 				{ T.name = F.name; T.type = F.type }
 T -> T1 */`/` F 	{ T.name = newtemp(); gen(T.name ':=' T1.name '*'/'/' F.name); }
 
 F -> ( E ) 			{ F.name = E.name; }
