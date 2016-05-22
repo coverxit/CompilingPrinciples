@@ -46,7 +46,7 @@ namespace CompilingPrinciples.ParserGenerator
                 string fileName = openFileDialog.FileName;
                 textGrammar.Text = File.ReadAllText(fileName);
 
-                btnAnalyse.Focus();
+                btnAnalyze.Focus();
             }
         }
 
@@ -327,8 +327,8 @@ namespace CompilingPrinciples.ParserGenerator
         {
             if (useSLR != rbSLR.Checked)
             {
-                MessageBox.Show("Mode has been changed! Re-analysing is required.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                btnAnalyse.Focus();
+                MessageBox.Show("Mode has been changed! Re-analyzing is required.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                btnAnalyze.Focus();
                 return;
             }
 

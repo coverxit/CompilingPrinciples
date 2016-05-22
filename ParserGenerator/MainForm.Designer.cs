@@ -47,7 +47,7 @@
             this.tablePanelFunctions = new System.Windows.Forms.TableLayoutPanel();
             this.flowPanelButtons = new System.Windows.Forms.FlowLayoutPanel();
             this.btnGenerate = new System.Windows.Forms.Button();
-            this.btnAnalyse = new System.Windows.Forms.Button();
+            this.btnAnalyze = new System.Windows.Forms.Button();
             this.btnOpen = new System.Windows.Forms.Button();
             this.tablePanelParserType = new System.Windows.Forms.TableLayoutPanel();
             this.rbLR1 = new System.Windows.Forms.RadioButton();
@@ -231,7 +231,7 @@
             // flowPanelButtons
             // 
             this.flowPanelButtons.Controls.Add(this.btnGenerate);
-            this.flowPanelButtons.Controls.Add(this.btnAnalyse);
+            this.flowPanelButtons.Controls.Add(this.btnAnalyze);
             this.flowPanelButtons.Controls.Add(this.btnOpen);
             this.flowPanelButtons.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowPanelButtons.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
@@ -253,17 +253,17 @@
             this.btnGenerate.UseVisualStyleBackColor = true;
             this.btnGenerate.Click += new System.EventHandler(this.btnGenerate_Click);
             // 
-            // btnAnalyse
+            // btnAnalyze
             // 
-            this.btnAnalyse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAnalyse.Location = new System.Drawing.Point(176, 2);
-            this.btnAnalyse.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.btnAnalyse.Name = "btnAnalyse";
-            this.btnAnalyse.Size = new System.Drawing.Size(132, 52);
-            this.btnAnalyse.TabIndex = 1;
-            this.btnAnalyse.Text = "Analyse";
-            this.btnAnalyse.UseVisualStyleBackColor = true;
-            this.btnAnalyse.Click += new System.EventHandler(this.btnAnalyse_Click);
+            this.btnAnalyze.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAnalyze.Location = new System.Drawing.Point(176, 2);
+            this.btnAnalyze.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.btnAnalyze.Name = "btnAnalyze";
+            this.btnAnalyze.Size = new System.Drawing.Size(132, 52);
+            this.btnAnalyze.TabIndex = 1;
+            this.btnAnalyze.Text = "Analyze";
+            this.btnAnalyze.UseVisualStyleBackColor = true;
+            this.btnAnalyze.Click += new System.EventHandler(this.btnAnalyse_Click);
             // 
             // btnOpen
             // 
@@ -932,7 +932,7 @@
         private System.Windows.Forms.TableLayoutPanel tablePanelSymbols;
         private System.Windows.Forms.TableLayoutPanel tablePanelFunctions;
         private System.Windows.Forms.FlowLayoutPanel flowPanelButtons;
-        private System.Windows.Forms.Button btnAnalyse;
+        private System.Windows.Forms.Button btnAnalyze;
         private System.Windows.Forms.Button btnOpen;
         private System.Windows.Forms.TableLayoutPanel tablePanelParserType;
         private System.Windows.Forms.RadioButton rbLR1;
