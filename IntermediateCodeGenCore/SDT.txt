@@ -23,10 +23,10 @@ S -> if (			{ C.true = fall; C.false = newlabel(); }
 	 else			{ S2.next = S.next; gen('L' C.false ':'); }
 	 S2
 
-S -> while (		{ begin = newlabel(); gen('L' begin ':');
+S -> while (		{ while.begin = newlabel(); gen('L' while.begin ':');
 					  C.true = fall; C.false = S.next; }
-	 C )			{ S1.next = begin; }
-	 S1				{ gen('goto L' begin); }
+	 C )			{ S1.next = while.begin; }
+	 S1				{ gen('goto L' while.begin); }
 
 S -> 				{ S1.next = newlabel(); }
 	 S1				{ S2.next = S.next; gen('L' S1.next ':'); }
@@ -48,5 +48,5 @@ T -> F 				{ T.name = F.name; }
 T -> T1 */`/` F 	{ T.name = newtemp(); gen(T.name ':=' T1.name '*'/'/' F.name); }
 
 F -> ( E ) 			{ F.name = E.name; }
-F -> id				{ F.name = id.name; }
+F -> id				{ F.name = id.lexeme; }
 F -> decimal 		{ F.name = decimal.value; }

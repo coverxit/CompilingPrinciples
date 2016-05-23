@@ -8,11 +8,18 @@ namespace CompilingPrinciples.IntermediateCodeGenCore
 {
     public class Label
     {
+        public static Label Fall = new Label(0);
+
         private int no;
 
         public int Number
         {
             get { return no; }
+        }
+
+        public bool IsFall
+        {
+            get { return no == 0; }
         }
 
         public Label(int no)
@@ -22,7 +29,7 @@ namespace CompilingPrinciples.IntermediateCodeGenCore
 
         public override string ToString()
         {
-            return "L" + no + ":";
+            return "L" + no;
         }
     }
 

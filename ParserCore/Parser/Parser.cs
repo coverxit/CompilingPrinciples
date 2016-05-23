@@ -23,6 +23,8 @@ namespace CompilingPrinciples.ParserCore
             get { return symbol; }
         }
 
+        // NonTerminal - Reduce Production
+        // Terminal - Token
         public object Data
         {
             get { return data; }

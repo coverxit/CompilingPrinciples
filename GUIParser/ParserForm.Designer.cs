@@ -336,7 +336,7 @@
             this.textCode.ScrollWidth = 200;
             this.textCode.Size = new System.Drawing.Size(627, 970);
             this.textCode.TabIndex = 0;
-            this.textCode.Text = "int a;\r\nint b;\r\nint c;\r\n\r\na = 2;\r\nb = 1;\r\n\r\nif (a<b)\r\n\tc=a+b;\r\nelse\r\n\tc=a-b;";
+            this.textCode.Text = "int a;\r\nint b;\r\nint c;\r\n\r\na = 2;\r\nb = 1;\r\n\r\nif (a>b)\r\n\tc=a+b;\r\nelse\r\n\tc=a-b;";
             this.textCode.UseTabs = false;
             // 
             // tablePanelFunctions

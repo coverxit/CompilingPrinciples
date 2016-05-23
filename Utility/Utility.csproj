@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FormatThreeAddrCode.cs" />
     <Compile Include="GenerateParserHelper.cs" />
     <Compile Include="GenerateWaitingForm.cs">
       <SubType>Form</SubType>
@@ -57,6 +58,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\IntermediateCodeGenCore\IntermediateCodeGenCore.csproj">
+      <Project>{0577ff75-09c0-4674-afdf-efd96876a29f}</Project>
+      <Name>IntermediateCodeGenCore</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LexerCore\LexerCore.csproj">
       <Project>{48a30c7a-21a5-459b-8cb9-3ebbb921aaf8}</Project>
       <Name>LexerCore</Name>

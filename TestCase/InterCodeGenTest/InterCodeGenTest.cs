@@ -16,22 +16,37 @@ namespace CompilingPrinciples.TestCase
 {
     public class InterCodeGenTest
     {
+        private static void Traverse(TreeNode parent, TreeNode<SDTTreeNodeEntry> pNode)
+        {
+            var node = new TreeNode(pNode.Value.Type == SDTTreeNodeEntry.TypeEnum.Action ? "Action" : pNode.Value.Symbol.Symbol.ToString());
+            parent.Nodes.Add(node);
+
+            foreach (var e in pNode.Children)
+                Traverse(node, e);
+        }
+
         public static void LaunchTest()
         {
             var se_stream = new FileStream("SLRParserContext.ctx", FileMode.Open);
-
+            
             Console.WriteLine("==================== SLR Deserialization =================================");
             var st = new SymbolTable();
             var parser = Parser.CreateFromContext(se_stream, st, null);
 
             Console.WriteLine("=============== Parse Sample Code ===================================");
 
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new TreeTest());
-
             var fs = new FileStream("ParserTest.lc", FileMode.Open);
-            var gen = new IntermediateCodeGen(st, parser.Parse(fs));
+            var result = parser.Parse(fs);
+
+            var gen = new IntermediateCodeGen(st, result);
+
+            var form = new TreeTest();
+            var root = new TreeNode("P'");
+            form.treeView.Nodes.Add(root);
+            Traverse(root, gen.SDTTree);
+
+            Application.EnableVisualStyles();
+            Application.Run(form);
 
             foreach (var e in gen.Generate())
                 Console.WriteLine(e);

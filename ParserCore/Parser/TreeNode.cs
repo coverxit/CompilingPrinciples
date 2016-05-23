@@ -47,6 +47,7 @@ namespace CompilingPrinciples.ParserCore
 
         public void AddChild(TreeNode<T> node)
         {
+            node.Parent = this;
             children.Add(node);
         }
 
@@ -63,6 +64,7 @@ namespace CompilingPrinciples.ParserCore
 
         public void InsertFirst(TreeNode<T> node)
         {
+            node.Parent = this;
             children.Insert(0, node);
         }
 
