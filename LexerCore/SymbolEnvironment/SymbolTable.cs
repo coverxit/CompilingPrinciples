@@ -40,7 +40,7 @@ namespace CompilingPrinciples.SymbolEnvironment
         {
             this.lexeme = lexeme;
             this.tag = tag;
-            this.type = VarType.TypeEnum.Keyword;
+            this.type = VarType.TypeEnum.Undefined;
             this.offset = -1;
         }
 

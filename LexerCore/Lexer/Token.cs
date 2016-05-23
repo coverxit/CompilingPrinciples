@@ -173,7 +173,7 @@ namespace CompilingPrinciples.LexerCore
     {
         public enum TypeEnum
         {
-            Keyword = 0,
+            Undefined = 0,
 
             Int,
             Float

@@ -129,7 +129,7 @@ namespace CompilingPrinciples.IntermediateCodeGenCore
                         break;
 
                     case "S -> id = E ;":
-                        // S -> id = E;		{ gen(id.lexeme ':=' E.name); }
+                        // S -> id = E;		{ gen(id.lexeme '=' E.name); }
                         node.AddChild(new SDTTreeNodeEntry(parseTreeNode[0].Value));
                         node.AddChild(new SDTTreeNodeEntry(parseTreeNode[1].Value));
                         node.AddChild(new SDTTreeNodeEntry(parseTreeNode[2].Value));
@@ -137,7 +137,7 @@ namespace CompilingPrinciples.IntermediateCodeGenCore
                         node.AddChild(new SDTTreeNodeEntry(delegate (SDTTreeNodeEntry left, SDTTreeNodeEntry[] right)
                         {
                             var id = symbolTable.Get((right[0].Symbol.Data as Identifier).GetValue());
-                            GenCode(id.Lexeme, ":=", right[2].Attributes as string);
+                            GenCode(id.Lexeme, " = ", right[2].Attributes as string);
                         }));
                         break;
 
@@ -263,8 +263,9 @@ namespace CompilingPrinciples.IntermediateCodeGenCore
                         node.AddChild(new SDTTreeNodeEntry(parseTreeNode[2].Value));
                         node.AddChild(new SDTTreeNodeEntry(delegate (SDTTreeNodeEntry left, SDTTreeNodeEntry[] right)
                         {
-                            string cond = (right[0].Attributes as string)
-                                            + right[1].Symbol.ToString()
+                            var rel = right[1].Symbol.ToString();
+                            string cond = (right[0].Attributes as string) + " "
+                                            + (rel == "==" ? "=" : rel) + " "
                                             + (right[2].Attributes as string);
 
                             var C = left.Attributes as Tuple<Label, Label>;
@@ -282,15 +283,15 @@ namespace CompilingPrinciples.IntermediateCodeGenCore
 
                     case "E -> E + T":
                     case "E -> E - T":
-                        // E -> E1 +/- T 		{ E.name = newtemp(); gen(E.name ':=' E1.name '+'/'-' T.name); }
+                        // E -> E1 +/- T 		{ E.name = newtemp(); gen(E.name '=' E1.name '+'/'-' T.name); }
                         node.AddChild(new SDTTreeNodeEntry(parseTreeNode[0].Value));
                         node.AddChild(new SDTTreeNodeEntry(parseTreeNode[1].Value));
                         node.AddChild(new SDTTreeNodeEntry(parseTreeNode[2].Value));
                         node.AddChild(new SDTTreeNodeEntry(delegate (SDTTreeNodeEntry left, SDTTreeNodeEntry[] right)
                         {
                             left.Attributes = tempVarMan.Create().ToString();
-                            GenCode(left.Attributes as string, ":=", right[0].Attributes as string, 
-                                    right[1].Symbol.ToString(), right[2].Attributes as string);
+                            GenCode(left.Attributes as string, " = ", right[0].Attributes as string, " ",
+                                    right[1].Symbol.ToString(), " ", right[2].Attributes as string);
                         }));
                         break;
 
@@ -314,15 +315,15 @@ namespace CompilingPrinciples.IntermediateCodeGenCore
 
                     case "T -> T * F":
                     case "T -> T / F":
-                        // T -> T1 */`/` F 	{ T.name = newtemp(); gen(T.name ':=' T1.name '*'/'/' F.name); }
+                        // T -> T1 */`/` F 	{ T.name = newtemp(); gen(T.name '=' T1.name '*'/'/' F.name); }
                         node.AddChild(new SDTTreeNodeEntry(parseTreeNode[0].Value));
                         node.AddChild(new SDTTreeNodeEntry(parseTreeNode[1].Value));
                         node.AddChild(new SDTTreeNodeEntry(parseTreeNode[2].Value));
                         node.AddChild(new SDTTreeNodeEntry(delegate (SDTTreeNodeEntry left, SDTTreeNodeEntry[] right)
                         {
                             left.Attributes = tempVarMan.Create().ToString();
-                            GenCode(left.Attributes as string, ":=", right[0].Attributes as string,
-                                    right[1].Symbol.ToString(), right[2].Attributes as string);
+                            GenCode(left.Attributes as string, " = ", right[0].Attributes as string, " ",
+                                    right[1].Symbol.ToString(), " ", right[2].Attributes as string);
                         }));
                         break;
 

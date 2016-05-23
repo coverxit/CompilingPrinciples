@@ -42,7 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FormatThreeAddrCode.cs" />
+    <Compile Include="ThreeAddrCodeFormatter.cs" />
     <Compile Include="GenerateParserHelper.cs" />
     <Compile Include="GenerateWaitingForm.cs">
       <SubType>Form</SubType>

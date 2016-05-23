@@ -229,16 +229,16 @@ namespace CompilingPrinciples.Utility
                         if (pendAction.Value[term].Entries.Count > 2)
                             throw new ApplicationException("Pending Action Entries Count Exceeded.");
 
-                        // Try reduce, except ACTION[i, a] = reduce by "S -> if ( C ) S"
+                        // For ACTION[i, a] = reduce by "S -> if ( C ) S", and a = "else", choose shift
                         var reduce = pendAction.Value[term].Entries.Where(e => e.Type == ActionTableEntry.ActionType.Reduce).Single();
-                        if (reduce.ReduceProduction.ToString() != "S -> if ( C ) S")
-                            pendAction.Value[term].SetPreferEntry(reduce);
-                            
-                        // Otherwise, we choose shift
-                        if (!pendAction.Value[term].PreferedEntrySpecified)
+                        if (reduce.ReduceProduction.ToString() == "S -> if ( C ) S" && term.ToString() == "else")
                             pendAction.Value[term].SetPreferEntry(
                                 pendAction.Value[term].Entries.Where(e => e.Type == ActionTableEntry.ActionType.Shift).Single()
                             );
+                            
+                        // Otherwise, we choose reduce
+                        if (!pendAction.Value[term].PreferedEntrySpecified)
+                            pendAction.Value[term].SetPreferEntry(reduce);
 
                         // writer.WriteLine("==== I[" + pendAction.Key + "] ===");
                         // foreach (var e in parseTable.Items[pendAction.Key])

@@ -29,11 +29,8 @@ namespace CompilingPrinciples.TestCase
         {
             var se_stream = new FileStream("SLRParserContext.ctx", FileMode.Open);
             
-            Console.WriteLine("==================== SLR Deserialization =================================");
             var st = new SymbolTable();
             var parser = Parser.CreateFromContext(se_stream, st, null);
-
-            Console.WriteLine("=============== Parse Sample Code ===================================");
 
             var fs = new FileStream("ParserTest.lc", FileMode.Open);
             var result = parser.Parse(fs);
@@ -44,12 +41,12 @@ namespace CompilingPrinciples.TestCase
             var root = new TreeNode("P'");
             form.treeView.Nodes.Add(root);
             Traverse(root, gen.SDTTree);
+            
+            foreach (var e in ThreeAddrCodeFormatter.Format(gen.Generate()))
+                Console.WriteLine(e);
 
             Application.EnableVisualStyles();
             Application.Run(form);
-
-            foreach (var e in gen.Generate())
-                Console.WriteLine(e);
 
             fs.Close();
             se_stream.Close();
