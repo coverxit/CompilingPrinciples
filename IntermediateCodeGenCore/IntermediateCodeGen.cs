@@ -18,10 +18,16 @@ namespace CompilingPrinciples.IntermediateCodeGenCore
         private List<string> threeAddrCode = new List<string>();
         private LabelManager labelMan;
         private TempVarManager tempVarMan;
+        private int errLine;
 
-        public TreeNode<SDTTreeNodeEntry> SDTTree
+        public int ErrorLine
         {
-            get { return sdtTree; }
+            get { return errLine; }
+        }
+
+        public List<string> ThreeAddrCode
+        {
+            get { return new List<string>(threeAddrCode); }
         }
 
         public IntermediateCodeGen(SymbolTable symTable, TreeNode<ParseTreeNodeEntry> parseTreeRoot)
@@ -43,14 +49,26 @@ namespace CompilingPrinciples.IntermediateCodeGenCore
                 TraverseSDTTree(e);
         }
 
-        public List<string> Generate()
+        public void Generate()
         {
             threeAddrCode.Clear();
             labelMan = new LabelManager();
             tempVarMan = new TempVarManager();
 
             TraverseSDTTree(sdtTree);
-            return new List<string>(threeAddrCode);
+        }
+
+        // Chapter 6.5.2
+        private string Widen(string name, VarType.TypeEnum type, VarType.TypeEnum to)
+        {
+            if (type == to) return name;
+            else if (type == VarType.TypeEnum.Int && to == VarType.TypeEnum.Float)
+            {
+                var temp = tempVarMan.Create().ToString();
+                GenCode(temp, " = (float) ", name);
+                return temp;
+            }
+            else return string.Empty; // ERROR 
         }
 
         // Global varaibles in SDT
@@ -102,7 +120,7 @@ namespace CompilingPrinciples.IntermediateCodeGenCore
                             // top.set(id.lexeme, L.type, offset); 
                             var entry = symbolTable.Get((right[1].Symbol.Data as Identifier).GetValue());
                             entry.Type = attr.Item1;
-                            entry.Offset = attr.Item2;
+                            entry.Offset = offset;
 
                             // offset = offset + L.width;
                             offset += attr.Item2;
@@ -141,9 +159,19 @@ namespace CompilingPrinciples.IntermediateCodeGenCore
                             var E = right[2].Attributes as Tuple<string, VarType.TypeEnum>;
 
                             if (VarType.Max(id.Type, E.Item2) != id.Type)
+                            {
+                                errLine = token.Line;
                                 throw new IntermediateCodeGenException(token.Line, "type mismatch");
+                            }
                             
-                            GenCode(id.Lexeme, " = ", E.Item1);
+                            var Ewiden = Widen(E.Item1, E.Item2, id.Type);
+                            if (string.IsNullOrEmpty(Ewiden))
+                            {
+                                errLine = token.Line;
+                                throw new IntermediateCodeGenException(token.Line, "type mismatch");
+                            }
+
+                            GenCode(id.Lexeme, " = ", Ewiden);
                         }));
                         break;
 
@@ -269,10 +297,31 @@ namespace CompilingPrinciples.IntermediateCodeGenCore
                         node.AddChild(new SDTTreeNodeEntry(parseTreeNode[2].Value));
                         node.AddChild(new SDTTreeNodeEntry(delegate (SDTTreeNodeEntry left, SDTTreeNodeEntry[] right)
                         {
+                            // right[1] = rel, we use this instead of right[0], which is E1,
+                            // because right[0].Symbol.Data is the reduce production
+                            var line = (right[1].Symbol.Data as Token).Line;
+
+                            var E1 = right[0].Attributes as Tuple<string, VarType.TypeEnum>;
+                            var E2 = right[2].Attributes as Tuple<string, VarType.TypeEnum>;
+                            
+                            var maxType = VarType.Max(E1.Item2, E2.Item2);
+                            if (maxType == VarType.TypeEnum.Undefined)
+                            {
+                                errLine = line;
+                                throw new IntermediateCodeGenException(line, "type mismatch");
+                            }
+
+                            var E1widen = Widen(E1.Item1, E1.Item2, maxType);
+                            var E2widen = Widen(E2.Item1, E2.Item2, maxType);
+
+                            if (string.IsNullOrEmpty(E1widen) || string.IsNullOrEmpty(E2widen))
+                            {
+                                errLine = line;
+                                throw new IntermediateCodeGenException(line, "type mismatch");
+                            }
+
                             var rel = right[1].Symbol.ToString();
-                            string cond = (right[0].Attributes as string) + " "
-                                            + (rel == "==" ? "=" : rel) + " "
-                                            + (right[2].Attributes as string);
+                            string cond = E1widen + " " + (rel == "==" ? "=" : rel) + " " + E2widen;
 
                             var C = left.Attributes as Tuple<Label, Label>;
                             if (!C.Item1.IsFall && C.Item2.IsFall)
@@ -295,9 +344,32 @@ namespace CompilingPrinciples.IntermediateCodeGenCore
                         node.AddChild(new SDTTreeNodeEntry(parseTreeNode[2].Value));
                         node.AddChild(new SDTTreeNodeEntry(delegate (SDTTreeNodeEntry left, SDTTreeNodeEntry[] right)
                         {
-                            left.Attributes = tempVarMan.Create().ToString();
-                            GenCode(left.Attributes as string, " = ", right[0].Attributes as string, " ",
-                                    right[1].Symbol.ToString(), " ", right[2].Attributes as string);
+                            // right[1] = rel, we use this instead of right[0], which is E1,
+                            // because right[0].Symbol.Data is the reduce production
+                            var line = (right[1].Symbol.Data as Token).Line;
+
+                            var E1 = right[0].Attributes as Tuple<string, VarType.TypeEnum>;
+                            var T = right[2].Attributes as Tuple<string, VarType.TypeEnum>;
+
+                            var maxType = VarType.Max(E1.Item2, T.Item2);
+                            if (maxType == VarType.TypeEnum.Undefined)
+                            {
+                                errLine = line;
+                                throw new IntermediateCodeGenException(line, "type mismatch");
+                            }
+
+                            var E1widen = Widen(E1.Item1, E1.Item2, maxType);
+                            var Twiden = Widen(T.Item1, T.Item2, maxType);
+
+                            if (string.IsNullOrEmpty(E1widen) || string.IsNullOrEmpty(Twiden))
+                            {
+                                errLine = line;
+                                throw new IntermediateCodeGenException(line, "type mismatch");
+                            }
+
+                            var temp = tempVarMan.Create().ToString();
+                            left.Attributes = new Tuple<string, VarType.TypeEnum>(temp, maxType);
+                            GenCode(temp, " = ", E1widen, " ", right[1].Symbol.ToString(), " ", Twiden);
                         }));
                         break;
 
@@ -306,7 +378,7 @@ namespace CompilingPrinciples.IntermediateCodeGenCore
                         node.AddChild(new SDTTreeNodeEntry(parseTreeNode[0].Value));
                         node.AddChild(new SDTTreeNodeEntry(delegate (SDTTreeNodeEntry left, SDTTreeNodeEntry[] right)
                         {
-                            left.Attributes = right[0].Attributes as string;
+                            left.Attributes = right[0].Attributes as Tuple<string, VarType.TypeEnum>;
                         }));
                         break;
 
@@ -315,7 +387,7 @@ namespace CompilingPrinciples.IntermediateCodeGenCore
                         node.AddChild(new SDTTreeNodeEntry(parseTreeNode[0].Value));
                         node.AddChild(new SDTTreeNodeEntry(delegate (SDTTreeNodeEntry left, SDTTreeNodeEntry[] right)
                         {
-                            left.Attributes = right[0].Attributes as string;
+                            left.Attributes = right[0].Attributes as Tuple<string, VarType.TypeEnum>;
                         }));
                         break;
 
@@ -327,9 +399,32 @@ namespace CompilingPrinciples.IntermediateCodeGenCore
                         node.AddChild(new SDTTreeNodeEntry(parseTreeNode[2].Value));
                         node.AddChild(new SDTTreeNodeEntry(delegate (SDTTreeNodeEntry left, SDTTreeNodeEntry[] right)
                         {
-                            left.Attributes = tempVarMan.Create().ToString();
-                            GenCode(left.Attributes as string, " = ", right[0].Attributes as string, " ",
-                                    right[1].Symbol.ToString(), " ", right[2].Attributes as string);
+                            // right[1] = rel, we use this instead of right[0], which is E1,
+                            // because right[0].Symbol.Data is the reduce production
+                            var line = (right[1].Symbol.Data as Token).Line;
+
+                            var T1 = right[0].Attributes as Tuple<string, VarType.TypeEnum>;
+                            var F = right[2].Attributes as Tuple<string, VarType.TypeEnum>;
+
+                            var maxType = VarType.Max(T1.Item2, F.Item2);
+                            if (maxType == VarType.TypeEnum.Undefined)
+                            {
+                                errLine = line;
+                                throw new IntermediateCodeGenException(line, "type mismatch");
+                            }
+
+                            var T1widen = Widen(T1.Item1, T1.Item2, maxType);
+                            var Fwiden = Widen(F.Item1, F.Item2, maxType);
+
+                            if (string.IsNullOrEmpty(T1widen) || string.IsNullOrEmpty(Fwiden))
+                            {
+                                errLine = line;
+                                throw new IntermediateCodeGenException(line, "type mismatch");
+                            }
+
+                            var temp = tempVarMan.Create().ToString();
+                            left.Attributes = new Tuple<string, VarType.TypeEnum>(temp, maxType);
+                            GenCode(temp, " = ", T1widen, " ", right[1].Symbol.ToString(), " ", Fwiden);
                         }));
                         break;
 
@@ -340,7 +435,7 @@ namespace CompilingPrinciples.IntermediateCodeGenCore
                         node.AddChild(new SDTTreeNodeEntry(parseTreeNode[2].Value));
                         node.AddChild(new SDTTreeNodeEntry(delegate (SDTTreeNodeEntry left, SDTTreeNodeEntry[] right)
                         {
-                            left.Attributes = right[1].Attributes as string;
+                            left.Attributes = right[1].Attributes as Tuple<string, VarType.TypeEnum>;
                         }));
                         break;
 
@@ -350,7 +445,7 @@ namespace CompilingPrinciples.IntermediateCodeGenCore
                         node.AddChild(new SDTTreeNodeEntry(delegate (SDTTreeNodeEntry left, SDTTreeNodeEntry[] right)
                         {
                             var entry = symbolTable.Get((right[0].Symbol.Data as Identifier).GetValue());
-                            left.Attributes = entry.Lexeme;
+                            left.Attributes = new Tuple<string, VarType.TypeEnum>(entry.Lexeme, entry.Type);
                         }));
                         break;
                         
@@ -359,7 +454,8 @@ namespace CompilingPrinciples.IntermediateCodeGenCore
                         node.AddChild(new SDTTreeNodeEntry(parseTreeNode[0].Value));
                         node.AddChild(new SDTTreeNodeEntry(delegate (SDTTreeNodeEntry left, SDTTreeNodeEntry[] right)
                         {
-                            left.Attributes = (right[0].Symbol.Data as LexerCore.Decimal).GetValue().ToString();
+                            left.Attributes = new Tuple<string, VarType.TypeEnum>(
+                                (right[0].Symbol.Data as LexerCore.Decimal).GetValue().ToString(), VarType.TypeEnum.Int);
                         }));
                         break;
                 }

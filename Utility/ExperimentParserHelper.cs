@@ -78,7 +78,7 @@ namespace CompilingPrinciples.Utility
         private Parser<LR0Item> slrParser;
         private Parser<LR1Item> lr1Parser;
 
-        private bool contextLoaded = false;
+        private bool slrContextLoaded = false, lr1ContextLoaded = false;
         private Form owner;
 
         public SymbolTable SymbolTable
@@ -98,7 +98,17 @@ namespace CompilingPrinciples.Utility
 
         public bool CotextLoaded
         {
-            get { return contextLoaded; }
+            get { return slrContextLoaded && lr1ContextLoaded; }
+        }
+
+        public bool SLRContextLoaded
+        {
+            get { return slrContextLoaded; }
+        }
+
+        public bool LR1ContextLoaded
+        {
+            get { return lr1ContextLoaded; }
         }
 
         public ExperimentParserHelper(Form owner, IReportParseStep reporter = null)
@@ -107,28 +117,37 @@ namespace CompilingPrinciples.Utility
             this.stepReporter = reporter;
         }
 
-        public void CreateParserFromContext()
+        public void CreateParserFromContext(bool slr, bool lr1)
         {
-            if (File.Exists(SLRParserContextFileName) && File.Exists(LR1ParserContextFileName))
+            if (slr && File.Exists(SLRParserContextFileName))
             {
                 using (var stream = new FileStream(SLRParserContextFileName, FileMode.Open))
                 {
                     slrParser = Parser.CreateFromContext(stream, symbolTable, new ExperimentGrammarPanicErrorRoutine(), stepReporter) as Parser<LR0Item>;
                     stream.Close();
-                }
 
+                    slrContextLoaded = true;
+                }
+            }
+
+            if (lr1 && File.Exists(LR1ParserContextFileName))
+            {
                 using (var stream = new FileStream(LR1ParserContextFileName, FileMode.Open))
                 {
                     lr1Parser = Parser.CreateFromContext(stream, symbolTable, new ExperimentGrammarPanicErrorRoutine(), stepReporter) as Parser<LR1Item>;
                     stream.Close();
-                }
 
-                contextLoaded = true;
+                    lr1ContextLoaded = true;
+                }
             }
         }
 
-        public void CreateParserFromGrammar()
+        public void CreateParserFromGrammar(bool genSLR, bool genLR1)
         {
+            // At least one should be generated.
+            if (!genSLR && !genLR1)
+                return;
+
             var grammarStream = new MemoryStream();
             using (var writer = new StreamWriter(grammarStream, new UTF8Encoding(), bufferSize: 1024, leaveOpen: true))
             {
@@ -139,10 +158,12 @@ namespace CompilingPrinciples.Utility
 
             // Show waiting form
             var waitingForm = new GenerateWaitingForm();
+            if (!genSLR) waitingForm.DisableSLR();
+            if (!genLR1) waitingForm.DisableLR1();
             var showFormTask = Task.Run(() => { owner.Invoke((MethodInvoker)delegate { waitingForm.ShowDialog(owner); }); });
 
             // Generate Contexts
-            var slrTask = Task.Run(() =>
+            var slrTask = new Task(() =>
             {
                 var reporter = new ProgressReporter(owner, waitingForm.lblSLRProcess);
                 var grammar = new Grammar(symbolTable, reporter);
@@ -163,6 +184,8 @@ namespace CompilingPrinciples.Utility
                 using (var stream = new FileStream(SLRParserContextFileName, FileMode.Create))
                     slrParser.SaveContext(stream);
 
+                slrContextLoaded = true;
+
                 owner.Invoke((MethodInvoker)delegate
                 {
                     waitingForm.lblSLRProcess.Text = "Done";
@@ -170,7 +193,7 @@ namespace CompilingPrinciples.Utility
                 });
             });
 
-            var lr1Task = Task.Run(() =>
+            var lr1Task = new Task(() =>
             {
                 var reporter = new ProgressReporter(owner, waitingForm.lblLR1Process);
                 var grammar = new Grammar(symbolTable, reporter);
@@ -191,6 +214,8 @@ namespace CompilingPrinciples.Utility
                 using (var stream = new FileStream(LR1ParserContextFileName, FileMode.Create))
                     lr1Parser.SaveContext(stream);
 
+                lr1ContextLoaded = true;
+
                 owner.Invoke((MethodInvoker)delegate
                 {
                     waitingForm.lblLR1Process.Text = "Done";
@@ -198,10 +223,16 @@ namespace CompilingPrinciples.Utility
                 });
             });
 
+            Task.Run(() => { if (genSLR) slrTask.RunSynchronously(); });
+            Task.Run(() => { if (genLR1) lr1Task.RunSynchronously(); });
             Task.Run(() =>
             {
+                var genTask = new List<Task>();
+                if (genSLR) genTask.Add(slrTask);
+                if (genLR1) genTask.Add(lr1Task);
+                
                 // Generally, slrTask is faster than lr1Task
-                Task.WaitAll(new Task[] { slrTask, lr1Task });
+                Task.WaitAll(genTask.ToArray());
 
                 // Cleanup
                 grammarStream.Close();
@@ -210,8 +241,6 @@ namespace CompilingPrinciples.Utility
                     waitingForm.PermitClose = true;
                     waitingForm.Close();
                 });
-
-                contextLoaded = true;
             });
         }
 

@@ -236,6 +236,24 @@ namespace CompilingPrinciples.LexerCore
             else if (type1 == TypeEnum.Float && type2 == TypeEnum.Float) return TypeEnum.Float;
             else return TypeEnum.Undefined;
         }
+
+        public static string GetTypeWithWidth(TypeEnum type)
+        {
+            switch (type)
+            {
+                case TypeEnum.Int:
+                    return "Integer (4)";
+
+                case TypeEnum.Float:
+                    return "Float (8)";
+
+                case TypeEnum.Undefined:
+                    return "Undefined";
+
+                default:
+                    return string.Empty;
+            }
+        }
     }
 
     public class Decimal : Token

@@ -13,20 +13,18 @@ using System.Runtime.Serialization;
 using CompilingPrinciples.LexerCore;
 using CompilingPrinciples.SymbolEnvironment;
 using CompilingPrinciples.ParserCore;
+using CompilingPrinciples.IntermediateCodeGenCore;
 using CompilingPrinciples.Utility;
 
-namespace CompilingPrinciples.GUIParser
+namespace CompilingPrinciples.GUICodeGen
 {
-    public partial class ParserForm : Form
+    public partial class CodeGenForm : Form
     {
         private const int ErrorIndicatorIndex = 8;
 
         private ExperimentParserHelper parserHelper;
 
-        private Parser customParser = null;
-        private SymbolTable customSymbolTable = new SymbolTable();
-
-        public ParserForm()
+        public CodeGenForm()
         {
             InitializeComponent();
 
@@ -62,14 +60,14 @@ namespace CompilingPrinciples.GUIParser
             textCode.Indicators[ErrorIndicatorIndex].HoverStyle = ScintillaNET.IndicatorStyle.CompositionThick;
             textCode.Indicators[ErrorIndicatorIndex].ForeColor = Color.Red;
 
-            parserHelper = new ExperimentParserHelper(this, new ParseStepReporter(this, listParse));
-            parserHelper.CreateParserFromContext(slr: true, lr1: true);
+            parserHelper = new ExperimentParserHelper(this);
+            parserHelper.CreateParserFromContext(slr: true, lr1: false);
         }
 
         private void ParserForm_Shown(object sender, EventArgs e)
         {
-            if (!parserHelper.CotextLoaded)
-                parserHelper.CreateParserFromGrammar(genSLR: true, genLR1: true);
+            if (!parserHelper.SLRContextLoaded)
+                parserHelper.CreateParserFromGrammar(genSLR: true, genLR1: false);
         }
 
         private void btnOpen_Click(object sender, EventArgs e)
@@ -85,63 +83,75 @@ namespace CompilingPrinciples.GUIParser
 
         private void btnAnalyze_Click(object sender, EventArgs e)
         {
-            listParse.Items.Clear();
+            listInterCode.Items.Clear();
             listSymbolTable.Items.Clear();
 
             btnAnalyze.Enabled = false;
             btnOpen.Enabled = false;
             textCode.Enabled = false;
-            rbSLR.Enabled = false;
-            rbLR1.Enabled = false;
-            rbCustom.Enabled = false;
 
             textCode.IndicatorCurrent = ErrorIndicatorIndex;
             textCode.IndicatorClearRange(0, textCode.Text.Length);
 
             var inputArray = Encoding.ASCII.GetBytes(textCode.Text);
-            Parser parser = null;
-
-            if (rbLR1.Checked)
-                parser = parserHelper.LR1Parser;
-            else if (rbCustom.Checked)
-                parser = customParser;
-            else
-                parser = parserHelper.SLRParser;
-
-            // failsafe
-            if (parser == null)
-            {
-                rbSLR.Checked = true;
-                parser = parserHelper.SLRParser;
-            }
+            IntermediateCodeGen codeGen = null;
+            var codeGenErr = string.Empty;
 
             var analyseTask = new Task(() =>
             {
                 this.Invoke((MethodInvoker)delegate
                 {
-                    listParse.BeginUpdate();
+                    listInterCode.BeginUpdate();
 
                     try
                     {
-                        parser.Parse(new MemoryStream(inputArray));
+                        var parseTreeRoot = parserHelper.SLRParser.Parse(new MemoryStream(inputArray));
+                        codeGen = new IntermediateCodeGen(parserHelper.SymbolTable, parseTreeRoot);
+
+                        codeGen.Generate();
                     }
                     catch (ApplicationException ex)
                     {
                         ListViewItem lvItem = new ListViewItem();
                         lvItem.Text = string.Empty;
                         lvItem.UseItemStyleForSubItems = false;
-
-                        lvItem.SubItems.Add(string.Empty);
+                        
                         lvItem.SubItems.Add(ex.Message);
-                        lvItem.SubItems[2].ForeColor = Color.Red;
+                        lvItem.SubItems[1].ForeColor = Color.Red;
 
-                        listParse.Items.Add(lvItem);
+                        listInterCode.Items.Add(lvItem);
+                    }
+                    catch (IntermediateCodeGenException ex)
+                    {
+                        codeGenErr = ex.Message;
                     }
 
-                    if (listParse.Items.Count > 0)
-                        listParse.EnsureVisible(listParse.Items.Count - 1);
+                    foreach (var pair in ThreeAddrCodeFormatter.ToPair(codeGen.ThreeAddrCode))
+                    {
+                        ListViewItem lvItem = new ListViewItem();
+                        lvItem.Text = pair.Item1;
+                        lvItem.UseItemStyleForSubItems = false;
 
-                    listParse.EndUpdate();
+                        if (!string.IsNullOrEmpty(pair.Item1))
+                            lvItem.SubItems[0].Font = new Font(lvItem.SubItems[0].Font, FontStyle.Bold);
+
+                        lvItem.SubItems.Add(pair.Item2);
+                        listInterCode.Items.Add(lvItem);
+                    }
+
+                    if (!string.IsNullOrEmpty(codeGenErr))
+                    {
+                        ListViewItem lvItem = new ListViewItem();
+                        lvItem.Text = string.Empty;
+                        lvItem.UseItemStyleForSubItems = false;
+
+                        lvItem.SubItems.Add(codeGenErr);
+                        lvItem.SubItems[1].ForeColor = Color.Red;
+
+                        listInterCode.Items.Add(lvItem);
+                    }
+                    
+                    listInterCode.EndUpdate();
 
                     var newlinePos = new List<int>();
                     newlinePos.Add(0);
@@ -149,8 +159,10 @@ namespace CompilingPrinciples.GUIParser
                     newlinePos.Add(inputArray.Count());
 
                     textCode.IndicatorCurrent = ErrorIndicatorIndex;
-                    foreach (var l in parser.ErrorLines)
+                    foreach (var l in parserHelper.SLRParser.ErrorLines)
                         textCode.IndicatorFillRange(newlinePos[l - 1], newlinePos[l] - newlinePos[l - 1]);
+                    if (codeGen.ErrorLine > 0)
+                        textCode.IndicatorFillRange(newlinePos[codeGen.ErrorLine - 1], newlinePos[codeGen.ErrorLine] - newlinePos[codeGen.ErrorLine - 1]);
                 });
             });
 
@@ -159,7 +171,7 @@ namespace CompilingPrinciples.GUIParser
                 this.Invoke((MethodInvoker)delegate
                 {
                     listSymbolTable.BeginUpdate();
-                    foreach (var s in (rbCustom.Checked ? customSymbolTable : parserHelper.SymbolTable).ToList().Select((value, index) => new { index, value }))
+                    foreach (var s in parserHelper.SymbolTable.ToList().Select((value, index) => new { index, value }))
                     {
                         ListViewItem item = new ListViewItem();
                         item.Text = s.index.ToString();
@@ -168,7 +180,18 @@ namespace CompilingPrinciples.GUIParser
                         if (s.value.Tag != LexerCore.Tag.Identifier)
                             item.Group = listSymbolTable.Groups["lvGroupKeyword"];
                         else
+                        {
                             item.Group = listSymbolTable.Groups["lvGroupIdentifier"];
+                            item.SubItems.Add(VarType.GetTypeWithWidth(s.value.Type));
+
+                            if (s.value.Offset >= 0)
+                                item.SubItems.Add(s.value.Offset.ToString());
+                            else
+                            {
+                                item.SubItems.Add("N/A");
+                                item.ForeColor = Color.Red;
+                            }
+                        }
 
                         listSymbolTable.Items.Add(item);
                     }
@@ -177,62 +200,11 @@ namespace CompilingPrinciples.GUIParser
                     btnAnalyze.Enabled = true;
                     btnOpen.Enabled = true;
                     textCode.Enabled = true;
-                    rbSLR.Enabled = true;
-                    rbLR1.Enabled = true;
-                    rbCustom.Enabled = true;
                     textCode.Focus();
                 });
             });
 
             analyseTask.Start();
-        }
-
-        private void rbCustom_CheckedChanged(object sender, EventArgs e)
-        {
-            if (rbCustom.Checked)
-            {
-                if (DialogResult.OK == openCtxDialog.ShowDialog())
-                    try
-                    {
-                        customParser = Parser.CreateFromContext(openCtxDialog.OpenFile(), customSymbolTable, null, new ParseStepReporter(this, listParse));
-                        return;
-                    }
-                    catch (Exception ex) when (ex is SerializationException || ex.ToString() == "Invalid Magic Number!")
-                    {
-                        MessageBox.Show("Invalid Magic Number!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-
-                rbSLR.Checked = true;
-            }
-        }
-    }
-
-    public class ParseStepReporter : IReportParseStep
-    {
-        private Form owner;
-        private ListView lvParseStep;
-
-        public ParseStepReporter(Form owner, ListView lvParseStep)
-        {
-            this.owner = owner;
-            this.lvParseStep = lvParseStep;
-        }
-
-        public void ReportStep(bool error, string action, string stack, string symbol)
-        {
-            ListViewItem lvItem = new ListViewItem();
-            lvItem.Text = stack;
-            lvItem.UseItemStyleForSubItems = false;
-
-            lvItem.SubItems.Add(symbol);
-            lvItem.SubItems.Add(action);
-
-            if (error)
-                lvItem.SubItems[2].ForeColor = Color.Red;
-            else if (action == "accept")
-                lvItem.SubItems[2].ForeColor = Color.Green;
-
-            owner.Invoke((MethodInvoker)delegate { lvParseStep.Items.Add(lvItem); });
         }
     }
 }

@@ -43,7 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ThreeAddrCodeFormatter.cs" />
-    <Compile Include="GenerateParserHelper.cs" />
+    <Compile Include="CompilerHelper.cs" />
     <Compile Include="GenerateWaitingForm.cs">
       <SubType>Form</SubType>
     </Compile>

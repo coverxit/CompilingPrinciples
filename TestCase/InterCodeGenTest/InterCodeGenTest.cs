@@ -37,16 +37,30 @@ namespace CompilingPrinciples.TestCase
 
             var gen = new IntermediateCodeGen(st, result);
 
+            /*
             var form = new TreeTest();
             var root = new TreeNode("P'");
             form.treeView.Nodes.Add(root);
             Traverse(root, gen.SDTTree);
-            
-            foreach (var e in ThreeAddrCodeFormatter.Format(gen.Generate()))
-                Console.WriteLine(e);
+            */
 
-            Application.EnableVisualStyles();
-            Application.Run(form);
+            try
+            {
+                gen.Generate();
+            }
+            catch (IntermediateCodeGenException ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                Console.WriteLine();
+                foreach (var e in ThreeAddrCodeFormatter.ToPlainText(gen.ThreeAddrCode))
+                    Console.WriteLine(e);
+            }
+            
+            //Application.EnableVisualStyles();
+            //Application.Run(form);
 
             fs.Close();
             se_stream.Close();
