@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CompilingPrinciples.LexerCore
 {
-    public abstract class @object
+    public abstract class Token
     {
         protected int line, col, pos, len;
 
@@ -35,7 +35,7 @@ namespace CompilingPrinciples.LexerCore
             get { return tag; }
         }
 
-        public @object(int line, int col, int pos, int len, Tag tag)
+        public Token(int line, int col, int pos, int len, Tag tag)
         {
             this.line = line;
             this.col = col;
@@ -53,7 +53,7 @@ namespace CompilingPrinciples.LexerCore
         }
     }
 
-    public class EndMarker : @object
+    public class EndMarker : Token
     {
         public EndMarker(int line, int col, int pos) : base(line, col, pos, 1, Tag.EndMarker) { }
 
@@ -64,7 +64,7 @@ namespace CompilingPrinciples.LexerCore
         public override string ToString() { return GetValue().ToString(); }
     }
 
-    public class InvalidToken : @object
+    public class InvalidToken : Token
     {
         private string token;
 
@@ -95,7 +95,7 @@ namespace CompilingPrinciples.LexerCore
         }
     }
 
-    public abstract class Word : @object
+    public abstract class Word : Token
     {
         protected int idInSymbolTable;
 
@@ -185,17 +185,24 @@ namespace CompilingPrinciples.LexerCore
             get { return type; }
         }
 
-        public VarType(int id, TypeEnum type, int line, int col, int pos, int len) : base(id, line, col, pos, len, Tag.VarType)
+        private int width;
+        public int Width
+        {
+            get { return width; }
+        }
+
+        public VarType(int id, TypeEnum type, int width, int line, int col, int pos, int len) : base(id, line, col, pos, len, Tag.VarType)
         {
             this.type = type;
+            this.width = width;
         }
 
         public VarType(int id, string str, int line, int col, int pos, int len) : base(id, line, col, pos, len, Tag.VarType)
         {
             switch (str)
             {
-                case "int": type = TypeEnum.Int; break;
-                case "float": type = TypeEnum.Float; break;
+                case "int": type = TypeEnum.Int; width = 4; break;
+                case "float": type = TypeEnum.Float; width = 8; break;
 
                 default: // Shall never be called
                     throw new ApplicationException("Variable Type Mismatch");
@@ -222,7 +229,7 @@ namespace CompilingPrinciples.LexerCore
         }
     }
 
-    public class Decimal : @object
+    public class Decimal : Token
     {
         private int value;
 
@@ -231,7 +238,7 @@ namespace CompilingPrinciples.LexerCore
         public override dynamic GetValue() { return value; }
     }
 
-    public class Operator : @object
+    public class Operator : Token
     {
         public enum TypeEnum
         {
@@ -307,7 +314,7 @@ namespace CompilingPrinciples.LexerCore
         }
     }
 
-    public class Separator : @object
+    public class Separator : Token
     {
         private char ch;
 

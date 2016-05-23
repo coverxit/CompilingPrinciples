@@ -53,7 +53,7 @@ namespace CompilingPrinciples.LexerCore
             reserveKeyword("float", Tag.VarType);
         }
 
-        public @object ScanNextToken()
+        public Token ScanNextToken()
         {
         beginScanToken:
             for (; ; readNextByte())
@@ -173,7 +173,7 @@ namespace CompilingPrinciples.LexerCore
         }
         */
 
-        private @object errorOccured(string token, int col, int pos, int len)
+        private Token errorOccured(string token, int col, int pos, int len)
         {
             int errLine = CurrentLine;
             //errorRecover();

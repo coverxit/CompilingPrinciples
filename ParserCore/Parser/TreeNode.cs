@@ -33,6 +33,11 @@ namespace CompilingPrinciples.ParserCore
             get { return children.AsReadOnly(); }
         }
 
+        public IReadOnlyCollection<TreeNode<T>> Siblings
+        {
+            get { return Parent.Children; }
+        }
+
         public TreeNode<T> AddChild(T value)
         {
             var node = new TreeNode<T>(value) { Parent = this };
@@ -66,9 +71,9 @@ namespace CompilingPrinciples.ParserCore
             return children.Remove(node);
         }
 
-        public void Traverse(Action<T> action)
+        public void Traverse(Action<TreeNode<T>> action)
         {
-            action(Value);
+            action(this);
             foreach (var child in children)
                 child.Traverse(action);
         }

@@ -91,7 +91,7 @@ namespace CompilingPrinciples.GUILexer
             MemoryStream stream = new MemoryStream(array);
 
             var lexer = new Lexer(symbolTable, stream);
-            @object token = null;
+            Token token = null;
 
             var analyseTask = new Task(() =>
             {

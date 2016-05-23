@@ -91,7 +91,7 @@ namespace CompilingPrinciples.ParserCore
 
     public interface IPhaseLevelParserErrorRoutine
     {
-        PhaseLevelOperation ErrorRoutine(int topState, ProductionSymbol symbol, @object currentToken, @object previousToken, PrintableStack<int> parseStack, PrintableStack<ProductionSymbol> symbolStack);
+        PhaseLevelOperation ErrorRoutine(int topState, ProductionSymbol symbol, Token currentToken, Token previousToken, PrintableStack<int> parseStack, PrintableStack<ProductionSymbol> symbolStack);
     }
 
     public interface IPanicErrorRoutine

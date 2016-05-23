@@ -134,7 +134,7 @@ namespace CompilingPrinciples.ParserCore
             TreeNode<ParseTreeNodeEntry> rootNode = null;
             
             // Let a be the first symbol of w$
-            @object token = lexer.ScanNextToken(), prevToken = null;
+            Token token = lexer.ScanNextToken(), prevToken = null;
             accept = token is EndMarker; // EndMarker?
 
             // Push initial state

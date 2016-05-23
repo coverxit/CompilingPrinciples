@@ -233,7 +233,7 @@ namespace CompilingPrinciples.ParserCore
             }
         }
         
-        public int GetIdInTerminalTable(@object token)
+        public int GetIdInTerminalTable(Token token)
         {
             string symbolToFind = string.Empty;
 

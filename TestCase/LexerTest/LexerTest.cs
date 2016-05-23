@@ -19,7 +19,7 @@ namespace CompilingPrinciples.TestCase
             using (var stream = new FileStream("LexerTest.lc", FileMode.Open))
             {
                 Lexer lexer = new Lexer(new SymbolTable(), stream);
-                @object token = null;
+                Token token = null;
                 int curLine = 1;
 
                 Console.WriteLine("============== Line 1 ==============");

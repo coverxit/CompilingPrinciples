@@ -45,7 +45,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IntermediateCodeGen.cs" />
+    <Compile Include="Label.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TempVar.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LexerCore\LexerCore.csproj">

@@ -41,7 +41,7 @@ namespace CompilingPrinciples.ParserCore
             this.id = id;
         }
 
-        public ProductionSymbol(Grammar grammar, @object token)
+        public ProductionSymbol(Grammar grammar, Token token)
         {
             this.grammar = grammar;          
             this.type = SymbolType.Terminal;
