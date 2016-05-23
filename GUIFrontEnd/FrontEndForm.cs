@@ -153,9 +153,6 @@ namespace CompilingPrinciples.GUIFrontEnd
                     }
                     listSymbolTable.EndUpdate();
 
-                    if (listParse.Items.Count > 0)
-                        listParse.EnsureVisible(listParse.Items.Count - 1);
-
                     btnAnalyze.Enabled = true;
                     btnOpen.Enabled = true;
                     textCode.Enabled = true;
@@ -265,6 +262,9 @@ namespace CompilingPrinciples.GUIFrontEnd
                     listParse.Items.Add(lvItem);
                 }
 
+                if (listParse.Items.Count > 0)
+                    listParse.EnsureVisible(listParse.Items.Count - 1);
+
                 listParse.EndUpdate();
 
                 var newlinePos = new List<int>();
@@ -323,9 +323,7 @@ namespace CompilingPrinciples.GUIFrontEnd
 
                 try
                 {
-                    var parseTreeRoot = parserHelper.SLRParser.Parse(new MemoryStream(inputArray));
-                    codeGen = new IntermediateCodeGen(parserHelper.SymbolTable, parseTreeRoot);
-
+                    codeGen = new IntermediateCodeGen(parserHelper.SymbolTable, parserTask.Result);
                     codeGen.Generate();
                 }
                 catch (ApplicationException ex)
