@@ -24,6 +24,9 @@ namespace CompilingPrinciples.GUICodeGen
 
         private ExperimentParserHelper parserHelper;
 
+        private IntermediateCodeGen codeGen;
+        private string codeGenErr;
+
         public CodeGenForm()
         {
             InitializeComponent();
@@ -81,6 +84,37 @@ namespace CompilingPrinciples.GUICodeGen
             }
         }
 
+        private void FillInterCodeList(List<string> code, bool pseudo)
+        {
+            var formatted = pseudo ? ThreeAddrCodeFormatter.ToPair(code) 
+                                   : ThreeAddrCodeFormatter.ToAddressed(code);
+
+            foreach (var pair in formatted)
+            {
+                ListViewItem lvItem = new ListViewItem();
+                lvItem.Text = pair.Item1;
+                lvItem.UseItemStyleForSubItems = false;
+
+                if (pseudo && !string.IsNullOrEmpty(pair.Item1))
+                    lvItem.SubItems[0].Font = new Font(lvItem.SubItems[0].Font, FontStyle.Bold);
+
+                lvItem.SubItems.Add(pair.Item2);
+                listInterCode.Items.Add(lvItem);
+            }
+
+            if (!string.IsNullOrEmpty(codeGenErr))
+            {
+                ListViewItem lvItem = new ListViewItem();
+                lvItem.Text = string.Empty;
+                lvItem.UseItemStyleForSubItems = false;
+
+                lvItem.SubItems.Add(codeGenErr);
+                lvItem.SubItems[1].ForeColor = Color.Red;
+
+                listInterCode.Items.Add(lvItem);
+            }
+        }
+
         private void btnAnalyze_Click(object sender, EventArgs e)
         {
             listInterCode.Items.Clear();
@@ -89,14 +123,13 @@ namespace CompilingPrinciples.GUICodeGen
             btnAnalyze.Enabled = false;
             btnOpen.Enabled = false;
             textCode.Enabled = false;
+            rbAddressed.Enabled = false;
+            rbPseudo.Enabled = false;
 
             textCode.IndicatorCurrent = ErrorIndicatorIndex;
             textCode.IndicatorClearRange(0, textCode.Text.Length);
 
             var inputArray = Encoding.ASCII.GetBytes(textCode.Text);
-            IntermediateCodeGen codeGen = null;
-            var codeGenErr = string.Empty;
-
             var analyseTask = new Task(() =>
             {
                 this.Invoke((MethodInvoker)delegate
@@ -126,30 +159,8 @@ namespace CompilingPrinciples.GUICodeGen
                         codeGenErr = ex.Message;
                     }
 
-                    foreach (var pair in ThreeAddrCodeFormatter.ToPair(codeGen.ThreeAddrCode))
-                    {
-                        ListViewItem lvItem = new ListViewItem();
-                        lvItem.Text = pair.Item1;
-                        lvItem.UseItemStyleForSubItems = false;
-
-                        if (!string.IsNullOrEmpty(pair.Item1))
-                            lvItem.SubItems[0].Font = new Font(lvItem.SubItems[0].Font, FontStyle.Bold);
-
-                        lvItem.SubItems.Add(pair.Item2);
-                        listInterCode.Items.Add(lvItem);
-                    }
-
-                    if (!string.IsNullOrEmpty(codeGenErr))
-                    {
-                        ListViewItem lvItem = new ListViewItem();
-                        lvItem.Text = string.Empty;
-                        lvItem.UseItemStyleForSubItems = false;
-
-                        lvItem.SubItems.Add(codeGenErr);
-                        lvItem.SubItems[1].ForeColor = Color.Red;
-
-                        listInterCode.Items.Add(lvItem);
-                    }
+                    rbPseudo.Checked = true;
+                    FillInterCodeList(codeGen.ThreeAddrCode, pseudo: true);
                     
                     listInterCode.EndUpdate();
 
@@ -200,11 +211,29 @@ namespace CompilingPrinciples.GUICodeGen
                     btnAnalyze.Enabled = true;
                     btnOpen.Enabled = true;
                     textCode.Enabled = true;
+                    rbAddressed.Enabled = true;
+                    rbPseudo.Enabled = true;
                     textCode.Focus();
                 });
             });
 
             analyseTask.Start();
+        }
+
+        private void RadioButtonAddressType_CheckedChanged(object sender, EventArgs e)
+        {
+            if (codeGen == null) return;
+
+            var rb = sender as RadioButton;
+            if (rb.Checked)
+            {
+                listInterCode.Items.Clear();
+
+                listInterCode.BeginUpdate();
+                listInterCode.Columns[0].Text = rb == rbPseudo ? "Label" : "Address";
+                FillInterCodeList(codeGen.ThreeAddrCode, pseudo: rb == rbPseudo);
+                listInterCode.EndUpdate();
+            }
         }
     }
 }

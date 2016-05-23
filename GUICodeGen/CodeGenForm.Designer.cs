@@ -40,6 +40,9 @@
             this.listInterCode = new CompilingPrinciples.Utility.WindowThemeListView();
             this.interCodeHeaderLabel = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.interCodeHeaderCode = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.flowPanelOptions = new System.Windows.Forms.FlowLayoutPanel();
+            this.rbPseudo = new System.Windows.Forms.RadioButton();
+            this.rbAddressed = new System.Windows.Forms.RadioButton();
             this.panelSymbolTable = new System.Windows.Forms.Panel();
             this.groupBoxSymbolTable = new System.Windows.Forms.GroupBox();
             this.tablePanelSymbolTable = new System.Windows.Forms.TableLayoutPanel();
@@ -65,6 +68,7 @@
             this.groupBoxThreeAddrCode.SuspendLayout();
             this.tablePanelThreeAddrCode.SuspendLayout();
             this.panelTokensInner.SuspendLayout();
+            this.flowPanelOptions.SuspendLayout();
             this.panelSymbolTable.SuspendLayout();
             this.groupBoxSymbolTable.SuspendLayout();
             this.tablePanelSymbolTable.SuspendLayout();
@@ -139,12 +143,14 @@
             this.tablePanelThreeAddrCode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tablePanelThreeAddrCode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
             this.tablePanelThreeAddrCode.Controls.Add(this.panelTokensInner, 1, 1);
+            this.tablePanelThreeAddrCode.Controls.Add(this.flowPanelOptions, 1, 2);
             this.tablePanelThreeAddrCode.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tablePanelThreeAddrCode.Location = new System.Drawing.Point(3, 27);
             this.tablePanelThreeAddrCode.Name = "tablePanelThreeAddrCode";
-            this.tablePanelThreeAddrCode.RowCount = 3;
+            this.tablePanelThreeAddrCode.RowCount = 4;
             this.tablePanelThreeAddrCode.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
             this.tablePanelThreeAddrCode.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tablePanelThreeAddrCode.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tablePanelThreeAddrCode.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
             this.tablePanelThreeAddrCode.Size = new System.Drawing.Size(571, 865);
             this.tablePanelThreeAddrCode.TabIndex = 0;
@@ -155,7 +161,7 @@
             this.panelTokensInner.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelTokensInner.Location = new System.Drawing.Point(13, 8);
             this.panelTokensInner.Name = "panelTokensInner";
-            this.panelTokensInner.Size = new System.Drawing.Size(545, 849);
+            this.panelTokensInner.Size = new System.Drawing.Size(545, 809);
             this.panelTokensInner.TabIndex = 0;
             // 
             // listInterCode
@@ -170,7 +176,7 @@
             this.listInterCode.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.listInterCode.MultiSelect = false;
             this.listInterCode.Name = "listInterCode";
-            this.listInterCode.Size = new System.Drawing.Size(545, 849);
+            this.listInterCode.Size = new System.Drawing.Size(545, 809);
             this.listInterCode.TabIndex = 0;
             this.listInterCode.UseCompatibleStateImageBehavior = false;
             this.listInterCode.View = System.Windows.Forms.View.Details;
@@ -184,6 +190,40 @@
             // 
             this.interCodeHeaderCode.Text = "Code";
             this.interCodeHeaderCode.Width = 400;
+            // 
+            // flowPanelOptions
+            // 
+            this.flowPanelOptions.Controls.Add(this.rbPseudo);
+            this.flowPanelOptions.Controls.Add(this.rbAddressed);
+            this.flowPanelOptions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowPanelOptions.Location = new System.Drawing.Point(13, 823);
+            this.flowPanelOptions.Name = "flowPanelOptions";
+            this.flowPanelOptions.Size = new System.Drawing.Size(545, 34);
+            this.flowPanelOptions.TabIndex = 1;
+            // 
+            // rbPseudo
+            // 
+            this.rbPseudo.AutoSize = true;
+            this.rbPseudo.Checked = true;
+            this.rbPseudo.Location = new System.Drawing.Point(3, 3);
+            this.rbPseudo.Name = "rbPseudo";
+            this.rbPseudo.Size = new System.Drawing.Size(173, 29);
+            this.rbPseudo.TabIndex = 0;
+            this.rbPseudo.TabStop = true;
+            this.rbPseudo.Text = "Pseudo Code";
+            this.rbPseudo.UseVisualStyleBackColor = true;
+            this.rbPseudo.CheckedChanged += new System.EventHandler(this.RadioButtonAddressType_CheckedChanged);
+            // 
+            // rbAddressed
+            // 
+            this.rbAddressed.AutoSize = true;
+            this.rbAddressed.Location = new System.Drawing.Point(182, 3);
+            this.rbAddressed.Name = "rbAddressed";
+            this.rbAddressed.Size = new System.Drawing.Size(203, 29);
+            this.rbAddressed.TabIndex = 1;
+            this.rbAddressed.Text = "Addressed Code";
+            this.rbAddressed.UseVisualStyleBackColor = true;
+            this.rbAddressed.CheckedChanged += new System.EventHandler(this.RadioButtonAddressType_CheckedChanged);
             // 
             // panelSymbolTable
             // 
@@ -396,6 +436,8 @@
             this.groupBoxThreeAddrCode.ResumeLayout(false);
             this.tablePanelThreeAddrCode.ResumeLayout(false);
             this.panelTokensInner.ResumeLayout(false);
+            this.flowPanelOptions.ResumeLayout(false);
+            this.flowPanelOptions.PerformLayout();
             this.panelSymbolTable.ResumeLayout(false);
             this.groupBoxSymbolTable.ResumeLayout(false);
             this.tablePanelSymbolTable.ResumeLayout(false);
@@ -439,5 +481,8 @@
         private System.Windows.Forms.FlowLayoutPanel flowPanelButtons;
         private System.Windows.Forms.Button btnAnalyze;
         private System.Windows.Forms.Button btnOpen;
+        private System.Windows.Forms.FlowLayoutPanel flowPanelOptions;
+        private System.Windows.Forms.RadioButton rbPseudo;
+        private System.Windows.Forms.RadioButton rbAddressed;
     }
 }
