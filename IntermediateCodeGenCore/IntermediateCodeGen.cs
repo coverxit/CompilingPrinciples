@@ -136,8 +136,14 @@ namespace CompilingPrinciples.IntermediateCodeGenCore
                         node.AddChild(new SDTTreeNodeEntry(parseTreeNode[3].Value));
                         node.AddChild(new SDTTreeNodeEntry(delegate (SDTTreeNodeEntry left, SDTTreeNodeEntry[] right)
                         {
-                            var id = symbolTable.Get((right[0].Symbol.Data as Identifier).GetValue());
-                            GenCode(id.Lexeme, " = ", right[2].Attributes as string);
+                            var token = right[0].Symbol.Data as Identifier;
+                            var id = symbolTable.Get(token.GetValue());
+                            var E = right[2].Attributes as Tuple<string, VarType.TypeEnum>;
+
+                            if (VarType.Max(id.Type, E.Item2) != id.Type)
+                                throw new IntermediateCodeGenException(token.Line, "type mismatch");
+                            
+                            GenCode(id.Lexeme, " = ", E.Item1);
                         }));
                         break;
 

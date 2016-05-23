@@ -225,7 +225,16 @@ namespace CompilingPrinciples.LexerCore
 
         public override string ToString()
         {
-            return String.Format("<{0}, '{1}'>", GetTokenType(), GetValue());
+            return string.Format("<{0}, '{1}'>", GetTokenType(), GetValue());
+        }
+
+        public static TypeEnum Max(TypeEnum type1, TypeEnum type2)
+        {
+            if (type1 == TypeEnum.Int && type2 == TypeEnum.Int) return TypeEnum.Int;
+            else if (type1 == TypeEnum.Float && type2 == TypeEnum.Int) return TypeEnum.Float;
+            else if (type1 == TypeEnum.Int && type2 == TypeEnum.Float) return TypeEnum.Float;
+            else if (type1 == TypeEnum.Float && type2 == TypeEnum.Float) return TypeEnum.Float;
+            else return TypeEnum.Undefined;
         }
     }
 
