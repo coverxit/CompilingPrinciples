@@ -96,7 +96,7 @@ namespace CompilingPrinciples.Utility
             get { return lr1Parser; }
         }
 
-        public bool CotextLoaded
+        public bool ContextLoaded
         {
             get { return slrContextLoaded && lr1ContextLoaded; }
         }

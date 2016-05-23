@@ -33,21 +33,14 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ParserForm));
             this.tableLayout = new System.Windows.Forms.TableLayoutPanel();
             this.tablePanelControls = new System.Windows.Forms.TableLayoutPanel();
-            this.panelToken = new System.Windows.Forms.Panel();
+            this.panelParse = new System.Windows.Forms.Panel();
             this.groupBoxThreeAddrCode = new System.Windows.Forms.GroupBox();
             this.tablePanelParse = new System.Windows.Forms.TableLayoutPanel();
             this.panelTokensInner = new System.Windows.Forms.Panel();
-            this.listParse = new CompilingPrinciples.Utility.WindowThemeListView();
-            this.parseHeaderStack = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.parseHeaderSymbol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.parseHeaderAction = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panelSymbolTable = new System.Windows.Forms.Panel();
             this.groupBoxSymbolTable = new System.Windows.Forms.GroupBox();
             this.tablePanelSymbolTable = new System.Windows.Forms.TableLayoutPanel();
             this.panelSymbolTableInner = new System.Windows.Forms.Panel();
-            this.listSymbolTable = new CompilingPrinciples.Utility.WindowThemeListView();
-            this.symbolHeaderId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.symbolHeaderSymbol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panelCode = new System.Windows.Forms.Panel();
             this.groupBoxCode = new System.Windows.Forms.GroupBox();
             this.tablePanelCode = new System.Windows.Forms.TableLayoutPanel();
@@ -63,9 +56,16 @@
             this.rbSLR = new System.Windows.Forms.RadioButton();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.openCtxDialog = new System.Windows.Forms.OpenFileDialog();
+            this.listParse = new CompilingPrinciples.Utility.WindowThemeListView();
+            this.parseHeaderStack = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.parseHeaderSymbol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.parseHeaderAction = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.listSymbolTable = new CompilingPrinciples.Utility.WindowThemeListView();
+            this.symbolHeaderId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.symbolHeaderSymbol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tableLayout.SuspendLayout();
             this.tablePanelControls.SuspendLayout();
-            this.panelToken.SuspendLayout();
+            this.panelParse.SuspendLayout();
             this.groupBoxThreeAddrCode.SuspendLayout();
             this.tablePanelParse.SuspendLayout();
             this.panelTokensInner.SuspendLayout();
@@ -107,7 +107,7 @@
             this.tablePanelControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tablePanelControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
             this.tablePanelControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 365F));
-            this.tablePanelControls.Controls.Add(this.panelToken, 2, 0);
+            this.tablePanelControls.Controls.Add(this.panelParse, 2, 0);
             this.tablePanelControls.Controls.Add(this.panelSymbolTable, 4, 0);
             this.tablePanelControls.Controls.Add(this.panelCode, 0, 0);
             this.tablePanelControls.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -118,14 +118,14 @@
             this.tablePanelControls.Size = new System.Drawing.Size(2209, 1089);
             this.tablePanelControls.TabIndex = 5;
             // 
-            // panelToken
+            // panelParse
             // 
-            this.panelToken.Controls.Add(this.groupBoxThreeAddrCode);
-            this.panelToken.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelToken.Location = new System.Drawing.Point(678, 3);
-            this.panelToken.Name = "panelToken";
-            this.panelToken.Size = new System.Drawing.Size(1153, 1083);
-            this.panelToken.TabIndex = 2;
+            this.panelParse.Controls.Add(this.groupBoxThreeAddrCode);
+            this.panelParse.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelParse.Location = new System.Drawing.Point(678, 3);
+            this.panelParse.Name = "panelParse";
+            this.panelParse.Size = new System.Drawing.Size(1153, 1083);
+            this.panelParse.TabIndex = 2;
             // 
             // groupBoxThreeAddrCode
             // 
@@ -163,39 +163,6 @@
             this.panelTokensInner.Name = "panelTokensInner";
             this.panelTokensInner.Size = new System.Drawing.Size(1121, 1037);
             this.panelTokensInner.TabIndex = 0;
-            // 
-            // listParse
-            // 
-            this.listParse.CausesValidation = false;
-            this.listParse.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.parseHeaderStack,
-            this.parseHeaderSymbol,
-            this.parseHeaderAction});
-            this.listParse.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listParse.FullRowSelect = true;
-            this.listParse.Location = new System.Drawing.Point(0, 0);
-            this.listParse.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.listParse.MultiSelect = false;
-            this.listParse.Name = "listParse";
-            this.listParse.Size = new System.Drawing.Size(1121, 1037);
-            this.listParse.TabIndex = 0;
-            this.listParse.UseCompatibleStateImageBehavior = false;
-            this.listParse.View = System.Windows.Forms.View.Details;
-            // 
-            // parseHeaderStack
-            // 
-            this.parseHeaderStack.Text = "Stack";
-            this.parseHeaderStack.Width = 375;
-            // 
-            // parseHeaderSymbol
-            // 
-            this.parseHeaderSymbol.Text = "Symbols";
-            this.parseHeaderSymbol.Width = 305;
-            // 
-            // parseHeaderAction
-            // 
-            this.parseHeaderAction.Text = "Action";
-            this.parseHeaderAction.Width = 400;
             // 
             // panelSymbolTable
             // 
@@ -242,40 +209,6 @@
             this.panelSymbolTableInner.Name = "panelSymbolTableInner";
             this.panelSymbolTableInner.Size = new System.Drawing.Size(327, 1037);
             this.panelSymbolTableInner.TabIndex = 0;
-            // 
-            // listSymbolTable
-            // 
-            this.listSymbolTable.CausesValidation = false;
-            this.listSymbolTable.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.symbolHeaderId,
-            this.symbolHeaderSymbol});
-            this.listSymbolTable.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listSymbolTable.FullRowSelect = true;
-            listViewGroup1.Header = "Keyword";
-            listViewGroup1.Name = "lvGroupKeyword";
-            listViewGroup2.Header = "Identifier";
-            listViewGroup2.Name = "lvGroupIdentifier";
-            this.listSymbolTable.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup1,
-            listViewGroup2});
-            this.listSymbolTable.Location = new System.Drawing.Point(0, 0);
-            this.listSymbolTable.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.listSymbolTable.MultiSelect = false;
-            this.listSymbolTable.Name = "listSymbolTable";
-            this.listSymbolTable.Size = new System.Drawing.Size(327, 1037);
-            this.listSymbolTable.TabIndex = 0;
-            this.listSymbolTable.UseCompatibleStateImageBehavior = false;
-            this.listSymbolTable.View = System.Windows.Forms.View.Details;
-            // 
-            // symbolHeaderId
-            // 
-            this.symbolHeaderId.Text = "Id";
-            this.symbolHeaderId.Width = 65;
-            // 
-            // symbolHeaderSymbol
-            // 
-            this.symbolHeaderSymbol.Text = "Symbol";
-            this.symbolHeaderSymbol.Width = 220;
             // 
             // panelCode
             // 
@@ -444,6 +377,73 @@
             this.openCtxDialog.Filter = "Shindo\'s Parser Context|*.ctx";
             this.openCtxDialog.Title = "Open context...";
             // 
+            // listParse
+            // 
+            this.listParse.CausesValidation = false;
+            this.listParse.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.parseHeaderStack,
+            this.parseHeaderSymbol,
+            this.parseHeaderAction});
+            this.listParse.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listParse.FullRowSelect = true;
+            this.listParse.Location = new System.Drawing.Point(0, 0);
+            this.listParse.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.listParse.MultiSelect = false;
+            this.listParse.Name = "listParse";
+            this.listParse.Size = new System.Drawing.Size(1121, 1037);
+            this.listParse.TabIndex = 0;
+            this.listParse.UseCompatibleStateImageBehavior = false;
+            this.listParse.View = System.Windows.Forms.View.Details;
+            // 
+            // parseHeaderStack
+            // 
+            this.parseHeaderStack.Text = "Stack";
+            this.parseHeaderStack.Width = 375;
+            // 
+            // parseHeaderSymbol
+            // 
+            this.parseHeaderSymbol.Text = "Symbols";
+            this.parseHeaderSymbol.Width = 305;
+            // 
+            // parseHeaderAction
+            // 
+            this.parseHeaderAction.Text = "Action";
+            this.parseHeaderAction.Width = 400;
+            // 
+            // listSymbolTable
+            // 
+            this.listSymbolTable.CausesValidation = false;
+            this.listSymbolTable.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.symbolHeaderId,
+            this.symbolHeaderSymbol});
+            this.listSymbolTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listSymbolTable.FullRowSelect = true;
+            listViewGroup1.Header = "Keyword";
+            listViewGroup1.Name = "lvGroupKeyword";
+            listViewGroup2.Header = "Identifier";
+            listViewGroup2.Name = "lvGroupIdentifier";
+            this.listSymbolTable.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
+            listViewGroup1,
+            listViewGroup2});
+            this.listSymbolTable.Location = new System.Drawing.Point(0, 0);
+            this.listSymbolTable.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.listSymbolTable.MultiSelect = false;
+            this.listSymbolTable.Name = "listSymbolTable";
+            this.listSymbolTable.Size = new System.Drawing.Size(327, 1037);
+            this.listSymbolTable.TabIndex = 0;
+            this.listSymbolTable.UseCompatibleStateImageBehavior = false;
+            this.listSymbolTable.View = System.Windows.Forms.View.Details;
+            // 
+            // symbolHeaderId
+            // 
+            this.symbolHeaderId.Text = "Id";
+            this.symbolHeaderId.Width = 65;
+            // 
+            // symbolHeaderSymbol
+            // 
+            this.symbolHeaderSymbol.Text = "Symbol";
+            this.symbolHeaderSymbol.Width = 220;
+            // 
             // ParserForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -457,7 +457,7 @@
             this.Shown += new System.EventHandler(this.ParserForm_Shown);
             this.tableLayout.ResumeLayout(false);
             this.tablePanelControls.ResumeLayout(false);
-            this.panelToken.ResumeLayout(false);
+            this.panelParse.ResumeLayout(false);
             this.groupBoxThreeAddrCode.ResumeLayout(false);
             this.tablePanelParse.ResumeLayout(false);
             this.panelTokensInner.ResumeLayout(false);
@@ -480,7 +480,7 @@
 
         private System.Windows.Forms.TableLayoutPanel tableLayout;
         private System.Windows.Forms.TableLayoutPanel tablePanelControls;
-        private System.Windows.Forms.Panel panelToken;
+        private System.Windows.Forms.Panel panelParse;
         private System.Windows.Forms.GroupBox groupBoxThreeAddrCode;
         private System.Windows.Forms.TableLayoutPanel tablePanelParse;
         private System.Windows.Forms.Panel panelTokensInner;

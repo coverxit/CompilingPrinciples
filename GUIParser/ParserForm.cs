@@ -68,7 +68,7 @@ namespace CompilingPrinciples.GUIParser
 
         private void ParserForm_Shown(object sender, EventArgs e)
         {
-            if (!parserHelper.CotextLoaded)
+            if (!parserHelper.ContextLoaded)
                 parserHelper.CreateParserFromGrammar(genSLR: true, genLR1: true);
         }
 

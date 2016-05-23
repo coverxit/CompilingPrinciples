@@ -61,7 +61,6 @@
             this.panelCodeInner = new System.Windows.Forms.Panel();
             this.textCode = new ScintillaNET.Scintilla();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.openCtxDialog = new System.Windows.Forms.OpenFileDialog();
             this.tableLayout.SuspendLayout();
             this.tablePanelControls.SuspendLayout();
             this.panelToken.SuspendLayout();
@@ -414,11 +413,6 @@
             this.textCode.Text = "int a;\r\nint b;\r\nint c;\r\n\r\na = 2;\r\nb = 1;\r\n\r\nif (a>b)\r\n\tc=a+b;\r\nelse\r\n\tc=a-b;";
             this.textCode.UseTabs = false;
             // 
-            // openCtxDialog
-            // 
-            this.openCtxDialog.Filter = "Shindo\'s Parser Context|*.ctx";
-            this.openCtxDialog.Title = "Open context...";
-            // 
             // CodeGenForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -475,7 +469,6 @@
         private System.Windows.Forms.ColumnHeader interCodeHeaderLabel;
         private System.Windows.Forms.ColumnHeader interCodeHeaderCode;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
-        private System.Windows.Forms.OpenFileDialog openCtxDialog;
         private System.Windows.Forms.ColumnHeader symbolHeaderType;
         private System.Windows.Forms.ColumnHeader symbolTypeOffset;
         private System.Windows.Forms.FlowLayoutPanel flowPanelButtons;

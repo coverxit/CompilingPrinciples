@@ -88,9 +88,7 @@ namespace CompilingPrinciples.GUILexer
             // textCode.IndicatorClearRange(0, textCode.Text.Length);
 
             byte[] array = Encoding.ASCII.GetBytes(textCode.Text);
-            MemoryStream stream = new MemoryStream(array);
-
-            var lexer = new Lexer(symbolTable, stream);
+            var lexer = new Lexer(symbolTable, new MemoryStream(array));
             Token token = null;
 
             var analyseTask = new Task(() =>
