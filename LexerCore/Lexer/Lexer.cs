@@ -35,7 +35,7 @@ namespace CompilingPrinciples.LexerCore
         private SymbolTable symbolTable;
         public SymbolTable SymbolTable
         {
-            get { return new SymbolTable(symbolTable); }
+            get { return symbolTable; }
         }
 
         public Lexer(SymbolTable symbolTable, Stream stream)
