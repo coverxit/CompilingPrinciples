@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using System.Drawing;
 
 namespace CompilingPrinciples.Utility
 {
@@ -23,6 +24,14 @@ namespace CompilingPrinciples.Utility
         {
             SetWindowTheme(this.Handle, "Explorer", null);
             base.OnHandleCreated(e);
+        }
+
+        protected override void ScaleControl(SizeF factor, BoundsSpecified specified)
+        {
+            base.ScaleControl(factor, specified);
+
+            foreach (ColumnHeader column in this.Columns)
+                column.Width = (int)Math.Round(column.Width * factor.Width);
         }
     }
 
