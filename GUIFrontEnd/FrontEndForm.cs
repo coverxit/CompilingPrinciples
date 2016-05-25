@@ -114,6 +114,10 @@ namespace CompilingPrinciples.GUIFrontEnd
             rbSLR.Enabled = false;
             rbLR1.Enabled = false;
 
+            codeGen = null;
+            codeGenErr = string.Empty;
+            rbPseudo.Checked = true;
+
             textCode.IndicatorCurrent = ErrorIndicatorIndex;
             textCode.IndicatorClearRange(0, textCode.Text.Length);
 
@@ -342,7 +346,6 @@ namespace CompilingPrinciples.GUIFrontEnd
                     codeGenErr = ex.Message;
                 }
 
-                rbPseudo.Checked = true;
                 FillInterCodeList(codeGen.ThreeAddrCode, pseudo: true);
 
                 listInterCode.EndUpdate();

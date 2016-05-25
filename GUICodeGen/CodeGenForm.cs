@@ -126,6 +126,10 @@ namespace CompilingPrinciples.GUICodeGen
             rbAddressed.Enabled = false;
             rbPseudo.Enabled = false;
 
+            codeGen = null;
+            codeGenErr = string.Empty;
+            rbPseudo.Checked = true;
+
             textCode.IndicatorCurrent = ErrorIndicatorIndex;
             textCode.IndicatorClearRange(0, textCode.Text.Length);
 
@@ -158,8 +162,7 @@ namespace CompilingPrinciples.GUICodeGen
                     {
                         codeGenErr = ex.Message;
                     }
-
-                    rbPseudo.Checked = true;
+                    
                     FillInterCodeList(codeGen.ThreeAddrCode, pseudo: true);
                     
                     listInterCode.EndUpdate();
