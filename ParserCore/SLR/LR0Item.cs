@@ -69,16 +69,21 @@ namespace CompilingPrinciples.ParserCore
             StringBuilder sb = new StringBuilder();
             sb.Append("[" + production.Left + " ->");
 
-            foreach (var e in production.Right.Select((value, index) => new { index, value }))
-            {
-                sb.Append(" ");
-                if (dotPos == e.index) sb.Append("·");
-                sb.Append(e.value);
-            }
+            if (production.IsRightEpsilon())
+                sb.Append(" ·]");
+            else
+            { 
+                foreach (var e in production.Right.Select((value, index) => new { index, value }))
+                {
+                    sb.Append(" ");
+                    if (dotPos == e.index) sb.Append("·");
+                    sb.Append(e.value);
+                }
 
-            // Dot is at the right end
-            if (dotPos == production.Right.Count) sb.Append("·");
-            sb.Append("]");
+                // Dot is at the right end
+                if (dotPos == production.Right.Count) sb.Append("·");
+                sb.Append("]");
+            }
             return sb.ToString();
         }
 
